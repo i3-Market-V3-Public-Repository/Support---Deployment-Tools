@@ -1,6 +1,6 @@
 ---
 - name: This is a hello-world example
-  hosts: i3m-node2
+  hosts: i3m-node1
   tasks:
     - name: Create a file called '/tmp/testfile.txt' with the content 'hello world'.
       copy:
