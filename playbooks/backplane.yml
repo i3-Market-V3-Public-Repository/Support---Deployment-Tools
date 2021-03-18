@@ -1,0 +1,8 @@
+---
+- name: Backplane API Gateway
+  hosts: i3m-node1
+  tasks:
+    - name: Create a file called '/tmp/backplane.txt' with the content 'hello world!'.
+      copy:
+        content: hello world!!!!
+        dest: /tmp/backplane.txt
