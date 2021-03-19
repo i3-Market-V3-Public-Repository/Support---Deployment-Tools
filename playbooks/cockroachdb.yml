@@ -1,0 +1,22 @@
+---
+- name: This is a placeholder for CockroachDB playbook
+  hosts:
+    - i3m-node1
+    - i3m-node2
+    - i3m-node3
+    - i3m-node4
+  tasks:
+    - name: Ensure the group 'cockroachdb' for CockroachDB is present
+      ansible.builtin.group:
+        name: cockroachdb
+        state: present
+      become: yes
+
+    - name: Ensure the user 'cockroachdb' for CockroachDB is present
+      ansible.builtin.user:
+        name: cockroachdb
+        comment: CockroachDB
+        group: cockroachdb
+        state: present
+      become: yes
+
