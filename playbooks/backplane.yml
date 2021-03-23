@@ -10,5 +10,6 @@
 
     - name: Pull Backplane image
       docker_container:
+        name: backplane
         image: registry.gitlab.com/i3-market/code/wp4/backplane:latest
         pull: yes
