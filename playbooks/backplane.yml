@@ -3,12 +3,12 @@
   hosts: i3m-node1
   tasks:
     - name: Login to Backplane registry
-      community.docker.docker_login:
+      docker_login:
         registry_url: registry.gitlab.com
         username: "{{BACKPLANE_REGISTRY_USER}}"
         password: "{{BACKPLANE_REGISTRY_TOKEN}}"
 
     - name: Pull Backplane image
-      community.docker.docker_container:
+      docker_container:
         image: registry.gitlab.com/i3-market/code/wp4/backplane:latest
         pull: yes
