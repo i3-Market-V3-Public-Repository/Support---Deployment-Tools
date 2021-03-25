@@ -12,7 +12,7 @@
     - name: Launch docker container
       docker_container:
         name: i3marketSdk
-        image: registry.gitlab.com/i3-market/code/wp4/i3market-sdk/i3market_sdk_jetty:latest
+        image: registry.gitlab.com/i3-market/code/wp4/i3market-sdk/i3market-sdk-core:latest
         ports:
             - 8180:8080
         state: started
