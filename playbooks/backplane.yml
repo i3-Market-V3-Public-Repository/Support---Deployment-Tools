@@ -2,11 +2,34 @@
 - name: Backplane deployment
   hosts: i3m-node1
   tasks:
+    - name: Create backplane config files folder
+      file:
+        path: "{{HOME}}/backplane"
+        state: directory
+        mode: '0755'
+    - name: Get config files
+      get_url:
+        url: "{{ item.src }}"
+        dest: "{{HOME}}/backplane/{{ item.dest }}"
+        headers:
+          PRIVATE-TOKEN: "{{BACKPLANE_ACCESS_TOKEN}}" 
+      loop:
+        - { src: "{{SECRETS_URL}}", dest: "secrets.json"}
+        - { src: "{{ENV_FILE_URL}}", dest: ".env"}
+        - { src: "{{CERT_FILE_URL}}", dest: "certificates/cert.crt"}
+        - { src: "{{KEY_FILE_URL}}", dest: "certificates/key.key"}
+        - { src: "{{CA_CERT_FILE_URL}}", dest: "certificates/ca-cert.crt"}
     - name: Login to Backplane registry
       docker_login:
         registry_url: registry.gitlab.com
         username: "{{BACKPLANE_REGISTRY_USER}}"
         password: "{{BACKPLANE_REGISTRY_TOKEN}}"
+        env_file: "{{HOME}}/backplane/.env"
+        volumes:
+          - "{{HOME}}/backplane/certificates:/certificates"
+          - "{{HOME}}/backplane/secrets.json:/.secrets.json"
+        ports:
+          - "3000:3000"
 
     - name: Pull Backplane image
       docker_container:
