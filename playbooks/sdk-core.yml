@@ -9,14 +9,13 @@
         registry_url: registry.gitlab.com
         username: "{{BACKPLANE_REGISTRY_USER}}"
         password: "{{BACKPLANE_REGISTRY_TOKEN}}"
-
-	- name: Launch docker container
-	      docker_container:
-	        name: i3marketSdk
-	        image: registry.gitlab.com/i3-market/code/wp4/i3market-sdk/i3market_sdk_jetty:latest
-	        ports:
-				- 8180:8080
-	        state: started
+    - name: Launch docker container
+      docker_container:
+        name: i3marketSdk
+        image: registry.gitlab.com/i3-market/code/wp4/i3market-sdk/i3market-sdk-core:latest
+        ports:
+            - 8180:8080
+        state: started
 
 
     
