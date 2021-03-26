@@ -34,10 +34,10 @@
         name: backplane
         image: registry.gitlab.com/i3-market/code/wp4/backplane:latest
         pull: yes
-        env_file: "/backplane/.env"
+        env_file: "{{ lookup('env', 'PWD') }}backplane/.env"
         volumes:
-          - "/backplane/certificates:/certificates"
-          - "/backplane/secrets.json:/.secrets.json"
+          - "{{ lookup('env', 'PWD') }}backplane/certificates:/certificates"
+          - "{{ lookup('env', 'PWD') }}backplane/secrets.json:/.secrets.json"
         ports:
           - 3000:3000
         state: started
