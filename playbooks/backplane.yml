@@ -10,7 +10,7 @@
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "{{HOME}}/backplane/{{ item.dest }}"
+        dest: "{{lookup('env', 'HOME')}}/backplane/{{ item.dest }}"
         headers:
           PRIVATE-TOKEN: "{{BACKPLANE_ACCESS_TOKEN}}" 
       loop:
