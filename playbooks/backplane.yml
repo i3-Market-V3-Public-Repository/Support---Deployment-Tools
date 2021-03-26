@@ -4,7 +4,7 @@
   tasks:
     - name: Create backplane config files folder
       file:
-        path: "{{HOME}}/backplane"
+        path: "{{lookup('env', 'HOME')}}/backplane"
         state: directory
         mode: '0755'
     - name: Get config files
@@ -24,10 +24,10 @@
         registry_url: registry.gitlab.com
         username: "{{BACKPLANE_REGISTRY_USER}}"
         password: "{{BACKPLANE_REGISTRY_TOKEN}}"
-        env_file: "{{HOME}}/backplane/.env"
+        env_file: "{{lookup('env', 'HOME')}}/backplane/.env"
         volumes:
-          - "{{HOME}}/backplane/certificates:/certificates"
-          - "{{HOME}}/backplane/secrets.json:/.secrets.json"
+          - "{{lookup('env', 'HOME')}}/backplane/certificates:/certificates"
+          - "{{lookup('env', 'HOME')}}/backplane/secrets.json:/.secrets.json"
         ports:
           - "3000:3000"
 
