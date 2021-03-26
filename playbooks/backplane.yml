@@ -4,7 +4,7 @@
   tasks:
     - name: Create backplane config files folder
       file:
-        path: "backplane/certificates"
+        path: "/backplane/certificates"
         state: directory
         mode: '0755'
         recurse: yes
@@ -12,7 +12,7 @@
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "backplane/{{ item.dest }}"
+        dest: "/backplane/{{ item.dest }}"
         headers:
           PRIVATE-TOKEN: "{{BACKPLANE_ACCESS_TOKEN}}" 
 
@@ -29,15 +29,15 @@
         username: "{{BACKPLANE_REGISTRY_USER}}"
         password: "{{BACKPLANE_REGISTRY_TOKEN}}"
 
-    - name: Pull Backplane image
+    - name: Run Backplane docker image
       docker_container:
         name: backplane
         image: registry.gitlab.com/i3-market/code/wp4/backplane:latest
         pull: yes
-        env_file: "backplane/.env"
+        env_file: "/backplane/.env"
         volumes:
-          - "{{playbook_dir}}backplane/certificates:/certificates"
-          - "{{playbook_dir}}backplane/secrets.json:/.secrets.json"
+          - "/backplane/certificates:/certificates"
+          - "/backplane/secrets.json:/.secrets.json"
         ports:
           - 3000:3000
         state: started
