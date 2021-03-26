@@ -2,24 +2,15 @@
 - name: Backplane deployment
   hosts: i3m-node1
   tasks:
-    - name: Print al variables
-      debug:
-        msg:
-          - "HOME: {{lookup('env', 'HOME')}}"
-          - "SECRETS_URL: {{SECRETS_URL}}"
-          - "ENV_FILE_URL: {{ENV_FILE_URL}}"
-          - "CERT_FILE_URL: {{CERT_FILE_URL}}"
-          - "KEY_FILE_URL: {{KEY_FILE_URL}}"
-          - "CA_CERT_FILE_URL: {{CA_CERT_FILE_URL}}"
     - name: Create backplane config files folder
       file:
-        path: "{{lookup('env', 'HOME')}}/backplane"
+        path: "backplane"
         state: directory
         mode: '0755'
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "{{lookup('env', 'HOME')}}/backplane/{{ item.dest }}"
+        dest: "backplane/{{ item.dest }}"
         headers:
           PRIVATE-TOKEN: "{{BACKPLANE_ACCESS_TOKEN}}" 
       loop:
@@ -33,10 +24,10 @@
         registry_url: registry.gitlab.com
         username: "{{BACKPLANE_REGISTRY_USER}}"
         password: "{{BACKPLANE_REGISTRY_TOKEN}}"
-        env_file: "{{lookup('env', 'HOME')}}/backplane/.env"
+        env_file: "backplane/.env"
         volumes:
-          - "{{lookup('env', 'HOME')}}/backplane/certificates:/certificates"
-          - "{{lookup('env', 'HOME')}}/backplane/secrets.json:/.secrets.json"
+          - "backplane/certificates:/certificates"
+          - "backplane/secrets.json:/.secrets.json"
         ports:
           - "3000:3000"
 
