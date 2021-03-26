@@ -2,30 +2,27 @@
 - name: Backplane deployment
   hosts: i3m-node1
   tasks:
-    - name: Print pwd
-      debug:
-        msg:
-          - "{{ lookup('env', 'PWD') }}"
     - name: Create backplane config files folder
       file:
         path: "backplane/certificates"
         state: directory
         mode: '0755'
         recurse: yes
-    - name: list dir
-      shell: pwd & ls & ls "{{ lookup('env', 'PWD') }}"
+        
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
         dest: "backplane/{{ item.dest }}"
         headers:
           PRIVATE-TOKEN: "{{BACKPLANE_ACCESS_TOKEN}}" 
+
       loop:
         - { src: "{{SECRETS_URL}}", dest: "secrets.json"}
         - { src: "{{ENV_FILE_URL}}", dest: ".env"}
         - { src: "{{CERT_FILE_URL}}", dest: "certificates/cert.crt"}
         - { src: "{{KEY_FILE_URL}}", dest: "certificates/key.key"}
         - { src: "{{CA_CERT_FILE_URL}}", dest: "certificates/ca-cert.crt"}
+
     - name: Login to Backplane registry
       docker_login:
         registry_url: registry.gitlab.com
@@ -42,4 +39,5 @@
           - "{{playbook_dir}}backplane/certificates:/certificates"
           - "{{playbook_dir}}backplane/secrets.json:/.secrets.json"
         ports:
-          - "3000:3000"
+          - 3000:3000
+        state: started
