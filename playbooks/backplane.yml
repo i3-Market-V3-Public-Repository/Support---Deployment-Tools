@@ -6,7 +6,6 @@
       debug:
         msg:
           - "{{ lookup('env', 'PWD') }}"
-          - "{{ PWD }}"
     - name: Create backplane config files folder
       file:
         path: "backplane/certificates"
@@ -14,7 +13,7 @@
         mode: '0755'
         recurse: yes
     - name: list dir
-      shell: pwd & ls & ls "{{PWD}}"
+      shell: pwd & ls & ls "{{ lookup('env', 'PWD') }}"
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
