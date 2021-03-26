@@ -2,12 +2,19 @@
 - name: Backplane deployment
   hosts: i3m-node1
   tasks:
+    - name: Print pwd
+      debug:
+        msg:
+          - "{{ lookup('env', 'PWD') }}"
+          - "{{ PWD }}"
     - name: Create backplane config files folder
       file:
         path: "backplane/certificates"
         state: directory
         mode: '0755'
         recurse: yes
+    - name: list dir
+      shell: pwd & ls & ls "{{PWD}}"
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
@@ -33,7 +40,7 @@
         pull: yes
         env_file: "backplane/.env"
         volumes:
-          - "backplane/certificates:/certificates"
-          - "backplane/secrets.json:/.secrets.json"
+          - "{{playbook_dir}}backplane/certificates:/certificates"
+          - "{{playbook_dir}}backplane/secrets.json:/.secrets.json"
         ports:
           - "3000:3000"
