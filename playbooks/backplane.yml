@@ -4,7 +4,7 @@
   tasks:
     - name: Create backplane config files folder
       file:
-        path: "/backplane/certificates"
+        path: "backplane/certificates"
         state: directory
         mode: '0755'
         recurse: yes
@@ -12,7 +12,7 @@
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "/backplane/{{ item.dest }}"
+        dest: "backplane/{{ item.dest }}"
         headers:
           PRIVATE-TOKEN: "{{BACKPLANE_ACCESS_TOKEN}}" 
 
