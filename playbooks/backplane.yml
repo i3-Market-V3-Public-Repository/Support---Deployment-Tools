@@ -15,7 +15,6 @@
         dest: "backplane/{{ item.dest }}"
         headers:
           PRIVATE-TOKEN: "{{BACKPLANE_ACCESS_TOKEN}}" 
-
       loop:
         - { src: "{{SECRETS_URL}}", dest: "secrets.json"}
         - { src: "{{ENV_FILE_URL}}", dest: ".env"}
