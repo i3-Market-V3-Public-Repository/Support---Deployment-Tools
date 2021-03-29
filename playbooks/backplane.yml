@@ -34,6 +34,9 @@
         image: registry.gitlab.com/i3-market/code/wp4/backplane:latest
         pull: yes
         env_file: "/home/upc_victor.divi/backplane/.env"
+        env:
+          CERTS_PATH: /certificates
+          SECRETS_PATH: /.secrets.json
         volumes:
           - "/home/upc_victor.divi/backplane/certificates:/certificates"
           - "/home/upc_victor.divi/backplane/secrets.json:/.secrets.json"
