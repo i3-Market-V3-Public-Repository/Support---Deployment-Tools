@@ -23,5 +23,5 @@
        body: "{ \"openAPIUrl\": \"https://petstore3.swagger.io/api/v3/openapi.json\" }"
        body_format: json
        headers:
-        Authorization: "{{ auth_request.json.access_token | b64encode }}"
+         Authorization: " Bearer {{ auth_request.json.access_token }}"
      register: sdkgen_results
