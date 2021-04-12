@@ -4,3 +4,14 @@
   become: true
   vars:
   tasks:
+   - name: Make an API call to SDK-Generator to generate SDK client stub
+     uri:
+       method: POST
+       url: "https://{{ SDKGEN_HOST }}:8180/SdkGenerator/#/default/generateSDK"
+       body: "{{ \"openAPIUrl\": \"https://{{ BACKPLANE_HOST_HOST }}:3000/openapi.json\" }}"
+       body_format: json
+       headers:
+         'X-Requested-By': 'ambari'
+       # If you're interested in the response
+       return_content: yes
+     register: sdkgen_results
