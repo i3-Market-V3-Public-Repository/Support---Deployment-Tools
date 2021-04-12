@@ -9,6 +9,7 @@
        method: POST
        url: "https://{{ SDKGEN_HOST }}:8180/SdkGenerator/#/default/generateSDK"
        body: "{ \"openAPIUrl\": \"https://{{ BACKPLANE_HOST }}:3000/openapi.json\" }"
+       validate_certs: no
        body_format: json
        headers:
          'X-Requested-By': 'ambari'
