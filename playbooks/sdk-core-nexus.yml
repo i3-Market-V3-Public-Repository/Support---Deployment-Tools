@@ -4,6 +4,19 @@
   become: true
   vars:
   tasks:
+   - name: Get accee token for accesing to Sdk Generator REST API
+     uri:
+       method: GET
+       url: "https://{{ KEYCLOAK_HOST }}/auth/realms/i3market/protocol/openid-connect/token"
+       body: "grant_type=client_credentials&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842"
+       body_format: json
+       headers:
+       return_content: yes
+     register: auth_token
+   
+   - debug:
+       var: command_result.access_token
+   
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
