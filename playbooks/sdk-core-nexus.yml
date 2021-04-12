@@ -10,7 +10,7 @@
        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
        body: "grant_type=client_credentials&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842"
        headers:
-       Content-Type: "application/x-www-form-urlencoded"
+          Content-Type: "application/x-www-form-urlencoded"
      register: auth_token
    
    - debug:
