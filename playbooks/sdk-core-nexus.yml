@@ -15,6 +15,9 @@
    
    - debug:
        var: auth_request
+       
+    debug:
+       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
