@@ -14,7 +14,7 @@
      register: auth_request
    
    - debug:
-       var: auth_request.access_token
+       var: auth_request
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
