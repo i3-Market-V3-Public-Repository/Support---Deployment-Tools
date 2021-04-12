@@ -11,10 +11,10 @@
        body: "grant_type=client_credentials&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842"
        headers:
           Content-Type: "application/x-www-form-urlencoded"
-     register: auth_token
+     register: auth_request
    
    - debug:
-       var: command_result.access_token
+       var: auth_request.access_token
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
