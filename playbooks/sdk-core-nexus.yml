@@ -20,7 +20,7 @@
      uri:
        method: POST
        url: "https://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/{{ LANG }}"
-       body: "{ \"openAPIUrl\": \"https://{{ BACKPLANE_HOST }}:3000/openapi.json\" }"
+       body: "{ \"openAPIUrl\": \"https://petstore3.swagger.io/api/v3/openapi.json" }"
        body_format: json
        headers:
         Authorization: "{{ auth_request.json.access_token | b64encode }}"
