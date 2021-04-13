@@ -46,7 +46,6 @@
         body_format: json
         return_content: yes
         headers:
-#          Authorization: "Bearer {{ auth_request.json.access_token }}"
         dest: "/tmp/oas.zip"
         mode: 0766
      register: sdkgen_results     
