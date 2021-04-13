@@ -24,7 +24,9 @@
           
    - name: Display the OAS file contents
      shell: "cat /tmp/backplaneOAS.json"
-     register: shellout        
+     register: shellout   
+     
+   - debug: shellout.stdout      
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
