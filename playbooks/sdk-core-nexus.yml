@@ -20,12 +20,7 @@
        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Backplane API to download OAS file
-     get_url:
-       url: "https://{{ BACKPLANE_HOST }}:3000/openapi.json"
-       dest: /tmp/backplane_oas.json
-       mode: 755
-       validate_certs: no
-       force:    yes
+     shell: "curl -k -O https://{{ BACKPLANE_HOST }}:3000/openapi.json"
      register: oas_download
      
    - debug:
