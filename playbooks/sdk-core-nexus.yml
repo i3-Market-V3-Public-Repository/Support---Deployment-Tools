@@ -20,17 +20,11 @@
        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Backplane API to download OAS file
-     become: yes
-     get_url:
-       url: "https://{{ BACKPLANE_HOST }}:3000/openapi.json"
-       dest: /tmp/backplane_oas.json
-       validate_certs: no
-       force: yes
-       checksum: sha256:660df9b6804d36c3136f7cc80ef80d85b033db3c
-       
-   - name: Display the File contents
-     shell: cat /tmp/backplane_oas.json
-     register: shellout     
+     shell: "curl -K -o \"tmp\backplaneOAS.json" https://{{ BACKPLANE_HOST }}:3000/openapi.json"
+          
+   - name: Display the OAS file contents
+      shell: "cat /tmp/backplaneOAS.json"
+      register: shellout        
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
