@@ -42,7 +42,7 @@
      uri:
        method: POST
        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/{{ LANG }}"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"packageName\": \"sdk-core\", \"useBeanValidation\": \"true\", \"library\": \"jersey2\"} }"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"packageName\": \"sdk-core\", \"useBeanValidation\": \"true\", \"library\": \"google-api-client\"} }"
        body_format: json
        return_content: yes
        headers:
