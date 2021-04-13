@@ -55,7 +55,7 @@
        var: sdkgen_results 
        
    - name: Create oas temp dir
-    file:
+     file:
       path: "/tmp/oas"
       state: "directory"
         
