@@ -36,20 +36,33 @@
      
    - name: Display nexus curl response
      debug: 
-       var: shellout    
-     
-   - name: Make an API call to SDK-Generator to generate SDK client stub
+       var: shellout   
+       
+   - name: Make an API call to Swagger Generator to generate SDK client stub. https://generator3.swagger.io/
      uri:
-       method: POST
-       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/{{ LANG }}"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"packageName\": \"sdk-core\", \"useBeanValidation\": \"true\"} }"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/oas.zip"
-       mode: 0766
-     register: sdkgen_results
+        method: POST
+        url: "https://generator3.swagger.io/api/generate"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\"}"
+        body_format: json
+        return_content: yes
+        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+        dest: "/tmp/oas.zip"
+        mode: 0766
+     register: sdkgen_results     
+     
+#    - name: Make an API call to SDK-Generator to generate SDK client stub
+#      uri:
+#        method: POST
+#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/{{ LANG }}"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"packageName\": \"sdk-core\", \"useBeanValidation\": \"true\"} }"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/oas.zip"
+#        mode: 0766
+#      register: sdkgen_results
      
    - debug:
        var: sdkgen_results 
