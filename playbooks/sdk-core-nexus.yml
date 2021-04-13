@@ -22,11 +22,11 @@
    - name: Make an API call to Backplane API to download OAS file
      shell: "curl -k -o \"/tmp/backplaneOAS.json\" -v https://{{ BACKPLANE_HOST }}:3000/openapi.json"
           
-   - name: Display the OAS file contents
+   - name: cat the OAS file contents
      shell: "cat /tmp/backplaneOAS.json"
      register: shellout   
      
-   - name: "INFO: Display the OAS File Contents"
+   - name: Display the OAS File Contents
      debug: shellout.stdout_lines      
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
