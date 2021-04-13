@@ -25,9 +25,11 @@
        dest: /tmp/backplane_oas.json
        mode: 755
        validate_certs: no
+       force:    yes
+     register: oas_download
      
    - debug:
-       msg: /tmp/backplane_oas.json        
+       msg: oas_download       
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
