@@ -26,8 +26,7 @@
        dest: /tmp/backplane_oas.json
        validate_certs: no
        force: yes
-       checksum: sha256:https://{{ BACKPLANE_HOST }}:3000/openapi.json.sha265
-
+       
    - name: Display the File contents
      shell: cat /tmp/backplane_oas.json
      register: shellout     
