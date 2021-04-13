@@ -26,6 +26,7 @@
        dest: /tmp/backplane_oas.json
        validate_certs: no
        force: yes
+       chacksum: sha256:660df9b6804d36c3136f7cc80ef80d85b033db3c
        
    - name: Display the File contents
      shell: cat /tmp/backplane_oas.json
