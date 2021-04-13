@@ -54,6 +54,11 @@
    - debug:
        var: sdkgen_results 
        
+   - name: Create oas temp dir
+    file:
+      path: "/tmp/oas"
+      state: "directory"
+        
    - name: Unzip file with client stubs 
      unarchive:
        src: "/tmp/oas.zip"
