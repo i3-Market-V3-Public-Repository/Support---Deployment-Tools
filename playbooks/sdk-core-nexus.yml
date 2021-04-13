@@ -20,11 +20,11 @@
        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Backplane API to download OAS file
-     shell: "curl -K -o \"tmp\backplaneOAS.json" https://{{ BACKPLANE_HOST }}:3000/openapi.json"
+     shell: "curl -K -o \"tmp\backplaneOAS.json\" https://{{ BACKPLANE_HOST }}:3000/openapi.json"
           
    - name: Display the OAS file contents
-      shell: "cat /tmp/backplaneOAS.json"
-      register: shellout        
+     shell: "cat /tmp/backplaneOAS.json"
+     register: shellout        
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
