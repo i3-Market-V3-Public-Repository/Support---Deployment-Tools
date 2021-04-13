@@ -27,7 +27,8 @@
      register: shellout   
      
    - name: Display the OAS File Contents
-     debug: shellout.stdout_lines      
+     debug: 
+       var: shellout.stdout_lines      
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
