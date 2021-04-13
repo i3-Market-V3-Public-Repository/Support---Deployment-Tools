@@ -20,16 +20,12 @@
        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Backplane API to download OAS file
-     uri:
-       method: GET
+     get_url:
        url: "https://{{ BACKPLANE_HOST }}:3000/openapi.json"
-       body: ""
-       validate_certs: no
-       headers:
-     register: oas_results
+       dest: /tmp/backplane_oas.json
      
    - debug:
-       msg: oas_results        
+       msg: /tmp/backplane_oas.json        
    
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
