@@ -45,7 +45,6 @@
         body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://95.211.3.244:3000/explorer/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\"}"
         body_format: json
         return_content: yes
-        headers:
         dest: "/tmp/oas.zip"
         mode: 0766
      register: sdkgen_results     
