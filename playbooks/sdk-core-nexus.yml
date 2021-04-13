@@ -58,3 +58,4 @@
      unarchive:
        src: "/tmp/oas.zip"
        dest: "/tmp/oas/"
+       remote_src: yes
