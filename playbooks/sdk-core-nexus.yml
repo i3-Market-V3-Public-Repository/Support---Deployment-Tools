@@ -20,6 +20,7 @@
        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Backplane API to download OAS file
+     become: yes
      get_url:
        url: "https://{{ BACKPLANE_HOST }}:3000/openapi.json"
        dest: /tmp/backplane_oas.json
