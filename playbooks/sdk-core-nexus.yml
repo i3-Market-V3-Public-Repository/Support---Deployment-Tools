@@ -23,6 +23,8 @@
      get_url:
        url: "https://{{ BACKPLANE_HOST }}:3000/openapi.json"
        dest: /tmp/backplane_oas.json
+       mode: 755
+       validate_certs: no
      
    - debug:
        msg: /tmp/backplane_oas.json        
