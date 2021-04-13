@@ -53,4 +53,6 @@
        var: sdkgen_results 
        
    - name: Get zip file with client stubs from sdkgen_results
-     copy: content={{sdkgen_results.content}} dest="/tmp/oas.zip"   
+     copy: 
+       content: {{ sdkgen_results.content }} 
+       dest: /tmp/oas.zip   
