@@ -41,7 +41,7 @@
    - name: Make an API call to Swagger Generator to generate SDK client stub. https://generator3.swagger.io/
      uri:
         method: POST
-        url: "https://generator3.swagger.io/api/generate"
+        url: "https://95.211.3.244:3000/explorer/openapi.json"
         body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\"}"
         body_format: json
         return_content: yes
