@@ -48,7 +48,7 @@
        headers:
          Authorization: "Bearer {{ auth_request.json.access_token }}"
        dest: "/tmp/oas.zip"
-       mode: 0755
+       mode: 0766
      register: sdkgen_results
      
    - debug:
