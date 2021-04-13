@@ -28,15 +28,22 @@
      
    - name: Display the OAS File Contents
      debug: 
-       var: shellout.stdout_lines      
-   
+       var: shellout.stdout_lines     
+       
+   - name: Upload oas file to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
+     register: shellout 
+     
+   - name: Display nexus curl response
+     debug: 
+       var: shellout    
+     
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/{{ LANG }}"
-       body: "{ \"openAPIUrl\": \"file://tmp/backplaneOAS.json\" }"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\" }"
        body_format: json
-       validate_certs: no
        headers:
          Authorization: "Bearer {{ auth_request.json.access_token }}"
      register: sdkgen_results
