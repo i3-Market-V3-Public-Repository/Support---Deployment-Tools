@@ -77,7 +77,11 @@
        remote_src: yes
        
    - name: Set java 8 as default jvm
-     shell:  "export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-amd64\""
+     command: "{{ item }}"
+     with_items:
+       - export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+       - export PATH=${JAVA_HOME}/bin:$PATH
+#      shell:  "export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-amd64\""
      
    - name: Mvn package sdk-core artifact
      command: "mvn package"
