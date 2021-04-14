@@ -87,3 +87,17 @@
      args:
         chdir: "/tmp/oas"
      become: yes   
+     
+   - name: Get artifacts names for target dir
+     shell: "ls /tmp/oas/target/*.jar"
+     register: shellout    
+     
+   - debug:   
+      var: shellout  
+
+#    - name: Upload Sdk-Core artifact to Nexus
+#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/oas/target/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
+#      register: nexusout  
+#      
+#    - debug:   
+#        var: nexusout
