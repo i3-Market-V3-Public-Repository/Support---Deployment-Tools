@@ -81,12 +81,8 @@
      with_items:
        - export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-amd64\"
        - export PATH=${JAVA_HOME}/bin:$PATH
-#      shell:  "export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-amd64\""
      
    - name: Mvn package sdk-core artifact
-     command: "sudo mvn package"
+     shell: "mvn clean install"
      args:
         chdir: "/tmp/oas"
-#      shell:
-#        cmd: "mvn package"
-#        chdir: "/tmp/oas"     
