@@ -96,9 +96,11 @@
        msg: "{{ item }}"
      with_items: "{{ shellout.stdout_lines }}"    
 
-#    - name: Upload Sdk-Core artifact to Nexus
-#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/oas/target/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
-#      register: nexusout  
-#      
-#    - debug:   
-#        var: nexusout
+   - name: Upload Sdk-Core artifacts to Nexus
+     shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile=target/{{ item }}}"
+     loop: "{{ shellout.stdout_lines }}"
+     register: nexusout
+     
+   - debug: 
+       var: nexusout     
+     
