@@ -93,7 +93,7 @@
      register: shellout    
      
    - debug:   
-      var: "{{ item }}"
+      msg: "{{ item }}"
       with_items: "{{ shellout.stdout_lines }}"    
 
 #    - name: Upload Sdk-Core artifact to Nexus
