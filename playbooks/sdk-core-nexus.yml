@@ -4,76 +4,88 @@
   become: true
   vars:
   tasks:
-#    - name: Get accee token for accesing to Sdk Generator REST API
-#      uri:
-#        method: POST
-#        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
-#        body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
-#        headers:
-#           Content-Type: "application/x-www-form-urlencoded"
-#      register: auth_request
-#    
-#    - debug:
-#        var: auth_request
-#        
-#    - debug:
-#        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
-#        
-#    - name: Make an API call to Backplane API to download OAS file
-#      shell: "curl -k -o \"/tmp/backplaneOAS.json\" -v https://{{ BACKPLANE_HOST }}:3000/openapi.json"
-#           
-#    - name: cat the OAS file contents
-#      shell: "cat /tmp/backplaneOAS.json"
-#      register: shellout   
-#      
-#    - name: Display the OAS File Contents
-#      debug: 
-#        var: shellout.stdout_lines     
-#        
-#    - name: Upload oas file to Nexus
-#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
-#      register: shellout 
-#      
-#    - name: Display nexus curl response
-#      debug: 
-#        var: shellout   
+  
+ ################### JAVAscript SDK ARTIFACT TASKS #######################
+ 
+   - name: Get access token for accesing to Sdk Generator REST API
+     uri:
+       method: POST
+       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+       headers:
+          Content-Type: "application/x-www-form-urlencoded"
+     register: auth_request
+   
+   - debug:
+       var: auth_request
        
-   - name: Make an API call to Swagger Generator to generate SDK client stub. https://generator3.swagger.io/
+   - debug:
+       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+       
+   - name: Make an API call to Backplane API to download OAS file
+     shell: "curl -k -o \"/tmp/backplaneOAS.json\" -v https://{{ BACKPLANE_HOST }}:3000/openapi.json"
+          
+   - name: cat the OAS file contents
+     shell: "cat /tmp/backplaneOAS.json"
+     register: shellout   
+     
+   - name: Display the OAS File Contents
+     debug: 
+       var: shellout.stdout_lines     
+       
+   - name: Upload oas file to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
+     register: shellout 
+     
+   - name: Display nexus curl response
+     debug: 
+       var: shellout   
+       
+     - name: Make an API call to SDK-Generator to generate SDK client stub
+     uri:
+       method: POST
+       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/javascript"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
+       body_format: json
+       return_content: yes
+       headers:
+         Authorization: "Bearer {{ auth_request.json.access_token }}"
+       dest: "/tmp/i3m-sdk-core-javascript.zip"
+       mode: 0766
+     register: sdkgen_javascript  
+     
+     - debug:
+       var: sdkgen_javascript
+       
+   - name: Upload oas-javascript artifact to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-core-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip"
+     register: shellout        
+    
+####################### JAVA SDK ARTIFACT TASKS #############################
+       
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub. https://generator3.swagger.io/
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
         body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://95.211.3.244:3000/explorer/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"com.i3m\",\"artifactId\":\"sdk-core\",\"artifactVersion\":\"1.0.0\"}}"
         body_format: json
         return_content: yes
-        dest: "/tmp/oas.zip"
+        dest: "/tmp/oas-java.zip"
         mode: 0766
-     register: sdkgen_results     
-     
-#    - name: Make an API call to SDK-Generator to generate SDK client stub
-#      uri:
-#        method: POST
-#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/{{ LANG }}"
-#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"packageName\": \"sdk-core\", \"useBeanValidation\": \"true\"} }"
-#        body_format: json
-#        return_content: yes
-#        headers:
-#          Authorization: "Bearer {{ auth_request.json.access_token }}"
-#        dest: "/tmp/oas.zip"
-#        mode: 0766
-#      register: sdkgen_results
-     
+     register: sdkgen_java     
+       
    - debug:
-       var: sdkgen_results 
+       var: sdkgen_java 
        
    - name: Create oas temp dir
      file:
-      path: "/tmp/oas"
+      path: "/tmp/oas/java/"
       state: "directory"
         
    - name: Unzip file with client stubs 
      unarchive:
-       src: "/tmp/oas.zip"
-       dest: "/tmp/oas/"
+       src: "/tmp/oas-java.zip"
+       dest: "/tmp/oas/java"
        remote_src: yes
        
    - name: Set java 8 as default jvm
@@ -85,11 +97,11 @@
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
      args:
-        chdir: "/tmp/oas"
+        chdir: "/tmp/oas/java"
      become: yes   
      
    - name: Get artifacts names for target dir
-     shell: "ls /tmp/oas/target/*.jar"
+     shell: "ls /tmp/oas/java/target/*.jar"
      register: shellout    
      
    - debug:   
@@ -99,7 +111,7 @@
    - name: Upload Sdk-Core artifacts to Nexus
      shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile={{ item }}"
      args:
-        chdir: "/tmp/oas"
+        chdir: "/tmp/oas/java"
      become: yes 
      loop: "{{ shellout.stdout_lines }}"
      register: nexusout
