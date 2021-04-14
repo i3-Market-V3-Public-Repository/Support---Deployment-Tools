@@ -93,8 +93,8 @@
      register: shellout    
      
    - debug:   
-     msg: "{{ item }}"
-     with_items: "{{ shellout.stdout_lines.split(',') }}"    
+       var: "{{ item }}"
+       with_items: "{{ shellout.stdout_lines.split(',') }}"    
 
 #    - name: Upload Sdk-Core artifact to Nexus
 #      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/oas/target/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
