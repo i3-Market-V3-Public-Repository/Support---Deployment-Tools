@@ -98,6 +98,8 @@
 
    - name: Upload Sdk-Core artifacts to Nexus
      shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile=target{{ item }}}"
+     args:
+        chdir: "/tmp/oas"
      loop: "{{ shellout.stdout_lines }}"
      register: nexusout
      
