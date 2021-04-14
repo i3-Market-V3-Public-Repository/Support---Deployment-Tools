@@ -77,7 +77,7 @@
        remote_src: yes
        
    - name: Set java 8 as default jvm
-     command: "{{ item }}"
+     shell: "{{ item }}"
      with_items:
        - export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-amd64\"
        - export PATH=${JAVA_HOME}/bin:$PATH
