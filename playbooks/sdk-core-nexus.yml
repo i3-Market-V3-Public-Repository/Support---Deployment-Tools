@@ -83,6 +83,8 @@
        - export PATH=${JAVA_HOME}/bin:$PATH
      
    - name: Mvn package sdk-core artifact
-     shell: "sudo mvn clean install"
+     shell: "mvn clean install"
      args:
         chdir: "/tmp/oas"
+     sudo: true
+     sudo_user: root   
