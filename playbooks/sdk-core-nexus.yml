@@ -80,9 +80,9 @@
      shell:  "export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-amd64\""
      
    - name: Mvn package sdk-core artifact
-     command: "mvn clean install"
+     command: "mvn package"
      args:
         chdir: "/tmp/oas"
 #      shell:
-#        cmd: "mvn clean install"
+#        cmd: "mvn package"
 #        chdir: "/tmp/oas"     
