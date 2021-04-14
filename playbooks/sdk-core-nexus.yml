@@ -77,9 +77,9 @@
        remote_src: yes
        
    - name: Set java 8 as default jvm
-     shell:  "export JAVA_HOME='/usr/lib/jvm/java-1.8.0-openjdk-amd64'"
+     shell:  "export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-amd64\""
      
    - name: Mvn package sdk-core artifact
      shell:
        cmd: "mvn clean install"
-       chdir: /tmp/oas     
+       chdir: "/tmp/oas"     
