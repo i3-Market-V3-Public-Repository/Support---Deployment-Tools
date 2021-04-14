@@ -42,7 +42,7 @@
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://95.211.3.244:3000/explorer/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\"}"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://95.211.3.244:3000/explorer/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"com.i3m\",\"artifactId\":\"sdk-core\",\"artifactVersion\":\"1.0.0\"}}"
         body_format: json
         return_content: yes
         dest: "/tmp/oas.zip"
@@ -75,3 +75,11 @@
        src: "/tmp/oas.zip"
        dest: "/tmp/oas/"
        remote_src: yes
+       
+   - name: Set java 8 as default jvm
+     shell:  "export JAVA_HOME='/usr/lib/jvm/java-1.8.0-openjdk-amd64'"
+     
+   - name: Mvn package sdk-core artifact
+     shell:
+       cmd: "mvn clean install"
+       chdir: /tmp/oas     
