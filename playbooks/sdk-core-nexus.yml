@@ -118,11 +118,15 @@
      
    - debug: 
        var: nexusout     
-     
+
+- name: Notifications     
+  hosts: i3m-node2
+  become: true
+  tasks:   
  ######## SEND NOTIFICATIONS #####
    - name: Send email notification
      mail:
-       host: 95.211.3.249
+       host: localhost
        port: 25
        to: ivan.martinez@atos.net
        subject: SDK-core new version available
