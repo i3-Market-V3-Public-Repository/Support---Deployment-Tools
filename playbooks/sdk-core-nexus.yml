@@ -122,7 +122,7 @@
  ######## SEND NOTIFICATIONS #####
    - name: Send email notification
      mail:
-       host: i3m-node2
+       host: 95.211.3.249
        port: 25
        to: ivan.martinez@atos.net
        subject: SDK-core new version available
