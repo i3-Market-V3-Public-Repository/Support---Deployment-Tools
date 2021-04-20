@@ -128,7 +128,7 @@
      mail:
        host: localhost
        port: 25
-       from: i3m-ansible-admin@i3-market.eu
+       from: i3m-ansible-admin@i3market.com
        to: i3-MARKET-Project <i3-MARKET-Project@insight-centre.org>
        subject: SDK-core new version available
        body: "A new version of the SDK-CORE it is available at: \n   1) java version: http://95.211.3.251:8081/repository/i3m-maven/com/i3m/sdk-core/1.0.0/sdk-core-1.0.0.jar\n    2) javascript version: http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip\"" 
