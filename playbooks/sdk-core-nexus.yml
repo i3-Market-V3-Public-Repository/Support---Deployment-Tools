@@ -127,7 +127,7 @@
    - name: Send email notification
      mail:
        host: localhost
-       port: 25
+       port: 2049
        from: i3m-ansible-admin@i3market.com
        to: ivan.martinez@atos.net
        subject: SDK-core new version available
