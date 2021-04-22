@@ -53,8 +53,7 @@
         host: localhost
         port: 25
         from: i3m-ansible-admin@i3-market.eu
-        to: "{{item}}"
+        to: Víctor Diví <victor.divi@upc.edu>
         subject: SDK-core new version available
         body: "A new version of the Backplane deployed. \nAvailable at https://95.211.3.244:3000/ ashd"
-      loop: "{{RECIPIENTS}}"
       when: SEND_EMAIL
