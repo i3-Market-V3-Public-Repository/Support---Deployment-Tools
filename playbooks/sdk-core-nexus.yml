@@ -109,7 +109,9 @@
 #      with_items: "{{ shellout.stdout_lines }}" 
 
    - name: Crate a tmp dir
-     shell: "mkdir tmp"  
+     shell: "mkdir tmp"
+     args:
+        chdir: "/tmp/oas/java/target/"  
      become: yes 
      
    - name: Extract jar file with java classes
