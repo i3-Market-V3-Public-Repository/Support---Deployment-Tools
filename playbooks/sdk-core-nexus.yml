@@ -67,7 +67,7 @@
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://95.211.3.244:3000/explorer/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"com.i3m\",\"artifactId\":\"sdk-core\",\"artifactVersion\":\"1.0.0\"}}"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://95.211.3.244:3000/explorer/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
         body_format: json
         return_content: yes
         dest: "/tmp/oas-java.zip"
@@ -100,24 +100,48 @@
         chdir: "/tmp/oas/java"
      become: yes   
      
-   - name: Get artifacts names for target dir
-     shell: "ls /tmp/oas/java/target/*.jar"
-     register: shellout    
-     
-   - debug:   
-       msg: "{{ item }}"
-     with_items: "{{ shellout.stdout_lines }}"    
+#    - name: Get artifacts names for target dir
+#      shell: "ls /tmp/oas/java/target/*.jar"
+#      register: shellout    
+#      
+#    - debug:   
+#        msg: "{{ item }}"
+#      with_items: "{{ shellout.stdout_lines }}" 
 
-   - name: Upload Sdk-Core artifacts to Nexus
-     shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile={{ item }}"
-     args:
-        chdir: "/tmp/oas/java"
+   - name: Crate a tmp dir
+     shell: "mkdir tmp"  
      become: yes 
-     loop: "{{ shellout.stdout_lines }}"
-     register: nexusout
      
-   - debug: 
-       var: nexusout     
+   - name: Extract jar file with java classes
+     shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}.jar"    
+     args:
+        chdir: "/tmp/oas/java/target/tmp"
+     become: yes  
+     
+   - name: Extract jar file with java docs
+     shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-javadoc.jar"    
+     args:
+        chdir: "/tmp/oas/java/target/tmp"
+     become: yes  
+     
+   - name: Add all classes and docs into a single JAR file,
+     shell: " jar -cf ../{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar ."    
+     args:
+        chdir: "/tmp/oas/java/target/tmp"
+     become: yes   
+          
+        
+   - name: Upload Sdk-Core artifacts to Nexus
+     shell: "mvn deploy:deploy-file -DgroupId={{ ARTIFACT_GROUP_ID}} -DartifactId={{ ARTIFACT_NAME }}-all -Dversion={{ ARTIFACT_VERSION }} -Dpackaging=jar -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -Dfile=./{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar"
+#     shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile={{ item }}"
+     args:
+        chdir: "/tmp/oas/java/target"
+     become: yes 
+#      loop: "{{ shellout.stdout_lines }}"
+#      register: nexusout
+#      
+#    - debug: 
+#        var: nexusout     
 
 - name: Notifications     
   hosts: i3m-node2
