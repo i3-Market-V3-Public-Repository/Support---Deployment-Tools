@@ -13,8 +13,8 @@
       get_url:
         url: "{{ item.src }}"
         dest: "backplane/{{ item.dest }}"
-        headers:
-          PRIVATE-TOKEN: "{{BACKPLANE_ACCESS_TOKEN}}" 
+        url_username: "{{NEXUS_USERNAME}}"
+        url_password: "{{NEXUS_PASSWORD}}"
       loop:
         - { src: "{{SECRETS_URL}}", dest: "secrets.json"}
         - { src: "{{ENV_FILE_URL}}", dest: ".env"}
@@ -22,16 +22,17 @@
         - { src: "{{KEY_FILE_URL}}", dest: "certificates/key.key"}
         - { src: "{{CA_CERT_FILE_URL}}", dest: "certificates/ca-cert.crt"}
 
-    - name: Login to Backplane registry
+    - name: Login to Nexus registry
       docker_login:
-        registry_url: registry.gitlab.com
-        username: "{{BACKPLANE_REGISTRY_USER}}"
-        password: "{{BACKPLANE_REGISTRY_TOKEN}}"
+        registry_url: 95.211.3.251:8123
+        tls: no
+        username: "{{NEXUS_USERNAME}}"
+        password: "{{NEXUS_PASSWORD}}"
 
     - name: Run Backplane docker image
       docker_container:
         name: backplane
-        image: registry.gitlab.com/i3-market/code/wp4/backplane:latest
+        image: 95.211.3.251:8123/backplane:latest
         pull: yes
         env_file: "/home/upc_victor.divi/backplane/.env"
         env:
@@ -43,3 +44,12 @@
         ports:
           - 3000:3000
         state: started
+    - name: Send email notification
+      mail:
+        host: localhost
+        port: 25
+        from: i3m-ansible-admin@i3-market.eu
+        to: "{{RECIPIENTS}}"
+        subject: SDK-core new version available
+        body: "A new version of the Backplane deployed. \nAvailable at https://95.211.3.244:3000/ ashd"
+      when: SEND_EMAIL
