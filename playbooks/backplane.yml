@@ -25,7 +25,6 @@
     - name: Login to Nexus registry
       docker_login:
         registry_url: 95.211.3.251:8123
-        tls: no
         username: "{{NEXUS_USERNAME}}"
         password: "{{NEXUS_PASSWORD}}"
 
