@@ -44,6 +44,10 @@
         ports:
           - 3000:3000
         state: started
+- name: Notifications    
+  hosts: i3m-node2
+  become: true
+  tasks:
     - name: Send email notification
       mail:
         host: localhost
