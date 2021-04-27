@@ -9,60 +9,60 @@
  
  ################### JAVAscript BACKPLANE TASKS ##########################
  
-#    - name: Get access token for accesing to Sdk Generator REST API
-#      uri:
-#        method: POST
-#        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
-#        body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
-#        headers:
-#           Content-Type: "application/x-www-form-urlencoded"
-#      register: auth_request
-#    
-#    - debug:
-#        var: auth_request
-#        
-#    - debug:
-#        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
-#        
-#    - name: Make an API call to Backplane API to download OAS file
-#      shell: "curl -k -o \"/tmp/backplaneOAS.json\" -v https://{{ BACKPLANE_HOST }}:3000/openapi.json"
-#           
-#    - name: cat the OAS file contents
-#      shell: "cat /tmp/backplaneOAS.json"
-#      register: shellout   
-#      
-#    - name: Display the OAS File Contents
-#      debug: 
-#        var: shellout.stdout_lines     
-#        
-#    - name: Upload oas file to Nexus
-#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
-#      register: shellout 
-#      
-#    - name: Display nexus curl response
-#      debug: 
-#        var: shellout   
-#  
-#    - name: Make an API call to SDK-Generator to generate SDK client stub
-#      uri:
-#        method: POST
-#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/javascript"
-#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
-#        body_format: json
-#        return_content: yes
-#        headers:
-#          Authorization: "Bearer {{ auth_request.json.access_token }}"
-#        dest: "/tmp/i3m-sdk-core-javascript.zip"
-#        mode: 0766
-#      register: sdkgen_javascript  
-#      
-#    - debug:
-#        var: sdkgen_javascript
-#        
-#    - name: Upload oas-javascript artifact to Nexus
-#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-core-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip"
-#      register: shellout  
-#      
+   - name: Get access token for accesing to Sdk Generator REST API
+     uri:
+       method: POST
+       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+       headers:
+          Content-Type: "application/x-www-form-urlencoded"
+     register: auth_request
+   
+   - debug:
+       var: auth_request
+       
+   - debug:
+       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+       
+   - name: Make an API call to Backplane API to download OAS file
+     shell: "curl -k -o \"/tmp/backplaneOAS.json\" -v https://{{ BACKPLANE_HOST }}:3000/openapi.json"
+          
+   - name: cat the OAS file contents
+     shell: "cat /tmp/backplaneOAS.json"
+     register: shellout   
+     
+   - name: Display the OAS File Contents
+     debug: 
+       var: shellout.stdout_lines     
+       
+   - name: Upload oas file to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
+     register: shellout 
+     
+   - name: Display nexus curl response
+     debug: 
+       var: shellout   
+ 
+   - name: Make an API call to SDK-Generator to generate SDK client stub
+     uri:
+       method: POST
+       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/javascript"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
+       body_format: json
+       return_content: yes
+       headers:
+         Authorization: "Bearer {{ auth_request.json.access_token }}"
+       dest: "/tmp/i3m-sdk-core-javascript.zip"
+       mode: 0766
+     register: sdkgen_javascript  
+     
+   - debug:
+       var: sdkgen_javascript
+       
+   - name: Upload oas-javascript artifact to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-core-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip"
+     register: shellout  
+     
       
 ################### JAVAscript OIDC TASKS ########################## 
       
@@ -180,19 +180,19 @@
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
        
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
-#      uri:
-#         method: POST
-#         url: "https://generator3.swagger.io/api/generate"
-#         body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ BACKPLANE_HOST }}:3000/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
-#         body_format: json
-#         return_content: yes
-#         dest: "/tmp/oas-java.zip"
-#         mode: 0766
-#      register: sdkgen_java     
-#        
-#    - debug:
-#        var: sdkgen_java 
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
+     uri:
+        method: POST
+        url: "https://generator3.swagger.io/api/generate"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ BACKPLANE_HOST }}:3000/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
+        body_format: json
+        return_content: yes
+        dest: "/tmp/oas-java.zip"
+        mode: 0766
+     register: sdkgen_java     
+       
+   - debug:
+       var: sdkgen_java 
        
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
      uri:
