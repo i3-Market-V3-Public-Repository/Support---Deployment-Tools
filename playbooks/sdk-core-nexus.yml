@@ -176,7 +176,7 @@
        
    - name: Upload oas-javascript artifact to Nexus
      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-vc-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip"
-     register: shellout                     
+     register: shellout                   
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
        
@@ -321,4 +321,4 @@
        from: admin@i3-market.eu
        to: i3-MARKET-Project@insight-centre.org
        subject: SDK-core new version available
-       body: "A new version of the SDK-CORE it is available at: \n   1) java version: http://95.211.3.251:8081/#browse/browse:i3m-maven-snapshots:com%2Fi3m%2Fsdk-core-all%2F1.0.0-SNAPSHOT\n    2) javascript version: http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip\"" 
+       body: "A new version of the SDK-CORE it is available at: \n   1) java version: http://95.211.3.251:8081/#browse/browse:i3m-maven-snapshots:com%2Fi3m%2Fsdk-core-all%2F1.0.0-SNAPSHOT\n    2) javascript version (SDK-core): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip\n  3) javascript version (SDK-oidc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-oidc-javascript-1.0.0.zip\n   4) javascript version (SDK-vc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip\n" 
