@@ -43,7 +43,7 @@
      debug: 
        var: shellout   
  
-  - name: Make an API call to SDK-Generator to generate SDK client stub
+   - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/javascript"
