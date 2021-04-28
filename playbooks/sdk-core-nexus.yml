@@ -210,19 +210,19 @@
 #    - debug:
 #         var: sdkgen_java      
        
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
-#      uri:
-#         method: POST
-#         url: "https://generator3.swagger.io/api/generate"
-#         body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
-#         body_format: json
-#         return_content: yes
-#         dest: "/tmp/oidc-java.zip"
-#         mode: 0766
-#      register: sdkgen_java    
-#        
-#    - debug:
-#        var: sdkgen_java  
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
+     uri:
+        method: POST
+        url: "https://generator3.swagger.io/api/generate"
+        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\" }}"
+        body_format: json
+        return_content: yes
+        dest: "/tmp/oidc-java.zip"
+        mode: 0766
+     register: sdkgen_java    
+       
+   - debug:
+       var: sdkgen_java  
 
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
 #      uri:
@@ -284,11 +284,11 @@
        dest: "/tmp/oas/java/"
        remote_src: yes
        
-#    - name: Unzip file with client stubs 
-#      unarchive:
-#        src: "/tmp/oidc-java.zip"
-#        dest: "/tmp/oas/java"
-#        remote_src: yes    
+   - name: Unzip file with client stubs 
+     unarchive:
+       src: "/tmp/oidc-java.zip"
+       dest: "/tmp/oas/java"
+       remote_src: yes    
 #        
 #    - name: Unzip file with client stubs 
 #      unarchive:
