@@ -281,7 +281,7 @@
    - name: Unzip file with client stubs 
      unarchive:
        src: "/tmp/oas-java.zip"
-       dest: "/tmp/oas/java"
+       dest: "/tmp/oas/java/"
        remote_src: yes
        
 #    - name: Unzip file with client stubs 
@@ -351,7 +351,7 @@
      shell: "mvn deploy:deploy-file -DgroupId={{ ARTIFACT_GROUP_ID}} -DartifactId={{ ARTIFACT_NAME }}-all -Dversion={{ ARTIFACT_VERSION }} -Dpackaging=jar -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven-snapshots/ -Dfile=./{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar"
 #     shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile={{ item }}"
      args:
-        chdir: "/tmp/oas/target"
+        chdir: "/tmp/oas/java/target"
      become: yes
 #      loop: "{{ shellout.stdout_lines }}"
 #      register: nexusout
