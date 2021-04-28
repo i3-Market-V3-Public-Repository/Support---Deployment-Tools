@@ -184,7 +184,7 @@
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ BACKPLANE_HOST }}:3000/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
         body_format: json
         return_content: yes
         dest: "/tmp/oas-java.zip"
@@ -214,7 +214,7 @@
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ OIDC_HOST }}/api-spec/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
         body_format: json
         return_content: yes
         dest: "/tmp/oidc-java.zip"
@@ -244,7 +244,7 @@
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ VC_HOST }}/vc/api-spec/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
         body_format: json
         return_content: yes
         dest: "/tmp/vc-java.zip"
