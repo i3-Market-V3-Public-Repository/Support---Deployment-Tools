@@ -180,35 +180,35 @@
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
        
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
-     uri:
-        method: POST
-        url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
-        body_format: json
-        return_content: yes
-        dest: "/tmp/oas-java.zip"
-        mode: 0766
-     register: sdkgen_java     
-       
-   - debug:
-       var: sdkgen_java
-       
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
 #      uri:
-#        method: POST
-#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\" } }"
-#        body_format: json
-#        return_content: yes
-#        headers:
-#          Authorization: "Bearer {{ auth_request.json.access_token }}"
-#        dest: "/tmp/oas-java.zip"
-#        mode: 0766
-#      register: sdkgen_java  
-#      
+#         method: POST
+#         url: "https://generator3.swagger.io/api/generate"
+#         body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
+#         body_format: json
+#         return_content: yes
+#         dest: "/tmp/oas-java.zip"
+#         mode: 0766
+#      register: sdkgen_java     
+#        
 #    - debug:
-#         var: sdkgen_java      
+#        var: sdkgen_java
+       
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
+     uri:
+       method: POST
+       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"beanValidations\": \"true\" ,\"swaggerAnnotations\": \"true\", \"serviceImplementation\": \"true\" } }"
+       body_format: json
+       return_content: yes
+       headers:
+         Authorization: "Bearer {{ auth_request.json.access_token }}"
+       dest: "/tmp/oas-java.zip"
+       mode: 0766
+     register: sdkgen_java  
+     
+   - debug:
+        var: sdkgen_java      
        
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
      uri:
