@@ -302,7 +302,7 @@
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
      args:
-        chdir: "/tmp/oas/java"
+        chdir: "/tmp/oas/java/java-client"
      become: yes   
      
 #    - name: Get artifacts names for target dir
@@ -316,31 +316,31 @@
    - name: Crate a tmp dir
      shell: "mkdir tmp"
      args:
-        chdir: "/tmp/oas/java/target/"  
+        chdir: "/tmp/oas/java/java-client/target/"  
      become: yes 
      
    - name: Extract jar file with java classes
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}.jar"    
      args:
-        chdir: "/tmp/oas/java/target/tmp"
+        chdir: "/tmp/oas/java/java-client/target/tmp"
      become: yes  
      
    - name: Extract jar file with java docs
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-javadoc.jar"    
      args:
-        chdir: "/tmp/oas/java/target/tmp"
+        chdir: "/tmp/oas/java/java-client/target/tmp"
      become: yes  
      
    - name: Extract jar file with java sources
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-sources.jar"    
      args:
-        chdir: "/tmp/oas/java/target/tmp"
+        chdir: "/tmp/oas/java/java-client/target/tmp"
      become: yes    
      
    - name: Add all classes and docs into a single JAR file,
      shell: " jar -cf ../{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar ."    
      args:
-        chdir: "/tmp/oas/java/target/tmp"
+        chdir: "/tmp/oas/java/java-client/target/tmp"
      become: yes   
           
         
@@ -348,7 +348,7 @@
      shell: "mvn deploy:deploy-file -DgroupId={{ ARTIFACT_GROUP_ID}} -DartifactId={{ ARTIFACT_NAME }}-all -Dversion={{ ARTIFACT_VERSION }} -Dpackaging=jar -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven-snapshots/ -Dfile=./{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar"
 #     shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile={{ item }}"
      args:
-        chdir: "/tmp/oas/java/target"
+        chdir: "/tmp/oas/java/java-client/target"
      become: yes 
 #      loop: "{{ shellout.stdout_lines }}"
 #      register: nexusout
@@ -362,11 +362,11 @@
   tasks: 
     
  ######## SEND NOTIFICATIONS #####
-   - name: Send email notification
-     mail:
-       host: localhost
-       port: 25
-       from: admin@i3-market.eu
-       to: i3-MARKET-Project@insight-centre.org
-       subject: SDK-core new version available
-       body: "A new version of the SDK-CORE it is available at: \n   1) java version: http://95.211.3.251:8081/#browse/browse:i3m-maven-snapshots:com%2Fi3m%2Fsdk-core-all%2F1.0.0-SNAPSHOT\n    2) javascript version (SDK-core): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip\n  3) javascript version (SDK-oidc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-oidc-javascript-1.0.0.zip\n   4) javascript version (SDK-vc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip\n" 
+#    - name: Send email notification
+#      mail:
+#        host: localhost
+#        port: 25
+#        from: admin@i3-market.eu
+#        to: i3-MARKET-Project@insight-centre.org
+#        subject: SDK-core new version available
+#        body: "A new version of the SDK-CORE it is available at: \n   1) java version: http://95.211.3.251:8081/#browse/browse:i3m-maven-snapshots:com%2Fi3m%2Fsdk-core-all%2F1.0.0-SNAPSHOT\n    2) javascript version (SDK-core): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip\n  3) javascript version (SDK-oidc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-oidc-javascript-1.0.0.zip\n   4) javascript version (SDK-vc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip\n" 
