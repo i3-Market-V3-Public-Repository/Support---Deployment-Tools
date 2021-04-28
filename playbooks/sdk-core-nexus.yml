@@ -169,7 +169,7 @@
          Authorization: "Bearer {{ auth_request.json.access_token }}"
        dest: "/tmp/i3m-sdk-vc-javascript.zip"
        mode: 0766
-     register: sdkgen_javascript  
+     register: sdkgen_javascript
      
    - debug:
        var: sdkgen_javascript
@@ -180,95 +180,95 @@
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
        
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
-#      uri:
-#         method: POST
-#         url: "https://generator3.swagger.io/api/generate"
-#         body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ BACKPLANE_HOST }}:3000/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
-#         body_format: json
-#         return_content: yes
-#         dest: "/tmp/oas-java.zip"
-#         mode: 0766
-#      register: sdkgen_java     
-#        
-#    - debug:
-#        var: sdkgen_java
-       
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
      uri:
-       method: POST
-       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\" } }"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/oas-java.zip"
-       mode: 0766
-     register: sdkgen_java  
-     
-   - debug:
-        var: sdkgen_java      
+        method: POST
+        url: "https://generator3.swagger.io/api/generate"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ BACKPLANE_HOST }}:3000/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
+        body_format: json
+        return_content: yes
+        dest: "/tmp/oas-java.zip"
+        mode: 0766
+     register: sdkgen_java     
        
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
+   - debug:
+       var: sdkgen_java
+       
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
 #      uri:
-#         method: POST
-#         url: "https://generator3.swagger.io/api/generate"
-#         body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ OIDC_HOST }}/api-spec/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
-#         body_format: json
-#         return_content: yes
-#         dest: "/tmp/oidc-java.zip"
-#         mode: 0766
-#      register: sdkgen_java     
-#        
+#        method: POST
+#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\" } }"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/oas-java.zip"
+#        mode: 0766
+#      register: sdkgen_java  
+#      
 #    - debug:
-#        var: sdkgen_java  
+#         var: sdkgen_java      
+       
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
+     uri:
+        method: POST
+        url: "https://generator3.swagger.io/api/generate"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ OIDC_HOST }}/api-spec/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
+        body_format: json
+        return_content: yes
+        dest: "/tmp/oidc-java.zip"
+        mode: 0766
+     register: sdkgen_java     
+       
+   - debug:
+       var: sdkgen_java  
 
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
-     uri:
-       method: POST
-       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\" } }"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/oidc-java.zip"
-       mode: 0766
-     register: sdkgen_java  
-     
-   - debug:
-        var: sdkgen_java      
-       
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API. https://generator3.swagger.io/
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
 #      uri:
-#         method: POST
-#         url: "https://generator3.swagger.io/api/generate"
-#         body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ VC_HOST }}/vc/api-spec/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
-#         body_format: json
-#         return_content: yes
-#         dest: "/tmp/vc-java.zip"
-#         mode: 0766
-#      register: sdkgen_java     
-#        
+#        method: POST
+#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\" } }"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/oidc-java.zip"
+#        mode: 0766
+#      register: sdkgen_java  
+#      
 #    - debug:
-#        var: sdkgen_java   
-
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API
+#         var: sdkgen_java      
+       
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API. https://generator3.swagger.io/
      uri:
-       method: POST
-       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\" } }"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/vc-java.zip"
-       mode: 0766
-     register: sdkgen_java  
-     
+        method: POST
+        url: "https://generator3.swagger.io/api/generate"
+        body: "{\"lang\":\"java\",\"spec\":{},\"specURL\":\"https://{{ VC_HOST }}/vc/api-spec/openapi.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"additionalProperties\": {\"modelPropertyNaming\": \"original\" }}}"
+        body_format: json
+        return_content: yes
+        dest: "/tmp/vc-java.zip"
+        mode: 0766
+     register: sdkgen_java     
+       
    - debug:
-        var: sdkgen_java    
+       var: sdkgen_java   
+
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API
+#      uri:
+#        method: POST
+#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\" } }"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/vc-java.zip"
+#        mode: 0766
+#      register: sdkgen_java  
+#      
+#    - debug:
+#         var: sdkgen_java    
        
    - name: Create oas temp dir
      file:
@@ -302,7 +302,7 @@
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
      args:
-        chdir: "/tmp/oas/java/java-client"
+        chdir: "/tmp/oas/java"
      become: yes   
      
 #    - name: Get artifacts names for target dir
@@ -316,31 +316,31 @@
    - name: Crate a tmp dir
      shell: "mkdir tmp"
      args:
-        chdir: "/tmp/oas/java/java-client/target/"  
+        chdir: "/tmp/oas/java/target/"  
      become: yes 
      
    - name: Extract jar file with java classes
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}.jar"    
      args:
-        chdir: "/tmp/oas/java/java-client/target/tmp"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes  
      
    - name: Extract jar file with java docs
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-javadoc.jar"    
      args:
-        chdir: "/tmp/oas/java/java-client/target/tmp"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes  
      
    - name: Extract jar file with java sources
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-sources.jar"    
      args:
-        chdir: "/tmp/oas/java/java-client/target/tmp"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes    
      
    - name: Add all classes and docs into a single JAR file,
      shell: " jar -cf ../{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar ."    
      args:
-        chdir: "/tmp/oas/java/java-client/target/tmp"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes   
           
         
@@ -348,7 +348,7 @@
      shell: "mvn deploy:deploy-file -DgroupId={{ ARTIFACT_GROUP_ID}} -DartifactId={{ ARTIFACT_NAME }}-all -Dversion={{ ARTIFACT_VERSION }} -Dpackaging=jar -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven-snapshots/ -Dfile=./{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar"
 #     shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile={{ item }}"
      args:
-        chdir: "/tmp/oas/java/java-client/target"
+        chdir: "/tmp/oas/java/target"
      become: yes 
 #      loop: "{{ shellout.stdout_lines }}"
 #      register: nexusout
