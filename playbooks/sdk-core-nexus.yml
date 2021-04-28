@@ -198,7 +198,7 @@
      uri:
        method: POST
        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"invokerPackage\": \"com.i3m-sdk.ri\", \"library\": \"jersey2\" } }"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"useBeanValidation\": \"true\", "prependFormOrBodyParameters\": \"true\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"library\": \"jersey2\" } }"
        body_format: json
        return_content: yes
        headers:
@@ -224,21 +224,21 @@
 #    - debug:
 #        var: sdkgen_java  
 
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
-     uri:
-       method: POST
-       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"invokerPackage\": \"com.i3m-sdk.ri\", \"library\": \"jersey2\" } }"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/oidc-java.zip"
-       mode: 0766
-     register: sdkgen_java  
-     
-   - debug:
-        var: sdkgen_java     
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
+#      uri:
+#        method: POST
+#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"invokerPackage\": \"com.i3m-sdk.ri\", \"library\": \"jersey2\" } }"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/oidc-java.zip"
+#        mode: 0766
+#      register: sdkgen_java  
+#      
+#    - debug:
+#         var: sdkgen_java     
        
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API. https://generator3.swagger.io/
 #      uri:
@@ -254,21 +254,21 @@
 #    - debug:
 #        var: sdkgen_java   
 
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API
-     uri:
-       method: POST
-       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"invokerPackage\": \"com.i3m-sdk.ri\", \"library\": \"jersey2\" } }"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/vc-java.zip"
-       mode: 0766
-     register: sdkgen_java  
-     
-   - debug:
-        var: sdkgen_java    
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API
+#      uri:
+#        method: POST
+#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"invokerPackage\": \"com.i3m-sdk.ri\", \"library\": \"jersey2\" } }"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/vc-java.zip"
+#        mode: 0766
+#      register: sdkgen_java  
+#      
+#    - debug:
+#         var: sdkgen_java    
        
    - name: Delete oas temp dir
      shell: "rm -rf /tmp/oas/java/"
@@ -284,17 +284,17 @@
        dest: "/tmp/oas/java"
        remote_src: yes
        
-   - name: Unzip file with client stubs 
-     unarchive:
-       src: "/tmp/oidc-java.zip"
-       dest: "/tmp/oas/java"
-       remote_src: yes    
-       
-   - name: Unzip file with client stubs 
-     unarchive:
-       src: "/tmp/vc-java.zip"
-       dest: "/tmp/oas/java"
-       remote_src: yes
+#    - name: Unzip file with client stubs 
+#      unarchive:
+#        src: "/tmp/oidc-java.zip"
+#        dest: "/tmp/oas/java"
+#        remote_src: yes    
+#        
+#    - name: Unzip file with client stubs 
+#      unarchive:
+#        src: "/tmp/vc-java.zip"
+#        dest: "/tmp/oas/java"
+#        remote_src: yes
        
    - name: Set java 8 as default jvm
      shell: "{{ item }}"
