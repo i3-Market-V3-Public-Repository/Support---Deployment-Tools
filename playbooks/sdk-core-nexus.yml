@@ -238,7 +238,7 @@
 #      register: sdkgen_java  
 #      
 #    - debug:
-#         var: sdkgen_java      
+#         var: sdkgen_java     
        
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API. https://generator3.swagger.io/
      uri:
@@ -270,6 +270,9 @@
 #    - debug:
 #         var: sdkgen_java    
        
+   - name: Delete oas temp dir
+     shell: "rm -rf /tmp/oas/java/"
+      
    - name: Create oas temp dir
      file:
       path: "/tmp/oas/java/"
