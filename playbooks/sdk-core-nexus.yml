@@ -244,7 +244,7 @@
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", , \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
+        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
         body_format: json
         return_content: yes
         dest: "/tmp/vc-java.zip"
@@ -278,17 +278,17 @@
       path: "/tmp/oas/java/"
       state: "directory"
         
-   - name: Unzip file with client stubs 
-     unarchive:
-       src: "/tmp/oas-java.zip"
-       dest: "/tmp/oas/java/"
-       remote_src: yes
-       
-   - name: Unzip file with client stubs 
-     unarchive:
-       src: "/tmp/oidc-java.zip"
-       dest: "/tmp/oas/java"
-       remote_src: yes    
+#    - name: Unzip file with client stubs 
+#      unarchive:
+#        src: "/tmp/oas-java.zip"
+#        dest: "/tmp/oas/java/"
+#        remote_src: yes
+#        
+#    - name: Unzip file with client stubs 
+#      unarchive:
+#        src: "/tmp/oidc-java.zip"
+#        dest: "/tmp/oas/java"
+#        remote_src: yes    
        
    - name: Unzip file with client stubs 
      unarchive:
