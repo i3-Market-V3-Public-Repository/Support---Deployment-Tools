@@ -184,7 +184,7 @@
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\", \"additionalProperties\": {\"dateLibrary\": \"java8\" }}}"
+        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
         body_format: json
         return_content: yes
         dest: "/tmp/oas-java.zip"
@@ -214,7 +214,7 @@
      uri:
         method: POST
         url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m.model\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\", \"additionalProperties\": {\"dateLibrary\": \"java8\" }}}"
+        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m.model\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
         body_format: json
         return_content: yes
         dest: "/tmp/oidc-java.zip"
@@ -240,19 +240,19 @@
 #    - debug:
 #         var: sdkgen_java     
        
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API. https://generator3.swagger.io/
-#      uri:
-#         method: POST
-#         url: "https://generator3.swagger.io/api/generate"
-#         body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\"}}"
-#         body_format: json
-#         return_content: yes
-#         dest: "/tmp/vc-java.zip"
-#         mode: 0766
-#      register: sdkgen_java     
-#        
-#    - debug:
-#        var: sdkgen_java   
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API. https://generator3.swagger.io/
+     uri:
+        method: POST
+        url: "https://generator3.swagger.io/api/generate"
+        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", , \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
+        body_format: json
+        return_content: yes
+        dest: "/tmp/vc-java.zip"
+        mode: 0766
+     register: sdkgen_java     
+       
+   - debug:
+       var: sdkgen_java   
 
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API
 #      uri:
@@ -289,12 +289,12 @@
        src: "/tmp/oidc-java.zip"
        dest: "/tmp/oas/java"
        remote_src: yes    
-#        
-#    - name: Unzip file with client stubs 
-#      unarchive:
-#        src: "/tmp/vc-java.zip"
-#        dest: "/tmp/oas/java"
-#        remote_src: yes
+       
+   - name: Unzip file with client stubs 
+     unarchive:
+       src: "/tmp/vc-java.zip"
+       dest: "/tmp/oas/java"
+       remote_src: yes
        
    - name: Set java 8 as default jvm
      shell: "{{ item }}"
