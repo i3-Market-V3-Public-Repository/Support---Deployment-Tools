@@ -278,17 +278,17 @@
       path: "/tmp/oas/java/"
       state: "directory"
         
-   - name: Unzip file with client stubs 
-     unarchive:
-       src: "/tmp/oas-java.zip"
-       dest: "/tmp/oas/java/"
-       remote_src: yes
-       
-   - name: Unzip file with client stubs
-     unarchive:
-       src: "/tmp/oidc-java.zip"
-       dest: "/tmp/oas/java"
-       remote_src: yes    
+#    - name: Unzip file with client stubs 
+#      unarchive:
+#        src: "/tmp/oas-java.zip"
+#        dest: "/tmp/oas/java/"
+#        remote_src: yes
+#        
+#    - name: Unzip file with client stubs
+#      unarchive:
+#        src: "/tmp/oidc-java.zip"
+#        dest: "/tmp/oas/java"
+#        remote_src: yes   
        
    - name: Unzip file with client stubs
      unarchive:
@@ -359,7 +359,7 @@
 #    - debug: 
 #        var: nexusout     
 
-- name: Notifications     
+- name: Notifications    
   hosts: i3m-node2
   become: true
   tasks:
