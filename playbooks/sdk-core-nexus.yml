@@ -176,7 +176,7 @@
        
    - name: Upload oas-javascript artifact to Nexus
      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-vc-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip"
-     register: shellout                   
+     register: shellout                 
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
        
@@ -198,7 +198,7 @@
      uri:
        method: POST
        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"beanValidations\": \"true\" ,\"swaggerAnnotations\": \"true\", \"serviceImplementation\": \"true\" } }"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"invokerPackage\": \"com.i3m-sdk.ri\", \"library\": \"jersey2\" } }"
        body_format: json
        return_content: yes
        headers:
@@ -228,7 +228,7 @@
      uri:
        method: POST
        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"beanValidations\": \"true\" ,\"swaggerAnnotations\": \"true\", \"serviceImplementation\": \"true\" } }"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"invokerPackage\": \"com.i3m-sdk.ri\", \"library\": \"jersey2\" } }"
        body_format: json
        return_content: yes
        headers:
@@ -258,7 +258,7 @@
      uri:
        method: POST
        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"beanValidations\": \"true\" ,\"swaggerAnnotations\": \"true\", \"serviceImplementation\": \"true\" } }"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\", \"options\": {\"library\":\"google-api-client\", \"generate-alias-as-model\": \"true\", \"prependFormOrBodyParameters\": \"true\", \"skipFormModel\": \"false\", \"performBeanValidation\": \"true\" ,\"disallowAdditionalPropertiesIfNotPresent\": \"false\", \"invokerPackage\": \"com.i3m-sdk.ri\", \"library\": \"jersey2\" } }"
        body_format: json
        return_content: yes
        headers:
