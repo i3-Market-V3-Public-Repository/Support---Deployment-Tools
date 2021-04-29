@@ -180,6 +180,9 @@
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
        
+   - name: Delete oas temp dir
+     shell: "rm -rf /tmp/oas/java/"
+      
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
 #      uri:
 #         method: POST
@@ -194,21 +197,30 @@
 #    - debug:
 #        var: sdkgen_java
        
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
+#      uri:
+#        method: POST
+#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m.model.backplane\", \"apiPackage\": \"com.i3m.api.backplane\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/oas-java.zip"
+#        mode: 0766
+#      register: sdkgen_java  
+#      
+#    - debug:
+#         var: sdkgen_java 
+
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
      uri:
        method: POST
-       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m.model.backplane\", \"apiPackage\": \"com.i3m.api.backplane\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/oas-java.zip"
-       mode: 0766
+       shell: "openapi-generator-cli version-manager set 4.3.1 || openapi-generator-cli generate -g java --additional-properties=modelPackage=com.i3m.backplane.model,apiPackage=com.i3m.backplane.api,prependFormOrBodyParameters=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
      register: sdkgen_java  
      
    - debug:
-        var: sdkgen_java      
+        var: sdkgen_java 
        
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
 #      uri:
@@ -224,35 +236,44 @@
 #    - debug:
 #        var: sdkgen_java  
 
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
+#      uri:
+#        method: POST
+#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m.model.oidc\", \"apiPackage\": \"com.i3m.api.oidc\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/oidc-java.zip"
+#        mode: 0766
+#      register: sdkgen_java  
+#      
+#    - debug:
+#         var: sdkgen_java    
+
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
      uri:
        method: POST
-       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/java"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m.model.oidc\", \"apiPackage\": \"com.i3m.api.oidc\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/oidc-java.zip"
-       mode: 0766
+       shell: "openapi-generator-cli version-manager set 4.3.1 || openapi-generator-cli generate -g java --additional-properties=modelPackage=com.i3m.oidc.model,apiPackage=com.i3m.oidc.api,prependFormOrBodyParameters=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
      register: sdkgen_java  
      
    - debug:
-        var: sdkgen_java     
+        var: sdkgen_java  
        
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API. https://generator3.swagger.io/
-     uri:
-        method: POST
-        url: "https://generator3.swagger.io/api/generate"
-        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"serializableModel\": \"true\" }}"
-        body_format: json
-        return_content: yes
-        dest: "/tmp/vc-java.zip"
-        mode: 0766
-     register: sdkgen_java     
-       
-   - debug:
-       var: sdkgen_java   
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API. https://generator3.swagger.io/
+#      uri:
+#         method: POST
+#         url: "https://generator3.swagger.io/api/generate"
+#         body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"serializableModel\": \"true\" }}"
+#         body_format: json
+#         return_content: yes
+#         dest: "/tmp/vc-java.zip"
+#         mode: 0766
+#      register: sdkgen_java     
+#        
+#    - debug:
+#        var: sdkgen_java   
 
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for VC API
 #      uri:
@@ -270,13 +291,13 @@
 #    - debug:
 #         var: sdkgen_java    
        
-   - name: Delete oas temp dir
-     shell: "rm -rf /tmp/oas/java/"
-      
-   - name: Create oas temp dir
-     file:
-      path: "/tmp/oas/java/"
-      state: "directory"
+#    - name: Delete oas temp dir
+#      shell: "rm -rf /tmp/oas/java/"
+#       
+#    - name: Create oas temp dir
+#      file:
+#       path: "/tmp/oas/java/"
+#       state: "directory"
         
 #    - name: Unzip file with client stubs 
 #      unarchive:
@@ -290,11 +311,11 @@
 #        dest: "/tmp/oas/java"
 #        remote_src: yes   
        
-   - name: Unzip file with client stubs
-     unarchive:
-       src: "/tmp/vc-java.zip"
-       dest: "/tmp/oas/java"
-       remote_src: yes
+#    - name: Unzip file with client stubs
+#      unarchive:
+#        src: "/tmp/vc-java.zip"
+#        dest: "/tmp/oas/java"
+#        remote_src: yes
        
    - name: Set java 8 as default jvm
      shell: "{{ item }}"
