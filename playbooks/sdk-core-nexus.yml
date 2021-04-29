@@ -183,15 +183,15 @@
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
        
-   - name: Delete oas temp dir
-     shell: "rm -rf /tmp/oas/java/"
-     become: yes
+#    - name: Delete oas temp dir
+#      shell: "rm -rf /tmp/oas/java/"
+#      become: yes
      
-   - name: Create oas temp dir
-     file:
-       path: "/tmp/oas/java/"
-       state: "directory"
-     become: yes  
+#    - name: Create oas temp dir
+#      file:
+#        path: "/tmp/oas/java/"
+#        state: "directory"
+#      become: yes  
       
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
 #      uri:
