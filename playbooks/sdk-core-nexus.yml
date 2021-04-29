@@ -349,7 +349,7 @@
    - name: Crate a tmp dir
      shell: "mkdir tmp"
      args:
-        chdir: "/tmp/oas/java/target/"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes
      
    - name: Extract jar file with java classes
