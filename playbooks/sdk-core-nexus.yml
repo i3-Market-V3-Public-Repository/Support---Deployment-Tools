@@ -54,6 +54,7 @@
          Authorization: "Bearer {{ auth_request.json.access_token }}"
        dest: "/tmp/i3m-sdk-core-javascript.zip"
        mode: 0766
+     become: yes  
      register: sdkgen_javascript  
      
    - debug:
@@ -112,6 +113,7 @@
          Authorization: "Bearer {{ auth_request.json.access_token }}"
        dest: "/tmp/i3m-sdk-oidc-javascript.zip"
        mode: 0766
+     become: yes  
      register: sdkgen_javascript  
      
    - debug:
@@ -169,6 +171,7 @@
          Authorization: "Bearer {{ auth_request.json.access_token }}"
        dest: "/tmp/i3m-sdk-vc-javascript.zip"
        mode: 0766
+     become: yes  
      register: sdkgen_javascript
      
    - debug:
