@@ -1,6 +1,7 @@
 ---
 - name: sdk-core provisiong and publising
   hosts: i3m-node4
+  become: yes
   vars:
   tasks:
   
@@ -218,7 +219,7 @@
 #         var: sdkgen_java 
 
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
-     command: "openapi-generator-cli version-manager set 4.3.1 || openapi-generator-cli generate -g java --additional-properties=modelPackage=com.i3m.backplane.model,apiPackage=com.i3m.backplane.api,prependFormOrBodyParameters=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.1 || openapi-generator-cli generate -g java --additional-properties=modelPackage=com.i3m.backplane.model,apiPackage=com.i3m.backplane.api,prependFormOrBodyParameters=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
      become: yes
      register: sdkgen_java  
      
@@ -256,7 +257,7 @@
 #         var: sdkgen_java    
 
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
-     command: "openapi-generator-cli version-manager set 4.3.1 || openapi-generator-cli generate -g java --additional-properties=modelPackage=com.i3m.oidc.model,apiPackage=com.i3m.oidc.api,prependFormOrBodyParameters=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.1 || openapi-generator-cli generate -g java --additional-properties=modelPackage=com.i3m.oidc.model,apiPackage=com.i3m.oidc.api,prependFormOrBodyParameters=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
      become: yes
      register: sdkgen_java 
      
