@@ -1,7 +1,6 @@
 ---
 - name: sdk-core provisiong and publising
   hosts: i3m-node4
-  become: true
   vars:
   tasks:
   
