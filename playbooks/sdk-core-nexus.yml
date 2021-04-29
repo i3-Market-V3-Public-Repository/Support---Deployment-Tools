@@ -346,11 +346,11 @@
 #        msg: "{{ item }}"
 #      with_items: "{{ shellout.stdout_lines }}" 
 
-   - name: Crate a tmp dir
-     shell: "mkdir tmp"
-     args:
-        chdir: "/tmp/oas/java/target/tmp"
-     become: yes
+   - name: Create temp dir
+     file:
+       path: "/tmp/oas/java/target/tmp"
+       state: "directory"
+     become: yes  
      
    - name: Extract jar file with java classes
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}.jar"    
