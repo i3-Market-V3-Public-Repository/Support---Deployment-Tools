@@ -378,7 +378,7 @@
           
         
    - name: Upload Sdk-Core artifacts to Nexus
-     shell: "mvn deploy:deploy-file -DgroupId={{ ARTIFACT_GROUP_ID}} -DartifactId={{ ARTIFACT_NAME }}-all -Dversion={{ ARTIFACT_VERSION }} -Dpackaging=jar -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven-snapshots/ -Dfile=./{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar"
+     shell: "mvn deploy:deploy-file -DgroupId={{ ARTIFACT_GROUP_ID}} -DartifactId={{ ARTIFACT_NAME }}-all -Dversion={{ ARTIFACT_VERSION }} -Dpackaging=jar -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven-snapshots/ -Dfile=./{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar -Djavadoc=/{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}-javadoc.jar"
 #     shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile={{ item }}"
      args:
         chdir: "/tmp/oas/java/target"
