@@ -404,6 +404,12 @@
         chdir: "/tmp/oas/java/src/main/java/com/i3m/api"
      become: yes  
      
+   - name: Delete defaults authorizations in ApiClient
+     shell: "sed -i '/authentications.put/d' ApiClient.java"
+     args:
+        chdir: "/tmp/oas/java/src/main/java/com/i3m/api"
+     become: yes    
+     
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
      args:
