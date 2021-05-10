@@ -298,7 +298,15 @@
 #      register: sdkgen_java  
 #      
 #    - debug:
-#         var: sdkgen_java    
+#         var: sdkgen_java   
+
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for DATA ACCESS API
+     shell: "openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.data-access,apiPackage=com.i3m.api.data-access,prependFormOrBodyParameters=true,hideGenerationTimestamp=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     become: yes
+     register: sdkgen_java 
+     
+   - debug:
+        var: sdkgen_java   
        
 #    - name: Delete oas temp dir
 #      shell: "rm -rf /tmp/oas/java/"
@@ -407,5 +415,5 @@
        port: 25
        from: admin@i3-market.eu
        to: i3-MARKET-Project@insight-centre.org
-       subject: SDK-core new version available (include OIDC)
+       subject: SDK-core new version available (including BACKPLANE, OIDC, VC and DATA_ACESS)
        body: "A new version of the SDK-CORE it is available at: \n   1) java version: http://95.211.3.251:8081/#browse/browse:i3m-maven-snapshots:com%2Fi3m%2Fsdk-core-all%2F1.0.0-SNAPSHOT\n    2) javascript version (SDK-core): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip\n  3) javascript version (SDK-oidc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-oidc-javascript-1.0.0.zip\n   4) javascript version (SDK-vc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip\n" 
