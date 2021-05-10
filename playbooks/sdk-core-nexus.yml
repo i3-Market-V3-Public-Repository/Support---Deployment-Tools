@@ -331,6 +331,12 @@
      with_items:
        - export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-amd64\"
        - export PATH=${JAVA_HOME}/bin:$PATH
+       
+   - name: Delete authorizations unmodifiableMap in ApiClient
+     shell: "sed -i '/Collections.unmodifiableMap(authentications)/d' ApiClient.java"
+     args:
+        chdir: "/tmp/oas/java/src/main/java/com/i3m/api"
+     become: yes  
      
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
