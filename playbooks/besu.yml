@@ -1,61 +1,157 @@
 ---
-- name: BESU nodes deployment
+- name: BESU nodes preparation
   hosts: all
   become: true
   tasks:
-    - name: Create backplane config files folder
-      file:
-        path: "/var/backplane/certificates"
+    - name: Create backplane config files folder       
+      file:         
+        path: "/var/besu/config"
         state: directory
-        mode: '0755'
+        mode: '0755'         
         recurse: yes
-        
+      file:         
+        path: "/var/besu/database"
+        state: directory
+        mode: '0755'         
+        recurse: yes
+
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "/var/backplane/{{ item.dest }}"
-        url_username: "{{NEXUS_USERNAME}}"
-        url_password: "{{NEXUS_PASSWORD}}"
+        dest: "/var/besu/config/{{ item.dest }}"
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
       loop:
-        - { src: "{{SECRETS_URL}}", dest: "secrets.json"}
-        - { src: "{{ENV_FILE_URL}}", dest: ".env"}
-        - { src: "{{CERT_FILE_URL}}", dest: "certificates/cert.crt"}
-        - { src: "{{KEY_FILE_URL}}", dest: "certificates/key.key"}
-        - { src: "{{CA_CERT_FILE_URL}}", dest: "certificates/ca-cert.crt"}
+        - { src: "{{URL_GENESIS}}", dest: "genesis.json"}
+        - { src: "{{URL_CONFIG}}", dest: "config.toml"} 
 
-    - name: Login to Gitlab registry
-      docker_login:
-        registry_url: registry.gitlab.com
-        username: "{{GITLAB_REGISTRY_USER}}"
-        password: "{{GITLAB_REGISTRY_TOKEN}}"
+- name: BESU nodes deployment
+  hosts: i3m-node1
+  become: true
+  tasks:
+  
+    - name: Get config files
+      get_url:
+        url: "{{ item.src }}"
+        dest: "/var/besu/config/{{ item.dest }}"
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
+      loop:
+        - { src: "{{URL_KEY1}}", dest: "key"}
+        - { src: "{{URL_KEY_PUB1}}", dest: "key.pub"}
 
-    - name: Run Backplane docker image
+    - name: Run latest BESU docker image
       docker_container:
-        name: backplane
-        image: registry.gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane:latest
+        name: besu
+        image: hyperledger/besu:latest
         pull: yes
-        env_file: "/var/backplane/.env"
         env:
-          CERTS_PATH: /certificates
-          SECRETS_PATH: /.secrets.json
-          PUBLIC_URI: "http://{{ansible_default_ipv4.address}}:3000"
+          BESU_CONFIG_FILE: /opt/besu/config/config.tml
         volumes:
-          - "/var/backplane/certificates:/certificates"
-          - "/var/backplane/secrets.json:/.secrets.json"
+          - "/var/besu/config:/opt/besu/config"
+          - "/var/besu/database:/opt/besu/database"
         ports:
-          - 3000:3000
+          - 30303:30303/udp
+          - 30303:30303/tcp
+          - 8545:8545/tcp
+          - 8546:8546/tcp
         state: started
 
-- name: Notifications    
+- name: BESU nodes deployment
   hosts: i3m-node2
   become: true
   tasks:
-    - name: Send email notification
-      mail:
-        host: localhost
-        port: 25
-        from: admin@i3-market.eu
-        to: "{{RECIPIENTS}}"
-        subject: Backplane new version available
-        body: "A new version of the Backplane deployed. \nAvailable at https://95.211.3.244:3000/"
-      when: SEND_EMAIL
+  
+    - name: Get config files
+      get_url:
+        url: "{{ item.src }}"
+        dest: "/var/besu/config/{{ item.dest }}"
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
+      loop:
+        - { src: "{{URL_KEY2}}", dest: "key"}
+        - { src: "{{URL_KEY_PUB2}}", dest: "key.pub"}
+
+    - name: Run latest BESU docker image
+      docker_container:
+        name: besu
+        image: hyperledger/besu:latest
+        pull: yes
+        env:
+          BESU_CONFIG_FILE: /opt/besu/config/config.tml
+          BESU_BOOTNODES: "{{BOOTNODE}}"
+        volumes:
+          - "/var/besu/config:/opt/besu/config"
+          - "/var/besu/database:/opt/besu/database"
+        ports:
+          - 30303:30303/udp
+          - 30303:30303/tcp
+          - 8545:8545/tcp
+          - 8546:8546/tcp
+        state: started
+
+- name: BESU nodes deployment
+  hosts: i3m-node3
+  become: true
+  tasks:
+  
+    - name: Get config files
+      get_url:
+        url: "{{ item.src }}"
+        dest: "/var/besu/config/{{ item.dest }}"
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
+      loop:
+        - { src: "{{URL_KEY3}}", dest: "key"}
+        - { src: "{{URL_KEY_PUB3}}", dest: "key.pub"}
+
+    - name: Run latest BESU docker image
+      docker_container:
+        name: besu
+        image: hyperledger/besu:latest
+        pull: yes
+        env:
+          BESU_CONFIG_FILE: /opt/besu/config/config.tml
+          BESU_BOOTNODES: "{{BOOTNODE}}"
+        volumes:
+          - "/var/besu/config:/opt/besu/config"
+          - "/var/besu/database:/opt/besu/database"
+        ports:
+          - 30303:30303/udp
+          - 30303:30303/tcp
+          - 8545:8545/tcp
+          - 8546:8546/tcp
+        state: started
+
+- name: BESU nodes deployment
+  hosts: i3m-node4
+  become: true
+  tasks:
+  
+    - name: Get config files
+      get_url:
+        url: "{{ item.src }}"
+        dest: "/var/besu/config/{{ item.dest }}"
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
+      loop:
+        - { src: "{{URL_KEY4}}", dest: "key"}
+        - { src: "{{URL_KEY_PUB4}}", dest: "key.pub"}
+
+    - name: Run latest BESU docker image
+      docker_container:
+        name: besu
+        image: hyperledger/besu:latest
+        pull: yes
+        env:
+          BESU_CONFIG_FILE: /opt/besu/config/config.tml
+          BESU_BOOTNODES: "{{BOOTNODE}}"
+        volumes:
+          - "/var/besu/config:/opt/besu/config"
+          - "/var/besu/database:/opt/besu/database"
+        ports:
+          - 30303:30303/udp
+          - 30303:30303/tcp
+          - 8545:8545/tcp
+          - 8546:8546/tcp
+        state: started
