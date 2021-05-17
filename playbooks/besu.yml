@@ -1,5 +1,5 @@
 ---
-- name: BESU nodes preparation
+- name: BESU nodes - folder creation
   hosts: all
   become: true
   tasks:
@@ -14,7 +14,15 @@
       file:         
         path: "/var/besu/database"
         state: directory
+        mode: '0755'    
+        owner: root
+        group: root
+        recurse: yes
 
+name: BESU nodes - config preparation
+  hosts: all
+  become: true
+  tasks:
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
