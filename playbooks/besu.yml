@@ -83,11 +83,11 @@
         image: hyperledger/besu:latest
         pull: yes
         env:
-          BESU_CONFIG_FILE: /opt/besu/config/config.tml
+          BESU_CONFIG_FILE: /besu/config/config.tml
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
-          - "/var/besu/config:/opt/besu/config"
-          - "/var/besu/database:/opt/besu/database"
+          - "/var/besu/config:/besu/config"
+          - "/var/besu/database:/besu/database"
         ports:
           - 30303:30303/udp
           - 30303:30303/tcp
@@ -116,11 +116,11 @@
         image: hyperledger/besu:latest
         pull: yes
         env:
-          BESU_CONFIG_FILE: /opt/besu/config/config.tml
+          BESU_CONFIG_FILE: /besu/config/config.tml
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
-          - "/var/besu/config:/opt/besu/config"
-          - "/var/besu/database:/opt/besu/database"
+          - "/var/besu/config:/besu/config"
+          - "/var/besu/database:/besu/database"
         ports:
           - 30303:30303/udp
           - 30303:30303/tcp
@@ -149,11 +149,11 @@
         image: hyperledger/besu:latest
         pull: yes
         env:
-          BESU_CONFIG_FILE: /opt/besu/config/config.tml
+          BESU_CONFIG_FILE: /besu/config/config.tml
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
-          - "/var/besu/config:/opt/besu/config"
-          - "/var/besu/database:/opt/besu/database"
+          - "/var/besu/config:/besu/config"
+          - "/var/besu/database:/besu/database"
         ports:
           - 30303:30303/udp
           - 30303:30303/tcp
