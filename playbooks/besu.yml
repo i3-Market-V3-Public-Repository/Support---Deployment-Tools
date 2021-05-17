@@ -7,7 +7,7 @@
       file:
         path: "/var/besu/config"
         state: directory
-        mode: '0755'    
+        mode: '0777'    
         owner: root
         group: root
         recurse: yes
@@ -16,7 +16,7 @@
       file:
         path: "/var/besu/database"
         state: directory
-        mode: '0755'    
+        mode: '0777'    
         owner: root
         group: root
         recurse: yes
