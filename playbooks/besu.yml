@@ -19,7 +19,7 @@
         group: root
         recurse: yes
 
-name: BESU nodes - config preparation
+- name: BESU nodes - config preparation
   hosts: all
   become: true
   tasks:
