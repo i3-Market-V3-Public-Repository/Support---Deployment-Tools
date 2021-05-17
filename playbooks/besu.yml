@@ -14,48 +14,18 @@
 
     - name: Get config files from Nexus
       get_url:
-        url: "{{URL_GENESIS}}"
-        dest: "/var/besu/genesis.json"
+        url: "{{URL_GENESIS}}"        
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
-    
-    - name: Set owner for genesis.json
-      file:
-        path: /var/besu/genesis.json
+        dest: "/var/besu/genesis.json"
         owner: 1000
-        group: 1000
+        group: 1000        
 
-- name: BESU nodes deployment
-  hosts: i3m-node1
+- name: BESU deployment
+  hosts: all
   become: true
   tasks:
-    - name: Run latest BESU docker image
-      docker_container:
-        name: besu
-        image: hyperledger/besu:latest
-        env:
-          BESU_DATA_PATH: "/besu"
-          BESU_GENESIS_FILE: "/besu/genesis.json"
-          BESU_HOST_ALLOWLIST: "*"
-          BESU_P2P_HOST: "0.0.0.0"
-          BESU_RPC_HTTP_ENABLED: "true"
-          BESU_RPC_HTTP_HOST: "0.0.0.0"
-          BESU_RPC_WS_ENABLED: "true"
-          BESU_RPC_WS_HOST: "0.0.0.0"
-        volumes:
-          - "/var/besu:/besu"
-        ports:
-          - 30303:30303/udp
-          - 30303:30303/tcp
-          - 8545:8545/tcp
-          - 8546:8546/tcp
-        state: started
-
-- name: BESU nodes deployment
-  hosts: i3m-node2
-  become: true
-  tasks:
-    - name: Run latest BESU docker image
+    - name: Run docker image
       docker_container:
         name: besu
         image: hyperledger/besu:latest
@@ -70,64 +40,10 @@
           BESU_RPC_WS_HOST: "0.0.0.0"
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
-          - "/var/besu:/besu"
+          - "{{VOLUME}}:/besu"
         ports:
-          - 30303:30303/udp
-          - 30303:30303/tcp
-          - 8545:8545/tcp
-          - 8546:8546/tcp
-        state: started
-
-- name: BESU nodes deployment
-  hosts: i3m-node3
-  become: true
-  tasks:
-    - name: Run latest BESU docker image
-      docker_container:
-        name: besu
-        image: hyperledger/besu:latest
-        env:
-          BESU_DATA_PATH: "/besu"
-          BESU_GENESIS_FILE: "/besu/genesis.json"
-          BESU_HOST_ALLOWLIST: "*"
-          BESU_P2P_HOST: "0.0.0.0"
-          BESU_RPC_HTTP_ENABLED: "true"
-          BESU_RPC_HTTP_HOST: "0.0.0.0"
-          BESU_RPC_WS_ENABLED: "true"
-          BESU_RPC_WS_HOST: "0.0.0.0"
-          BESU_BOOTNODES: "{{BOOTNODE}}"
-        volumes:
-          - "/var/besu:/besu"
-        ports:
-          - 30303:30303/udp
-          - 30303:30303/tcp
-          - 8545:8545/tcp
-          - 8546:8546/tcp
-        state: started
-
-- name: BESU nodes deployment
-  hosts: i3m-node4
-  become: true
-  tasks:
-    - name: Run latest BESU docker image
-      docker_container:
-        name: besu
-        image: hyperledger/besu:latest
-        env:
-          BESU_DATA_PATH: "/besu"
-          BESU_GENESIS_FILE: "/besu/genesis.json"
-          BESU_HOST_ALLOWLIST: "*"
-          BESU_P2P_HOST: "0.0.0.0"
-          BESU_RPC_HTTP_ENABLED: "true"
-          BESU_RPC_HTTP_HOST: "0.0.0.0"
-          BESU_RPC_WS_ENABLED: "true"
-          BESU_RPC_WS_HOST: "0.0.0.0"
-          BESU_BOOTNODES: "{{BOOTNODE}}"
-        volumes:
-          - "/var/besu:/besu"
-        ports:
-          - 30303:30303/udp
-          - 30303:30303/tcp
-          - 8545:8545/tcp
-          - 8546:8546/tcp
+          - "{{PORT_P2P}}:30303/udp"
+          - "{{PORT_P2P}}:30303/tcp"
+          - "{{PORT_HTTP}}:8545/tcp"
+          - "{{PORT_WS}}:8546/tcp"
         state: started
