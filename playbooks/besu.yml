@@ -1,11 +1,11 @@
 ---
-- name: BESU nodes - folder creation
+- name: BESU preparation
   hosts: all
   become: true
   tasks:
     - name: Creating data folder       
       file:
-        path: "/var/besu"
+        path: "{{VOLUME}}"
         state: directory
         mode: '0775'    
         owner: 1000
@@ -17,7 +17,7 @@
         url: "{{URL_GENESIS}}"        
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
-        dest: "/var/besu/genesis.json"
+        dest: "{{VOLUME}}/genesis.json"
         owner: 1000
         group: 1000        
 
