@@ -51,7 +51,7 @@
         image: hyperledger/besu:latest
         pull: yes
         env:
-          BESU_CONFIG_FILE: /opt/besu/config/config.tml
+          BESU_CONFIG_FILE: /besu/config/config.tml
         volumes:
           - "/var/besu/config:/besu/config"
           - "/var/besu/database:/besu/database"
