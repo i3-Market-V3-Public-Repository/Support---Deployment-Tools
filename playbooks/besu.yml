@@ -49,7 +49,6 @@
       docker_container:
         name: besu
         image: hyperledger/besu:latest
-        pull: yes
         env:
           BESU_CONFIG_FILE: /besu/config/config.toml
         volumes:
@@ -81,7 +80,6 @@
       docker_container:
         name: besu
         image: hyperledger/besu:latest
-        pull: yes
         env:
           BESU_CONFIG_FILE: /besu/config/config.toml
           BESU_BOOTNODES: "{{BOOTNODE}}"
@@ -114,7 +112,6 @@
       docker_container:
         name: besu
         image: hyperledger/besu:latest
-        pull: yes
         env:
           BESU_CONFIG_FILE: /besu/config/config.toml
           BESU_BOOTNODES: "{{BOOTNODE}}"
@@ -147,7 +144,6 @@
       docker_container:
         name: besu
         image: hyperledger/besu:latest
-        pull: yes
         env:
           BESU_CONFIG_FILE: /besu/config/config.toml
           BESU_BOOTNODES: "{{BOOTNODE}}"
