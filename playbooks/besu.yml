@@ -22,7 +22,33 @@
         group: 1000        
 
 - name: BESU deployment
-  hosts: all
+  hosts: i3m-node1
+  become: true
+  tasks:
+    - name: Run docker image
+      docker_container:
+        name: besu
+        image: hyperledger/besu:latest
+        env:
+          BESU_DATA_PATH: "/besu"
+          BESU_GENESIS_FILE: "/besu/genesis.json"
+          BESU_HOST_ALLOWLIST: "*"
+          BESU_P2P_HOST: "0.0.0.0"
+          BESU_RPC_HTTP_ENABLED: "true"
+          BESU_RPC_HTTP_HOST: "0.0.0.0"
+          BESU_RPC_WS_ENABLED: "true"
+          BESU_RPC_WS_HOST: "0.0.0.0"
+        volumes:
+          - "{{VOLUME}}:/besu"
+        ports:
+          - "{{PORT_P2P}}:30303/udp"
+          - "{{PORT_P2P}}:30303/tcp"
+          - "{{PORT_HTTP}}:8545/tcp"
+          - "{{PORT_WS}}:8546/tcp"
+        state: started
+
+- name: BESU deployment
+  hosts: i3m-node2,i3m-node3,i3m-node4
   become: true
   tasks:
     - name: Run docker image
