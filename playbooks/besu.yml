@@ -5,13 +5,6 @@
   tasks:
     - name: Create backplane config files folder       
       file:         
-        path: "/var/besu"
-        state: directory
-        mode: '0755'    
-        owner: root
-        group: root
-        recurse: yes
-      file:         
         path: "/var/besu/config"
         state: directory
         mode: '0755'    
@@ -21,10 +14,6 @@
       file:         
         path: "/var/besu/database"
         state: directory
-        mode: '0755'
-        owner: root
-        group: root     
-        recurse: yes
 
     - name: Get config files
       get_url:
