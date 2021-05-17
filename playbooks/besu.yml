@@ -3,18 +3,9 @@
   hosts: all
   become: true
   tasks:
-    - name: Create config folder       
+    - name: Creating data folder       
       file:
-        path: "/var/besu/config"
-        state: directory
-        mode: '0775'    
-        owner: 1000
-        group: 1000
-        recurse: yes
-
-    - name: Create data folder       
-      file:
-        path: "/var/besu/database"
+        path: "/var/besu"
         state: directory
         mode: '0775'    
         owner: 1000
@@ -24,13 +15,13 @@
     - name: Get config files from Nexus
       get_url:
         url: "{{URL_GENESIS}}"
-        dest: "/var/besu/config/genesis.json"
+        dest: "/var/besu/genesis.json"
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
     
     - name: Set owner for genesis.json
       file:
-        path: /var/besu/config/genesis.json
+        path: /var/besu/genesis.json
         owner: 1000
         group: 1000
 
@@ -41,7 +32,7 @@
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "/var/besu/config/{{ item.dest }}"
+        dest: "/var/besu/{{ item.dest }}"
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
       loop:
@@ -50,13 +41,13 @@
     
     - name: Set owner for key
       file:
-        path: /var/besu/config/key
+        path: /var/besu/key
         owner: 1000
         group: 1000
 
     - name: Set owner for key.pub
       file:
-        path: /var/besu/config/key.pub
+        path: /var/besu/key.pub
         owner: 1000
         group: 1000
 
@@ -65,8 +56,8 @@
         name: besu
         image: hyperledger/besu:latest
         env:
-          BESU_DATA_PATH: "/besu/database"
-          BESU_NODE_PRIVATE_KEY_FILE: "/besu/config/key"
+          BESU_DATA_PATH: "/besu"
+          BESU_GENESIS_FILE: "/besu/genesis.json"
           BESU_HOST_ALLOWLIST: "*"
           BESU_P2P_HOST: "0.0.0.0"
           BESU_RPC_HTTP_ENABLED: "true"
@@ -74,8 +65,7 @@
           BESU_RPC_WS_ENABLED: "true"
           BESU_RPC_WS_HOST: "0.0.0.0"
         volumes:
-          - "/var/besu/config:/besu/config"
-          - "/var/besu/database:/besu/database"
+          - "/var/besu:/besu"
         ports:
           - 30303:30303/udp
           - 30303:30303/tcp
@@ -91,7 +81,7 @@
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "/var/besu/config/{{ item.dest }}"
+        dest: "/var/besu/{{ item.dest }}"
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
       loop:
@@ -103,8 +93,8 @@
         name: besu
         image: hyperledger/besu:latest
         env:
-          BESU_DATA_PATH: "/besu/database"
-          BESU_NODE_PRIVATE_KEY_FILE: "/besu/config/key"
+          BESU_DATA_PATH: "/besu"
+          BESU_GENESIS_FILE: "/besu/genesis.json"
           BESU_HOST_ALLOWLIST: "*"
           BESU_P2P_HOST: "0.0.0.0"
           BESU_RPC_HTTP_ENABLED: "true"
@@ -113,8 +103,7 @@
           BESU_RPC_WS_HOST: "0.0.0.0"
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
-          - "/var/besu/config:/besu/config"
-          - "/var/besu/database:/besu/database"
+          - "/var/besu:/besu"
         ports:
           - 30303:30303/udp
           - 30303:30303/tcp
@@ -130,7 +119,7 @@
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "/var/besu/config/{{ item.dest }}"
+        dest: "/var/besu/{{ item.dest }}"
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
       loop:
@@ -142,8 +131,8 @@
         name: besu
         image: hyperledger/besu:latest
         env:
-          BESU_DATA_PATH: "/besu/database"
-          BESU_NODE_PRIVATE_KEY_FILE: "/besu/config/key"
+          BESU_DATA_PATH: "/besu"
+          BESU_GENESIS_FILE: "/besu/genesis.json"
           BESU_HOST_ALLOWLIST: "*"
           BESU_P2P_HOST: "0.0.0.0"
           BESU_RPC_HTTP_ENABLED: "true"
@@ -152,8 +141,7 @@
           BESU_RPC_WS_HOST: "0.0.0.0"
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
-          - "/var/besu/config:/besu/config"
-          - "/var/besu/database:/besu/database"
+          - "/var/besu:/besu"
         ports:
           - 30303:30303/udp
           - 30303:30303/tcp
@@ -169,7 +157,7 @@
     - name: Get config files
       get_url:
         url: "{{ item.src }}"
-        dest: "/var/besu/config/{{ item.dest }}"
+        dest: "/var/besu/{{ item.dest }}"
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
       loop:
@@ -181,8 +169,8 @@
         name: besu
         image: hyperledger/besu:latest
         env:
-          BESU_DATA_PATH: "/besu/database"
-          BESU_NODE_PRIVATE_KEY_FILE: "/besu/config/key"
+          BESU_DATA_PATH: "/besu"
+          BESU_GENESIS_FILE: "/besu/genesis.json"
           BESU_HOST_ALLOWLIST: "*"
           BESU_P2P_HOST: "0.0.0.0"
           BESU_RPC_HTTP_ENABLED: "true"
@@ -191,8 +179,7 @@
           BESU_RPC_WS_HOST: "0.0.0.0"
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
-          - "/var/besu/config:/besu/config"
-          - "/var/besu/database:/besu/database"
+          - "/var/besu:/besu"
         ports:
           - 30303:30303/udp
           - 30303:30303/tcp
