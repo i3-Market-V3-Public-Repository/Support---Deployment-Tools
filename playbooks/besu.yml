@@ -29,28 +29,6 @@
   hosts: i3m-node1
   become: true
   tasks:
-    - name: Get config files
-      get_url:
-        url: "{{ item.src }}"
-        dest: "/var/besu/{{ item.dest }}"
-        url_username: "{{NEXUS_USER}}"
-        url_password: "{{NEXUS_PASS}}"
-      loop:
-        - { src: "{{URL_KEY1}}", dest: "key"}
-        - { src: "{{URL_KEY_PUB1}}", dest: "key.pub"}
-    
-    - name: Set owner for key
-      file:
-        path: /var/besu/key
-        owner: 1000
-        group: 1000
-
-    - name: Set owner for key.pub
-      file:
-        path: /var/besu/key.pub
-        owner: 1000
-        group: 1000
-
     - name: Run latest BESU docker image
       docker_container:
         name: besu
@@ -77,17 +55,6 @@
   hosts: i3m-node2
   become: true
   tasks:
-  
-    - name: Get config files
-      get_url:
-        url: "{{ item.src }}"
-        dest: "/var/besu/{{ item.dest }}"
-        url_username: "{{NEXUS_USER}}"
-        url_password: "{{NEXUS_PASS}}"
-      loop:
-        - { src: "{{URL_KEY2}}", dest: "key"}
-        - { src: "{{URL_KEY_PUB2}}", dest: "key.pub"}
-
     - name: Run latest BESU docker image
       docker_container:
         name: besu
@@ -115,17 +82,6 @@
   hosts: i3m-node3
   become: true
   tasks:
-  
-    - name: Get config files
-      get_url:
-        url: "{{ item.src }}"
-        dest: "/var/besu/{{ item.dest }}"
-        url_username: "{{NEXUS_USER}}"
-        url_password: "{{NEXUS_PASS}}"
-      loop:
-        - { src: "{{URL_KEY3}}", dest: "key"}
-        - { src: "{{URL_KEY_PUB3}}", dest: "key.pub"}
-
     - name: Run latest BESU docker image
       docker_container:
         name: besu
@@ -153,17 +109,6 @@
   hosts: i3m-node4
   become: true
   tasks:
-  
-    - name: Get config files
-      get_url:
-        url: "{{ item.src }}"
-        dest: "/var/besu/{{ item.dest }}"
-        url_username: "{{NEXUS_USER}}"
-        url_password: "{{NEXUS_PASS}}"
-      loop:
-        - { src: "{{URL_KEY4}}", dest: "key"}
-        - { src: "{{URL_KEY_PUB4}}", dest: "key.pub"}
-
     - name: Run latest BESU docker image
       docker_container:
         name: besu
