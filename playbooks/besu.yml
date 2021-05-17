@@ -51,7 +51,7 @@
         image: hyperledger/besu:latest
         pull: yes
         env:
-          BESU_CONFIG_FILE: /besu/config/config.tml
+          BESU_CONFIG_FILE: /besu/config/config.toml
         volumes:
           - "/var/besu/config:/besu/config"
           - "/var/besu/database:/besu/database"
@@ -83,7 +83,7 @@
         image: hyperledger/besu:latest
         pull: yes
         env:
-          BESU_CONFIG_FILE: /besu/config/config.tml
+          BESU_CONFIG_FILE: /besu/config/config.toml
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
           - "/var/besu/config:/besu/config"
@@ -116,7 +116,7 @@
         image: hyperledger/besu:latest
         pull: yes
         env:
-          BESU_CONFIG_FILE: /besu/config/config.tml
+          BESU_CONFIG_FILE: /besu/config/config.toml
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
           - "/var/besu/config:/besu/config"
@@ -149,7 +149,7 @@
         image: hyperledger/besu:latest
         pull: yes
         env:
-          BESU_CONFIG_FILE: /besu/config/config.tml
+          BESU_CONFIG_FILE: /besu/config/config.toml
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
           - "/var/besu/config:/besu/config"
