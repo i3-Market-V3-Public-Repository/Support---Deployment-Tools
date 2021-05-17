@@ -3,15 +3,17 @@
   hosts: all
   become: true
   tasks:
-    - name: Create backplane config files folder       
-      file:         
+    - name: Create config folder       
+      file:
         path: "/var/besu/config"
         state: directory
         mode: '0755'    
         owner: root
         group: root
         recurse: yes
-      file:         
+
+    - name: Create data folder       
+      file:
         path: "/var/besu/database"
         state: directory
         mode: '0755'    
@@ -19,11 +21,7 @@
         group: root
         recurse: yes
 
-- name: BESU nodes - config preparation
-  hosts: all
-  become: true
-  tasks:
-    - name: Get config files
+    - name: Get config files from Nexus
       get_url:
         url: "{{ item.src }}"
         dest: "/var/besu/config/{{ item.dest }}"
@@ -55,8 +53,8 @@
         env:
           BESU_CONFIG_FILE: /opt/besu/config/config.tml
         volumes:
-          - "/var/besu/config:/opt/besu/config"
-          - "/var/besu/database:/opt/besu/database"
+          - "/var/besu/config:/besu/config"
+          - "/var/besu/database:/besu/database"
         ports:
           - 30303:30303/udp
           - 30303:30303/tcp
