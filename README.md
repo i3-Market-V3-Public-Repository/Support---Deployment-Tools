@@ -6,6 +6,30 @@ Ansible playbooks to automatize i3m artifacts deployment.
 
 - **Branch**: <https://gitlab.com/i3-market/code/i3m-deployment/-/tree/besu-nodes>  
 - **Playbook**: playbooks/besu.yml  
+- **AWX**: <http://95.211.3.249:19000/#/projects/30/details>
+
+### Links 
+
+P2P: (tcp+udp)  
+
+    95.211.3.244:30303  
+    95.211.3.249:30303  
+    95.211.3.250:30303  
+    95.211.3.251:30303  
+
+RPC-HTTP: tcp  
+
+    95.211.3.244:8545  
+    95.211.3.249:8545  
+    95.211.3.250:8545  
+    95.211.3.251:8545  
+  
+RCP-WS: tcp
+
+    95.211.3.244:8546  
+    95.211.3.249:8546  
+    95.211.3.250:8546  
+    95.211.3.251:8546  
 
 ### besu.yml
 
