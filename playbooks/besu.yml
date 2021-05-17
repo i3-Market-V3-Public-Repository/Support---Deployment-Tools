@@ -23,13 +23,10 @@
 
     - name: Get config files from Nexus
       get_url:
-        url: "{{ item.src }}"
-        dest: "/var/besu/config/{{ item.dest }}"
+        url: "{{URL_GENESIS}}"
+        dest: "/var/besu/config/genesis.json"
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
-      loop:
-        - { src: "{{URL_GENESIS}}", dest: "genesis.json"}
-        - { src: "{{URL_CONFIG}}", dest: "config.toml"} 
 
 - name: BESU nodes deployment
   hosts: i3m-node1
@@ -50,7 +47,13 @@
         name: besu
         image: hyperledger/besu:latest
         env:
-          BESU_CONFIG_FILE: /besu/config/config.toml
+          BESU_NODE_PRIVATE_KEY_FILE: /besu/config/key
+          BESU_HOST_ALLOWLIST: "*"
+          BESU_P2P_HOST: "0.0.0.0"
+          BESU_RPC_HTTP_ENABLED: true
+          BESU_RPC_HTTP_HOST: 0.0.0.0
+          BESU_RPC_WS_ENABLED: true
+          BESU_RPC_WS_HOST: 0.0.0.0
         volumes:
           - "/var/besu/config:/besu/config"
           - "/var/besu/database:/besu/database"
@@ -81,7 +84,13 @@
         name: besu
         image: hyperledger/besu:latest
         env:
-          BESU_CONFIG_FILE: /besu/config/config.toml
+          BESU_NODE_PRIVATE_KEY_FILE: /besu/config/key
+          BESU_HOST_ALLOWLIST: "*"
+          BESU_P2P_HOST: "0.0.0.0"
+          BESU_RPC_HTTP_ENABLED: true
+          BESU_RPC_HTTP_HOST: 0.0.0.0
+          BESU_RPC_WS_ENABLED: true
+          BESU_RPC_WS_HOST: 0.0.0.0
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
           - "/var/besu/config:/besu/config"
@@ -113,7 +122,13 @@
         name: besu
         image: hyperledger/besu:latest
         env:
-          BESU_CONFIG_FILE: /besu/config/config.toml
+          BESU_NODE_PRIVATE_KEY_FILE: /besu/config/key
+          BESU_HOST_ALLOWLIST: "*"
+          BESU_P2P_HOST: "0.0.0.0"
+          BESU_RPC_HTTP_ENABLED: true
+          BESU_RPC_HTTP_HOST: 0.0.0.0
+          BESU_RPC_WS_ENABLED: true
+          BESU_RPC_WS_HOST: 0.0.0.0
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
           - "/var/besu/config:/besu/config"
@@ -145,7 +160,13 @@
         name: besu
         image: hyperledger/besu:latest
         env:
-          BESU_CONFIG_FILE: /besu/config/config.toml
+          BESU_NODE_PRIVATE_KEY_FILE: /besu/config/key
+          BESU_HOST_ALLOWLIST: "*"
+          BESU_P2P_HOST: "0.0.0.0"
+          BESU_RPC_HTTP_ENABLED: true
+          BESU_RPC_HTTP_HOST: 0.0.0.0
+          BESU_RPC_WS_ENABLED: true
+          BESU_RPC_WS_HOST: 0.0.0.0
           BESU_BOOTNODES: "{{BOOTNODE}}"
         volumes:
           - "/var/besu/config:/besu/config"
