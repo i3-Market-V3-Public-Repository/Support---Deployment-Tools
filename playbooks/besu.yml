@@ -7,18 +7,18 @@
       file:
         path: "/var/besu/config"
         state: directory
-        mode: '0777'    
-        owner: root
-        group: root
+        mode: '0775'    
+        owner: 1000
+        group: 1000
         recurse: yes
 
     - name: Create data folder       
       file:
         path: "/var/besu/database"
         state: directory
-        mode: '0777'    
-        owner: root
-        group: root
+        mode: '0775'    
+        owner: 1000
+        group: 1000
         recurse: yes
 
     - name: Get config files from Nexus
@@ -27,6 +27,12 @@
         dest: "/var/besu/config/genesis.json"
         url_username: "{{NEXUS_USER}}"
         url_password: "{{NEXUS_PASS}}"
+    
+    - name: Set owner for genesis.json
+      file:
+        path: /var/besu/config/genesis.json
+        owner: 1000
+        group: 1000
 
 - name: BESU nodes deployment
   hosts: i3m-node1
@@ -41,6 +47,18 @@
       loop:
         - { src: "{{URL_KEY1}}", dest: "key"}
         - { src: "{{URL_KEY_PUB1}}", dest: "key.pub"}
+    
+    - name: Set owner for key
+      file:
+        path: /var/besu/config/key
+        owner: 1000
+        group: 1000
+
+    - name: Set owner for key.pub
+      file:
+        path: /var/besu/config/key.pub
+        owner: 1000
+        group: 1000
 
     - name: Run latest BESU docker image
       docker_container:
