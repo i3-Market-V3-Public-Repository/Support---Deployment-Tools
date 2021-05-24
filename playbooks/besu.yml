@@ -28,7 +28,7 @@
     - name: Run docker image
       docker_container:
         name: besu
-        image: hyperledger/besu:latest
+        image: {{IMAGE_BESU}}
         env:
           BESU_DATA_PATH: "/besu"
           BESU_GENESIS_FILE: "/besu/genesis.json"
@@ -55,7 +55,7 @@
     - name: Run docker image
       docker_container:
         name: besu
-        image: hyperledger/besu:latest
+        image: {{IMAGE_BESU}}
         env:
           BESU_DATA_PATH: "/besu"
           BESU_GENESIS_FILE: "/besu/genesis.json"
