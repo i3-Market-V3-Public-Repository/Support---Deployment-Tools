@@ -7,6 +7,7 @@ Ansible playbooks to automatize i3m artifacts deployment.
 - **Branch**: <https://gitlab.com/i3-market/code/i3m-deployment/-/tree/besu-nodes>  
 - **Playbook**: playbooks/besu.yml  
 - **AWX**: <http://95.211.3.249:19000/#/projects/30/details>
+- **Nexus**: <http://95.211.3.251:8081/#browse/browse:i3m-raw:besu>
 
 ### Links 
 
@@ -34,11 +35,11 @@ RCP-WS: tcp
 ### besu.yml
 
 ```yml
-- name: BESU preparation 
+---
+- name: BESU preparation
   hosts: all
   become: true
   tasks:
-      # Volume folder creation on each host -> /var/besu
     - name: Creating data folder       
       file:
         path: "{{VOLUME}}"
@@ -47,9 +48,8 @@ RCP-WS: tcp
         owner: 1000
         group: 1000
         recurse: yes
-    
-    # Get genesis.json from Nexus
-    - name: Get config files from Nexus
+
+    - name: Get genesis from Nexus
       get_url:
         url: "{{URL_GENESIS}}"        
         url_username: "{{NEXUS_USER}}"
@@ -58,6 +58,58 @@ RCP-WS: tcp
         owner: 1000
         group: 1000        
 
+- name: Get keys from Nexus
+  hosts: i3m-node1
+  become: true
+  tasks:
+    - name: Get keys from Nexus
+      get_url:
+        url: "{{URL_KEY1}}"        
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
+        dest: "{{VOLUME}}/key"
+        owner: 1000
+        group: 1000
+        
+- name: Get keys from Nexus
+  hosts: i3m-node2
+  become: true
+  tasks:
+    - name: Get keys from Nexus
+      get_url:
+        url: "{{URL_KEY2}}"        
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
+        dest: "{{VOLUME}}/key"
+        owner: 1000
+        group: 1000
+
+- name: Get keys from Nexus
+  hosts: i3m-node3
+  become: true
+  tasks:
+    - name: Get keys from Nexus
+      get_url:
+        url: "{{URL_KEY3}}"        
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
+        dest: "{{VOLUME}}/key"
+        owner: 1000
+        group: 1000
+
+- name: Get keys from Nexus
+  hosts: i3m-node4
+  become: true
+  tasks:
+    - name: Get keys from Nexus
+      get_url:
+        url: "{{URL_KEY4}}"
+        url_username: "{{NEXUS_USER}}"
+        url_password: "{{NEXUS_PASS}}"
+        dest: "{{VOLUME}}/key"
+        owner: 1000
+        group: 1000
+
 - name: BESU deployment
   hosts: all
   become: true
@@ -65,7 +117,7 @@ RCP-WS: tcp
     - name: Run docker image
       docker_container:
         name: besu
-        image: hyperledger/besu:latest
+        image: "{{IMAGE_BESU}}"
         env:
           BESU_DATA_PATH: "/besu"
           BESU_GENESIS_FILE: "/besu/genesis.json"
@@ -85,14 +137,8 @@ RCP-WS: tcp
           - "{{PORT_HTTP}}:8545/tcp"
           - "{{PORT_WS}}:8546/tcp"
         state: started
+
 ```
-
-### Nexus 
-
-Upload via GUI the following files in the **i3m-raw** repository.  
-
-- http://95.211.3.251:8081/repository/i3m-raw/besu/genesis.json  
-- http://95.211.3.251:8081/repository/i3m-raw/besu/ibftConfigFile.json  
 
 ### AWX
 
@@ -140,6 +186,7 @@ Generate a new template to manage the job execution for this project.
 
 ```yml
 ---
+ IMAGE_BESU: "hyperledger/besu:21.1.6"
  RPC_API_METHODS: "ETH,NET,IBFT"
  VOLUME: "/var/besu"
  PORT_P2P: 30303
@@ -148,12 +195,21 @@ Generate a new template to manage the job execution for this project.
  NEXUS_USER: "i3m-nexus"
  NEXUS_PASS: "i3m.nexus"
  URL_GENESIS: "http://95.211.3.251:8081/repository/i3m-raw/besu/genesis.json"
- BOOTNODE: "enode://15c10a20c60accc577cdd2f941cfbc1671933811819d7b503f5c7bf25d370110014eba71f7b2d11c11c156bbe99457190608b66e2ac493cc2df8457ab9068d4e@95.211.3.244:30303?discport=30303"
+ URL_KEY1: "http://95.211.3.251:8081/repository/i3m-raw/besu/0x76cedbc9bb3954a9a692f3918453672cdbd55b0d/key"
+ URL_KEY2: "http://95.211.3.251:8081/repository/i3m-raw/besu/0x8b3a1c3488d1542ca07620fd3fa3d4097b54e432/key"
+ URL_KEY3: "http://95.211.3.251:8081/repository/i3m-raw/besu/0xc96cce4367bad18abb6f87fd6413505181e2f5e6/key"
+ URL_KEY4: "http://95.211.3.251:8081/repository/i3m-raw/besu/0xd34ff9b692e2c78d0f80805d972d9a5188298703/key"
+ BOOTNODE: "enode://e60ff1c0ff85f4302faef47d870f9e71fbc27c408fd0a0d83965831a774b1c48c759326497f5f16e376380856ad549e35245c0f78af5d6d1dc4bcda014b5bccc@95.211.3.244:30303?discport=30303"
 ```
 
+## Network preparation
 
+- Detail: <https://besu.hyperledger.org/en/stable/Tutorials/Private-Network/Create-IBFT-Network>
 
-
-
-
-
+Steps:
+ - Download besu 21.1.6
+ - Create folder and ibftConfigFile.json
+ - Edit ibftConfigFile.json to set blockperiodsecond to 60
+ - Execute command: /bin/besu operator generate-blockchain-config --config-file=ibftConfigFile.json --to=networkFiles --private-key-file-name=key
+ - Upload genesis.json and key structure to Nexus.
+ 
