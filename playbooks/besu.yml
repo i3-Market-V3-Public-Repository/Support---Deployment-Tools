@@ -22,7 +22,7 @@
         group: 1000        
 
 - name: Get keys from Nexus
-  hosts: {{ item.host }}
+  hosts: "{{ item.host }}"
   become: true
   tasks:
     - name: Get keys from Nexus
@@ -34,10 +34,10 @@
         owner: 1000
         group: 1000
   loop:
-    - { host: 'i3m-node1', key: {{URL_KEY1}}}
-    - { host: 'i3m-node2', key: {{URL_KEY2}}}
-    - { host: 'i3m-node3', key: {{URL_KEY3}}}
-    - { host: 'i3m-node4', key: {{URL_KEY4}}}
+    - { host: 'i3m-node1', key: "{{URL_KEY1}}"}
+    - { host: 'i3m-node2', key: "{{URL_KEY2}}"}
+    - { host: 'i3m-node3', key: "{{URL_KEY3}}"}
+    - { host: 'i3m-node4', key: "{{URL_KEY4}}"}
 
 - name: BESU deployment
   hosts: all
