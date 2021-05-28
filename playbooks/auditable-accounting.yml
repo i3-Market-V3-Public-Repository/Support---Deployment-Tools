@@ -1,8 +1,51 @@
 ---
-- name: This is a hello-world example
+- name: Auditable accounting deployment
   hosts: i3m-node1
+  become: true
   tasks:
-    - name: Create a file called '/tmp/testfile.txt' with the content 'hello world'.
-      copy:
-        content: hello worldn
-        dest: /tmp/testfile.txt
+    - name: Create database directory
+      file:
+        path: "/var/auditable-accounting/"
+        state: directory
+        mode: '0755'
+        recurse: yes      
+
+    - name: Login to i3-Market Registry
+      docker_login:
+        registry_url: "{{REGISTRY_URL}}"
+        username: "{{REGISTRY_USER}}"
+        password: "{{REGISTRY_PASSWORD}}"
+
+    - name: Run PostgreSQL instance
+      docker_container:
+        name: auditable-accounting-psql
+        image: postgres:13.3
+        #image: 95.211.3.251:8123/auditable-accounting:latest
+        env:
+          POSTGRES_DB: "{{PSQL_NAME}}"
+          POSTGRES_USER: "{{PSQL_USER}}"
+          POSTGRES_PASSWORD: "{{PSQL_PASS}}"
+        volumes:
+          - "/var/auditable-accounting:/var/lib/postgres"
+        ports:
+          - 5432:5432
+        state: started
+    
+    - name: Run Loopback instance
+      docker_container:
+        name: auditable-accounting        
+        image: 95.211.3.251:8123/auditable-accounting:latest
+        env:
+          - PSQL_HOST
+          - PSQL_PORT
+          - PSQL_NAME
+          - PSQL_USER
+          - PSQL_PASS
+          - WEB3_PROVIDER_NAME
+          - WEB3_PROVIDER
+          - WEB3_KEY
+          - WEB3_GAS
+        ports:
+          - "{{AA_PORT}}:3000"
+        state: started
+      
