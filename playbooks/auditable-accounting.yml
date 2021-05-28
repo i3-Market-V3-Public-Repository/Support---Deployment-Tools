@@ -26,7 +26,7 @@
           POSTGRES_USER: "{{PSQL_USER}}"
           POSTGRES_PASSWORD: "{{PSQL_PASS}}"
         volumes:
-          - "/var/auditable-accounting:/var/lib/postgres"
+          - "/var/auditable-accounting:/var/lib/postgresql/data"
         ports:
           - 5432:5432
         state: started
