@@ -35,6 +35,7 @@
       docker_container:
         name: auditable-accounting        
         image: 95.211.3.251:8123/auditable-accounting:latest
+        pull: yes
         env:
           PSQL_HOST: "{{PSQL_HOST}}"
           PSQL_PORT: "{{PSQL_PORT}}"
