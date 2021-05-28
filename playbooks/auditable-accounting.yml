@@ -20,7 +20,6 @@
       docker_container:
         name: auditable-accounting-psql
         image: postgres:13.3
-        #image: 95.211.3.251:8123/auditable-accounting:latest
         env:
           POSTGRES_DB: "{{PSQL_NAME}}"
           POSTGRES_USER: "{{PSQL_USER}}"
