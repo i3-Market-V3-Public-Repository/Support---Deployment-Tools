@@ -4,6 +4,7 @@ Ansible playbooks to automatize i3m artifacts deployment.
 
 ## BESU
 
+- **Explorer**: <http://95.211.3.244:8547>
 - **Branch**: <https://gitlab.com/i3-market/code/i3m-deployment/-/tree/besu-nodes>  
 - **Playbook**: playbooks/besu.yml  
 - **AWX**: <http://95.211.3.249:19000/#/projects/30/details>
@@ -11,6 +12,7 @@ Ansible playbooks to automatize i3m artifacts deployment.
 
 ### Links 
 
+Explorer: http://95.211.3.244:8547
 P2P: (tcp+udp)  
 
     95.211.3.244:30303  
@@ -126,6 +128,7 @@ RCP-WS: tcp
           BESU_RPC_HTTP_ENABLED: "true"
           BESU_RPC_HTTP_HOST: "0.0.0.0"
           BESU_RPC_HTTP_API: "{{RPC_API_METHODS}}"
+          BESU_RPC_HTTP_CORS_ORIGINS: "all"
           BESU_RPC_WS_ENABLED: "true"
           BESU_RPC_WS_HOST: "0.0.0.0"
           BESU_BOOTNODES: "{{BOOTNODE}}"
@@ -136,6 +139,20 @@ RCP-WS: tcp
           - "{{PORT_P2P}}:30303/tcp"
           - "{{PORT_HTTP}}:8545/tcp"
           - "{{PORT_WS}}:8546/tcp"
+        state: started
+
+
+- name: Network explorer
+  hosts: i3m-node1
+  become: true
+  tasks:
+    - name: Run docker
+      docker_container:
+        name: explorer
+        image: "{{IMAGE_EXPLORER}}"
+        env:
+          APP_NODE_URL: "http://95.211.3.244:8545"
+        ports: ["{{PORT_EXPLORER}}:80"]
         state: started
 
 ```
