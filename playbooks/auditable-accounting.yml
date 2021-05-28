@@ -37,14 +37,14 @@
         image: 95.211.3.251:8123/auditable-accounting:latest
         env:
           PSQL_HOST: "{{PSQL_HOST}}"
-          PSQL_PORT: {{PSQL_PORT}}
+          PSQL_PORT: "{{PSQL_PORT}}"
           PSQL_NAME: "{{PSQL_NAME}}"
           PSQL_USER: "{{PSQL_USER}}"
           PSQL_PASS: "{{PSQL_PASS}}"
           WEB3_PROVIDER_NAME: "{{WEB3_PROVIDER_NAME}}"
           WEB3_PROVIDER: "{{WEB3_PROVIDER}}"
           WEB3_KEY: "{{WEB3_KEY}}"
-          WEB3_GAS: {{WEB3_GAS}}
+          WEB3_GAS: "{{WEB3_GAS}}"
         ports:
           - "{{AA_PORT}}:3000"
         state: started
