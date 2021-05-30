@@ -44,6 +44,7 @@
           WEB3_PROVIDER_NAME: "{{WEB3_PROVIDER_NAME}}"
           WEB3_PROVIDER: "{{WEB3_PROVIDER}}"
           WEB3_GAS: "{{WEB3_GAS}}"
+          WEB3_SC_ADDR: "{{WEB3_SC_ADDR}}"
         ports:
           - "{{AA_PORT}}:3000"
         state: started
