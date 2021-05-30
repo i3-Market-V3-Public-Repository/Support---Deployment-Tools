@@ -43,7 +43,6 @@
           PSQL_PASS: "{{PSQL_PASS}}"
           WEB3_PROVIDER_NAME: "{{WEB3_PROVIDER_NAME}}"
           WEB3_PROVIDER: "{{WEB3_PROVIDER}}"
-          WEB3_KEY: "{{WEB3_KEY}}"
           WEB3_GAS: "{{WEB3_GAS}}"
         ports:
           - "{{AA_PORT}}:3000"
