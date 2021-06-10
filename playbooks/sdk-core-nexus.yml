@@ -283,7 +283,7 @@
 #         var: sdkgen_java 
 
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
-     shell: "openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.backplane,apiPackage=com.i3m.api.backplane,prependFormOrBodyParameters=true,hideGenerationTimestamp=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=native --fullJavaUtil=false --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.backplane,apiPackage=com.i3m.api.backplane,prependFormOrBodyParameters=true,hideGenerationTimestamp=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=native --fullJavaUtil=true --skip-validate-spec"
      become: yes
      register: sdkgen_java  
      
@@ -321,7 +321,7 @@
 #         var: sdkgen_java    
 
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
-     shell: "openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.oidc,apiPackage=com.i3m.api.oidc,prependFormOrBodyParameters=true,hideGenerationTimestamp=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --enable-post-process-file --generate-alias-as-model --library=native --fullJavaUtil=false --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.oidc,apiPackage=com.i3m.api.oidc,prependFormOrBodyParameters=true,hideGenerationTimestamp=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --enable-post-process-file --generate-alias-as-model --library=native --fullJavaUtil=true --skip-validate-spec"
      become: yes
      register: sdkgen_java 
      
@@ -359,7 +359,7 @@
 #         var: sdkgen_java   
 
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for DATA ACCESS API
-     shell: "openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.data-access,apiPackage=com.i3m.api.data-access,prependFormOrBodyParameters=true,hideGenerationTimestamp=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json --enable-post-process-file --generate-alias-as-model --library=native --fullJavaUtil=false --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.data-access,apiPackage=com.i3m.api.data-access,prependFormOrBodyParameters=true,hideGenerationTimestamp=true -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json --enable-post-process-file --generate-alias-as-model --library=native --fullJavaUtil=true --skip-validate-spec"
      become: yes
      register: sdkgen_java 
      
