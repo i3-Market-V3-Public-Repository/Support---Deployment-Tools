@@ -240,7 +240,7 @@
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
       
-  - name: Create oas temp dir
+   - name: Create oas temp dir
      file:
        path: "/tmp/oas/java/"
        state: "directory"
