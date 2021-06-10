@@ -395,7 +395,7 @@
    - name: Set java 8 as default jvm
      shell: "{{ item }}"
      with_items:
-       - export JAVA_HOME=\"/usr/lib/jvm/java-1.11.0-openjdk-amd64\"
+       - export JAVA_HOME=\"/usr/lib/jvm/java-8-openjdk-amd64\"
        - export PATH=${JAVA_HOME}/bin:$PATH
        
    - name: Delete authorizations unmodifiableMap in ApiClient
