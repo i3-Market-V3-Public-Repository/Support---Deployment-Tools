@@ -239,6 +239,10 @@
                          
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
+      
+   - name: Set openapi genetator cli to 4.3.0 version
+     shell: "openapi-generator-cli version-manager set 4.3.0"
+     become: yes
           
    - name: Create oas temp dir
      file:
