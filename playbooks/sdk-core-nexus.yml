@@ -408,7 +408,13 @@
      shell: "sed -i '/authentications.put/d' ApiClient.java"
      args:
         chdir: "/tmp/oas/java/src/main/java/com/i3m/api"
-     become: yes    
+     become: yes
+     
+   - name: Add global import of fasterxml to avoid compilation issues with JsonTypeInfo, JsonSubTypes
+     shell: "find /tmp/oas/java/ -name \"*.java\" -print | xargs sed -i \"s/import com.fasterxml.jackson.annotation.JsonPropertyOrder/import com.fasterxml.jackson.annotation.*/g\""
+     args:
+        chdir: "/tmp/oas/java"
+     become: yes        
      
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
