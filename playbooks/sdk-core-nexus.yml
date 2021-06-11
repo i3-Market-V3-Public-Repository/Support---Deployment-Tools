@@ -180,7 +180,7 @@
      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-vc-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip"
      register: shellout 
      
- ################### JAVAscript BACKPLANE TASKS ##########################
+ ################### JAVAscript DATA ACCESS TASKS ##########################
  
    - name: Get access token for accesing to Sdk Generator REST API
      uri:
@@ -236,7 +236,63 @@
    - name: Upload oas-javascript artifact to Nexus
      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-data-access-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-data-access-javascript-1.0.0.zip"
      register: shellout  
-                         
+                    
+ ################### JAVAscript NOTIFICATION MANAGER TASKS ##########################
+ 
+   - name: Get access token for accesing to Sdk Generator REST API
+     uri:
+       method: POST
+       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+       headers:
+          Content-Type: "application/x-www-form-urlencoded"
+     register: auth_request
+   
+   - debug:
+       var: auth_request
+       
+   - debug:
+       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+       
+#    - name: Make an API call to Backplane API to download OAS file
+#      shell: "curl -k -o \"/tmp/backplaneOAS.json\" -v http://{{ BACKPLANE_HOST }}:3000/explorer/openapi.json"
+#           
+#    - name: cat the OAS file contents
+#      shell: "cat /tmp/backplaneOAS.json"
+#      register: shellout   
+#      
+#    - name: Display the OAS File Contents
+#      debug: 
+#        var: shellout.stdout_lines     
+#        
+#    - name: Upload oas file to Nexus
+#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
+#      register: shellout 
+#      
+#    - name: Display nexus curl response
+#      debug: 
+#        var: shellout   
+ 
+   - name: Make an API call to SDK-Generator to generate SDK client stub
+     uri:
+       method: POST
+       url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/javascript"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/notificationManagerOAS.yaml\", \"options\": {} }"
+       body_format: json
+       return_content: yes
+       headers:
+         Authorization: "Bearer {{ auth_request.json.access_token }}"
+       dest: "/tmp/i3m-sdk-notification-manager-javascript.zip"
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript  
+     
+   - debug:
+       var: sdkgen_javascript
+       
+   - name: Upload oas-javascript artifact to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-notification-manager-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-notification-manager-javascript.zip"
+     register: shellout                          
     
 ####################### JAVA SDK ARTIFACT TASKS #############################
       
@@ -364,7 +420,15 @@
      register: sdkgen_java 
      
    - debug:
-        var: sdkgen_java   
+        var: sdkgen_java
+        
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for NOTIFICATION MANAGER API
+     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.notifications,apiPackage=com.i3m.api.notifications,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/notificationManagerOAS.yaml --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     become: yes
+     register: sdkgen_java 
+     
+   - debug:
+        var: sdkgen_java          
        
 #    - name: Delete oas temp dir
 #      shell: "rm -rf /tmp/oas/java/"
@@ -485,5 +549,5 @@
        port: 25
        from: admin@i3-market.eu
        to: i3-MARKET-Project@insight-centre.org
-       subject: SDK-core new version available (including BACKPLANE, OIDC, VC and DATA_ACESS)
-       body: "A new version of the SDK-CORE it is available at: \n   1) java version: http://95.211.3.251:8081/#browse/browse:i3m-maven-snapshots:com%2Fi3m%2Fsdk-core-all%2F1.0.0-SNAPSHOT\n    2) javascript version (SDK-core): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip\n  3) javascript version (SDK-oidc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-oidc-javascript-1.0.0.zip\n 4) javascript version (SDK-vc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip\n 5) javascript version (SDK-DATA-ACCESS): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-data-access-javascript-1.0.0.zip \n" 
+       subject: SDK-core new version available (including BACKPLANE, OIDC, VC, DATA_ACESS and NOTIFICATIONS)
+       body: "A new version of the SDK-CORE it is available at: \n   1) java version: http://95.211.3.251:8081/#browse/browse:i3m-maven-snapshots:com%2Fi3m%2Fsdk-core-all%2F1.0.0-SNAPSHOT\n    2) javascript version (SDK-core): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip\n  3) javascript version (SDK-oidc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-oidc-javascript-1.0.0.zip\n 4) javascript version (SDK-vc): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-vc-javascript-1.0.0.zip\n 5) javascript version (SDK-DATA-ACCESS): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-data-access-javascript-1.0.0.zip 6) javascript version (SDK-NOTIFICATIONS): http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-notification-manager-javascript.zip \n"
