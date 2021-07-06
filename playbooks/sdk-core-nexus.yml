@@ -8,14 +8,14 @@
  
    - name: Create oas temp dir
      file:
-       path: "/tmp/oas/javascript/"
+       path: "/tmp/oas/javascript-client/"
        state: "directory"
      become: yes  
      
    - name: Delete oas temp dir
      shell: "rm -rf *"
      args:
-        chdir: "/tmp/oas/javascript"
+        chdir: "/tmp/oas/javascript-client"
      become: yes
      
  ################### JAVAscript BACKPLANE TASKS ##########################
@@ -82,7 +82,7 @@
    - name: Zip backplane api client stubs
      become: yes
      archive:
-       path: /tmp/oas/javascript
+       path: /tmp/oas/javascript-client
        dest: /tmp/i3m-sdk-core-javascript.zip  
        format: zip
             
