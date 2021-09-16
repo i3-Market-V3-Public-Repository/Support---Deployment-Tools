@@ -80,7 +80,7 @@ Generate a new template to manage the job execution for this project.
 ```yml
 ---
  IMAGE_BESU: "hyperledger/besu:21.1.6"
- RPC_API_METHODS: "ETH,NET,IBFT"
+ RPC_API_METHODS: "ETH,NET,IBFT,WEB3"
  VOLUME: "/var/besu"
  PORT_P2P: 30303
  PORT_HTTP: 8545
