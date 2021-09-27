@@ -225,7 +225,7 @@
        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Data Access API to download OAS file
-     shell: "curl -k -o \"/tmp/dataaccessapi.json\" -v http://{{ BACKPLANE_HOST }}:3100/openapi3000/explorer/openapi.json"
+     shell: "curl -k -o \"/tmp/dataaccessapi.json\" -v http://{{ BACKPLANE_HOST }}:3100/openapi"
           
    - name: cat the OAS file contents
      shell: "cat /tmp/dataaccessapi.json"
