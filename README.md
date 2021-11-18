@@ -144,7 +144,7 @@ Several accounts are created from the genesis with lots of ether. This enables e
 | [0x2fc9e73f77ae2fd542fc121aafbcb80f4ffc8f63](http://95.211.3.251:8081/#browse/browse:i3m-raw:besu/accounts/0x2fc9e73f77ae2fd542fc121aafbcb80f4ffc8f63) | luca.marangoni@gft.com |
 | [0x410ff996d668ee5d6116cb4dccb215f977594f5f](http://95.211.3.251:8081/#browse/browse:i3m-raw:besu/accounts/0x410ff996d668ee5d6116cb4dccb215f977594f5f) | fernando.roman@upc.edu |
 | [0x50c0f1e9acf797a3c12a749634224368ebc1f59a](http://95.211.3.251:8081/#browse/browse:i3m-raw:besu/accounts/0x50c0f1e9acf797a3c12a749634224368ebc1f59a) | vangelis@telesto.gr |
-| [0x580d142d0c2958d843499553275e427da4ab7eb5](http://95.211.3.251:8081/#browse/browse:i3m-raw:besu/accounts/0x580d142d0c2958d843499553275e427da4ab7eb5) | |
+| [0x580d142d0c2958d843499553275e427da4ab7eb5](http://95.211.3.251:8081/#browse/browse:i3m-raw:besu/accounts/0x580d142d0c2958d843499553275e427da4ab7eb5) | susanne.stahnke@siemens.com |
 | [0x584ffadc1556ef6238c533fc4926e15c12b46976](http://95.211.3.251:8081/#browse/browse:i3m-raw:besu/accounts/0x584ffadc1556ef6238c533fc4926e15c12b46976) | |
 | [0x69a7fb032b7e224137bb62568e9b4ae14b5571fe](http://95.211.3.251:8081/#browse/browse:i3m-raw:besu/accounts/0x69a7fb032b7e224137bb62568e9b4ae14b5571fe) | |
 | [0x836e50b77cd47fda2b4f5767813f52a927c9e661](http://95.211.3.251:8081/#browse/browse:i3m-raw:besu/accounts/0x836e50b77cd47fda2b4f5767813f52a927c9e661) | |
