@@ -338,30 +338,30 @@
    - debug:
        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
-#    - name: Make an API call to Backplane API to download OAS file
-#      shell: "curl -k -o \"/tmp/backplaneOAS.json\" -v http://{{ BACKPLANE_HOST }}:3000/explorer/openapi.json"
-#           
-#    - name: cat the OAS file contents
-#      shell: "cat /tmp/backplaneOAS.json"
-#      register: shellout   
-#      
-#    - name: Display the OAS File Contents
-#      debug: 
-#        var: shellout.stdout_lines     
-#        
-#    - name: Upload oas file to Nexus
-#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/backplaneOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json"
-#      register: shellout 
-#      
-#    - name: Display nexus curl response
-#      debug: 
-#        var: shellout   
+   - name: Make an API call to SmartContractManager API to download OAS file
+     shell: "curl -k -o \"/tmp/smartContractManagerOAS.json\" -v http://95.211.3.249:3333/openapi"
+           
+   - name: cat the OAS file contents
+     shell: "cat /tmp/smartContractManagerOAS.json"
+     register: shellout   
+      
+   - name: Display the OAS File Contents
+     debug: 
+       var: shellout.stdout_lines     
+        
+   - name: Upload oas file to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/smartContractManagerOAS.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.json"
+     register: shellout 
+     
+   - name: Display nexus curl response
+     debug: 
+       var: shellout   
  
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/javascript"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.yaml\", \"options\": {} }"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
        headers:
@@ -515,7 +515,7 @@
 #         var: sdkgen_java 
         
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for SMART CONTARCT MANAGER API
-     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.smart-contract,apiPackage=com.i3m.api.smart-contract,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.yaml --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.smart-contract,apiPackage=com.i3m.api.smart-contract,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
      become: yes
      register: sdkgen_java 
      
