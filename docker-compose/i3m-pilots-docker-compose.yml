@@ -1,0 +1,40 @@
+version: '3'
+services:
+   backplane:
+   
+   tokenizer-service:
+   
+   sdk-ri:
+      image: registry.gitlab.com/i3-market/code/sdk/i3m-sdk-reference-implementation/i3market-sdk-ri:2.0
+      container_name: sdk-ref-impl
+      ports:
+         - 8181:8080
+      environment:
+      networks:
+         - i3market-network
+      env_file: .env   
+         "
+   notification_manager:
+   
+   oidc-provider-app:
+   
+   oidc-provider-db:
+   
+   semantic_engine:
+   
+   virtuoso:
+   
+   vc-service:
+   
+   i3marketDataAccessAPI:
+   
+   auditable-accounting:
+   
+   besu:
+   
+   keykloak_postgres:
+   
+   keykloak_keycloak:
+   
+   nginx-reverse-proxy: 
+    
