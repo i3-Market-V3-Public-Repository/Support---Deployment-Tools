@@ -5,7 +5,7 @@
   tasks:
     - name: Login to i3-Market Registry
       docker_login:
-        registry_url: "{{REGISTRY_URL}}"
+        registry_url: "http://{{REGISTRY_URL}}"
         username: "{{REGISTRY_USER}}"
         password: "{{REGISTRY_PASSWORD}}"
     
