@@ -128,14 +128,17 @@ services:
     
    data_access:
       container_name: "data_access"
-      build: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git 
+      build: 
+         context: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git 
+         args: 
+           USER_ID: ${USER_ID-1000}
+           GROUP_ID: ${GROUP_ID-1000}
+         
       restart: unless-stopped
       environment:
          NODE_ENV: ${NODE_ENV}
          APP_NAME: ${APP_NAME}
          NPM_SCRIPT: ${NPM_SCRIPT}
-         USER_ID: ${USER_ID}
-         GROUP_ID: ${GROUP_ID}
       volumes:
         - ./app:/app
       ports:
@@ -143,7 +146,7 @@ services:
         - "9229:9229"
       networks:
         - i3m-net
-      command: npm run ${NPM_SCRIPT:-start}
+      command: npm run ${NPM_SCRIPT}
 
 #    auditable-accounting:
 #      image: 95.211.3.251:8123/auditable-accounting:latest
@@ -170,15 +173,15 @@ services:
 #      networks:
 #         - i3market-network
 #     command: dist   
-#      
+     
 #    besu:
-#    
+    
 #    keykloak_postgres:
-#    
+    
 #    keykloak_keycloak:
-#    
+    
 #    nginx-reverse-proxy: 
-#   
+   
  
 networks:
   i3m-net:
