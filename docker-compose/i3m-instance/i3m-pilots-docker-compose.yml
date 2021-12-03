@@ -128,14 +128,14 @@ services:
     
    data_access:
       container_name: "data_access"
-      build: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/sp2/secure-data-access-api.git
-  #      context: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/sp2/secure-data-access-api.git
-  #      dockerfile: ./secure-data-access-api/secure-data-access-api/Dockerfile
+      build: 
+         context: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/sp2/secure-data-access-api.git
+         dockerfile: ./secure-data-access-api/Dockerfile
       ports:
         - "3100:3000"
       networks:
         - i3m-net 
-#    
+   
 #    auditable-accounting:
 #      image: 95.211.3.251:8123/auditable-accounting:latest
 #      container_name: auditable-accounting
