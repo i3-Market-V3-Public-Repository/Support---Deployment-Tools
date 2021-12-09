@@ -139,8 +139,8 @@ services:
          NODE_ENV: ${NODE_ENV}
          APP_NAME: ${APP_NAME}
          NPM_SCRIPT: ${NPM_SCRIPT}
-      volumes:
-        - ./app:/app
+#       volumes:
+#         - ./app:/app
       ports:
         - "3100:3000"
         - "9229:9229"
