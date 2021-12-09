@@ -1,0 +1,1 @@
+CREATE USER keycloak PASSWORD 'keycloak';

@@ -176,9 +176,46 @@ services:
      
 #    besu:
     
-#    keykloak_postgres:
-    
-#    keykloak_keycloak:
+  # POSTGRES 
+  postgres:
+    image: postgres
+    volumes:
+      - ./keycloak-initdata/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./volumes/postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - i3m-net
+
+  # KEYCLOAK 
+  keycloak:
+    image: "quay.io/keycloak/keycloak:12.0.4"
+    environment:
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      DB_ADDR: ${DB_ADDR}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      PROXY_ADDRESS_FORWARDING: ${PROXY_ADDRESS_FORWARDING}
+    command: |
+      bash -c "
+        /common/wait-for-it.sh -t 60 postgres:5432 &&
+        /opt/jboss/tools/docker-entrypoint.sh
+      "
+    entrypoint: ""
+    ports:
+      - "8080:8080"
+    # /opt/jboss/tools/docker-entrypoint.sh
+    volumes: 
+      - ./keycloak-initdata/common:/common
+    networks:
+      - i3m-net
+      - reverse-proxy
     
 #    nginx-reverse-proxy: 
    
