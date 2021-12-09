@@ -282,7 +282,7 @@
        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Notification Manager API to download OAS file
-     shell: "curl -k -o \"/tmp/notificationManagerOAS.yaml\" -v http://{{ BACKPLANE_HOST }}:10010/static/swagger.json"
+     shell: "curl -k -o \"/tmp/notificationManagerOAS.yaml\" -v http://{{ BACKPLANE_HOST }}:10010/openapi.json"
           
    - name: cat the OAS file contents
      shell: "cat /tmp/notificationManagerOAS.yaml"
