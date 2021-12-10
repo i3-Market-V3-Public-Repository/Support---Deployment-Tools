@@ -93,7 +93,7 @@ services:
        
    semantic_engine:
     container_name: "semantic-engine"
-    image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:latest
+    image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:2.5.1
     env_file: .env.semantics
     ports:
       - "8082:8002"
