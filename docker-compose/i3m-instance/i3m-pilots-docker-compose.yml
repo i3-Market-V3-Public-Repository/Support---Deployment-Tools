@@ -1,7 +1,7 @@
 version: '3'
 services:
    backplane:
-     build: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git
+     build: https://gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git
      container_name: backplane
      ports:
         - 3000:3000
@@ -15,7 +15,7 @@ services:
      command: node .   
    
    tokenizer:
-     build: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api.git
+     build: https://gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api.git
      container_name: tokenizer-service
      ports:
         - 3001:3001
@@ -31,7 +31,7 @@ services:
     
    sdk-ri:
      build: 
-       context: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/sdk/i3m-sdk-reference-implementation.git
+       context: https://gitlab.com/i3-market/code/sdk/i3m-sdk-reference-implementation.git
        args:
           TEST: "-DskipTests"
           BACKPLANE_URL: ${BACKPLANE_URL}
@@ -47,7 +47,7 @@ services:
      command: java -jar /usr/local/jetty/start.jar
      
    oidc-provider-app:
-     build: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git
+     build: https://gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git
      container_name: oidc-provider-app
      restart: unless-stopped
      networks:
@@ -118,7 +118,7 @@ services:
         - i3m-net
     
    vc:
-      build: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git
+      build: https://gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git
       container_name: vc-service
       restart: unless-stopped
       networks:
@@ -141,7 +141,7 @@ services:
    data_access:
       container_name: "data_access"
       build: 
-         context: https://pilot-deployment:glpat-fUkddjDKZvLtjsf7v48M@gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git 
+         context: https://gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git 
          args: 
            USER_ID: ${USER_ID-1000}
            GROUP_ID: ${GROUP_ID-1000}
