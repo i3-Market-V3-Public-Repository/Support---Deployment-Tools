@@ -151,24 +151,24 @@ services:
    auditable-accounting:
       image: 95.211.3.251:8123/auditable-accounting:latest
       container_name: auditable-accounting
-      restart: unless-stopped
-      ports: ["8090:3000"]
+      restart: unless-stopped      
       env_file: .env.auditable-accounting
       networks: ["i3m-net"]
+      ports: ["8090:3000"]
    
    besu:
-      image: hyperledger/besu:21.1.6
+      image: 95.211.3.251:8123/besu-network:latest
       container_name: besu
       restart: unless-stopped
       env_file: .env.besu
       networks: ["i3m-net"]
+      volumes: ["/besu"]
       ports:
         - "30303:30303/udp"
         - "30303:30303/tcp"
         - "8545:8545/tcp"
         - "8546:8546/tcp"
-      volumes:
-        - "/var/besu:/besu"     
+      
          
 #    keykloak_postgres:
     
