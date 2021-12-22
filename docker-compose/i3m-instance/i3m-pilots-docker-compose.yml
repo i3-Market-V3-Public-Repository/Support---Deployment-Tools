@@ -1,5 +1,6 @@
 version: '3'
 services:
+
    backplane:
      build:
       context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git
