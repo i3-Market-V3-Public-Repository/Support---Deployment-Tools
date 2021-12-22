@@ -1,25 +1,30 @@
 version: '3'
 services:
    backplane:
-     build: https://gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git
+     build:
+      context: https://gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git
+      args:
+        ADD_INTEGRATOR: 1
+        GITLAB_USER: ${GITLAB_USER}
+        GITLAB_TOKEN: ${GITLAB_TOKEN}
      container_name: backplane
      ports:
         - 3000:3000
-     env_file: .env.keycloak   
+     env_file: .env.backplane
 #      environment:
 #        OIDC_CLIENT_ID: ${BACKPLANE_OIDC_CLIENT_ID}
 #        OIDC_CLIENT_SECRET: ${BACKPLANE_OIDC_CLIENT_SECRET}
 #        OIDC_PROVIDER_WELL_KNOWN_URL: ${BACKPLANE_OIDC_PROVIDER_WELL_KNOWN_URL}
      networks:
        - i3m-net
-     command: node .   
-   
+     command: ./scripts/start_docker.sh
+
    tokenizer:
      build: https://gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api.git
      container_name: tokenizer-service
      ports:
         - 3001:3001
-     env_file: .env.tokenizer  
+     env_file: .env.tokenizer
 #      environment:
 #      PORT: ${PORT}
 #        ETH_HOST: ${ETH_HOST}
@@ -27,17 +32,17 @@ services:
 #        WEBHOOK: ${WEBHOOK}
      networks:
        - i3m-net
-     command: npm start   
-    
+     command: npm start
+
    sdk-ri:
-     build: 
+     build:
        context: https://gitlab.com/i3-market/code/sdk/i3m-sdk-reference-implementation.git
        args:
           TEST: "-DskipTests"
           BACKPLANE_URL: ${BACKPLANE_URL}
           OIDC_URL: ${OIDC_URL}
           VC_URL: ${VC_URL}
-          DATA_ACCESS_URL: ${DATA_ACCESS_URL}        
+          DATA_ACCESS_URL: ${DATA_ACCESS_URL}
      container_name: sdk-ref-impl
      env_file: .env.sdk-ri
      ports:
@@ -45,7 +50,7 @@ services:
      networks:
        - i3m-net
      command: java -jar /usr/local/jetty/start.jar
-     
+
    oidc-provider-app:
      build: https://gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git
      container_name: oidc-provider-app
@@ -66,19 +71,19 @@ services:
 #       USE_NGROK: ${USE_NGROK}
 #       JWKS_KEYS_PATH: ${JWKS_KEYS_PATH}
 #       IDENTITY_PATH: ${IDENTITY_PATH} p
-     env_file: .env.oidc   
+     env_file: .env.oidc
      volumes:
       - ./volumes/misc:/app/misc
      depends_on:
       - oidc-provider-db
-     
+
    oidc-provider-db:
      image: mongo:4-bionic
      container_name: oidc-provider-db
      restart: unless-stopped
      networks:
       - i3m-net
-     env_file: .env.oidc   
+     env_file: .env.oidc
 #      environment:
 #        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
 #        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
@@ -90,7 +95,7 @@ services:
        - ./volumes/scripts:/data/scripts:ro
        - ./volumes/scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
      command: --quiet --setParameter logLevel=0
-       
+
    semantic_engine:
     container_name: "semantic-engine"
     image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:2.5.1
@@ -100,8 +105,8 @@ services:
     depends_on:
       - "virtuoso"
     networks:
-       - i3m-net    
-   
+       - i3m-net
+
    virtuoso:
       container_name: "virtuoso"
       image: tenforce/virtuoso
@@ -110,13 +115,13 @@ services:
 #         SPARQL_UPDATE: ${SPARQL_UPDATE}
 #         DBA_PASSWORD: ${DBA_PASSWORD}
 #         DEFAULT_GRAPH: ${DEFAULT_GRAPH}
-      volumes:  
+      volumes:
          - semantic-engine-db:/data
       ports:
         - "8890:8890"
       networks:
         - i3m-net
-    
+
    vc:
       build: https://gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git
       container_name: vc-service
@@ -132,20 +137,20 @@ services:
 #         REVERSE_PROXY: ${REVERSE_PROXY}
 #         USE_NGROK: ${USE_NGROK}
 #         JWKS_KEYS_PATH: ${JWKS_KEYS_PATH}
-#         IDENTITY_PATH: ${IDENTITY_PATH} 
-#         CONTEXT_PATH: ${CONTEXT_PATH} 
-#         OIDC_PROVIDER_REVERSE_PROXY: ${CONTEXT_PATH} 
+#         IDENTITY_PATH: ${IDENTITY_PATH}
+#         CONTEXT_PATH: ${CONTEXT_PATH}
+#         OIDC_PROVIDER_REVERSE_PROXY: ${CONTEXT_PATH}
       volumes:
          - ./volumes/misc:/app/misc
-    
+
    data_access:
       container_name: "data_access"
-      build: 
-         context: https://gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git 
-         args: 
+      build:
+         context: https://gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git
+         args:
            USER_ID: ${USER_ID-1000}
            GROUP_ID: ${GROUP_ID-1000}
-         
+
       restart: unless-stopped
       env_file: .env.data-access
 #       environment:
@@ -165,7 +170,7 @@ services:
      volumes:
        - ./keycloak-initdata/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
        - ./volumes/postgres/data:/var/lib/postgresql/data
-     env_file: .env.keycloak  
+     env_file: .env.keycloak
 #      environment:
 #        - POSTGRES_MULTIPLE_DATABASES=
 #        - POSTGRES_USER=postgres
@@ -177,7 +182,7 @@ services:
 
    keycloak:
      image: "quay.io/keycloak/keycloak:12.0.4"
-     env_file: .env.keycloak 
+     env_file: .env.keycloak
 #      environment:
 #        KEYCLOAK_USER: ${KEYCLOAK_USER}
 #        KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
@@ -192,7 +197,7 @@ services:
      ports:
        - "8080:8080"
      # /opt/jboss/tools/docker-entrypoint.sh
-     volumes: 
+     volumes:
        - ./keycloak-initdata/common:/common
      networks:
       - i3m-net
@@ -205,7 +210,8 @@ services:
       env_file: .env.auditable-accounting
       networks: ["i3m-net"]
       ports: ["8090:3000"]
-   
+
+
    besu:
       image: 95.211.3.251:8123/besu-network:latest
       container_name: besu
@@ -218,9 +224,9 @@ services:
         - "30303:30303/tcp"
         - "8545:8545/tcp"
         - "8546:8546/tcp"
-           
-#    nginx-reverse-proxy: 
-   
+
+#    nginx-reverse-proxy:
+
 networks:
   i3m-net:
   reverse-proxy:
@@ -228,4 +234,3 @@ networks:
 volumes:
   oidc-mongo:
   semantic-engine-db:
- 
