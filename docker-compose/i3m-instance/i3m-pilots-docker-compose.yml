@@ -9,6 +9,7 @@ services:
         GITLAB_USER: ${GITLAB_USER}
         GITLAB_TOKEN: ${GITLAB_TOKEN}
      container_name: backplane
+     restart: unless-stopped
      ports:
         - 3000:3000
      env_file: .env.backplane
@@ -26,6 +27,7 @@ services:
      ports:
         - 3001:3001
      env_file: .env.tokenizer
+     restart: unless-stopped
 #      environment:
 #      PORT: ${PORT}
 #        ETH_HOST: ${ETH_HOST}
@@ -45,6 +47,7 @@ services:
           VC_URL: ${VC_URL}
           DATA_ACCESS_URL: ${DATA_ACCESS_URL}
      container_name: sdk-ref-impl
+     restart: unless-stopped
      env_file: .env.sdk-ri
      ports:
         - 8181:8080
@@ -101,6 +104,7 @@ services:
     container_name: "semantic-engine"
     image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:2.5.1
     env_file: .env.semantics
+    restart: unless-stopped
     ports:
       - "8082:8002"
     depends_on:
@@ -112,6 +116,7 @@ services:
       container_name: "virtuoso"
       image: tenforce/virtuoso
       env_file: .env.semantics
+      restart: unless-stopped
 #       environment:
 #         SPARQL_UPDATE: ${SPARQL_UPDATE}
 #         DBA_PASSWORD: ${DBA_PASSWORD}
@@ -172,6 +177,7 @@ services:
        - ./keycloak-initdata/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
        - ./volumes/postgres/data:/var/lib/postgresql/data
      env_file: .env.keycloak
+     restart: unless-stopped
 #      environment:
 #        - POSTGRES_MULTIPLE_DATABASES=
 #        - POSTGRES_USER=postgres
@@ -184,6 +190,7 @@ services:
    keycloak:
      image: "quay.io/keycloak/keycloak:12.0.4"
      env_file: .env.keycloak
+     restart: unless-stopped
 #      environment:
 #        KEYCLOAK_USER: ${KEYCLOAK_USER}
 #        KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
@@ -209,7 +216,8 @@ services:
       container_name: auditable-accounting
       restart: unless-stopped      
       env_file: .env.auditable-accounting
-      networks: ["i3m-net"]
+      networks:
+       - i3m-net
       ports: ["8090:3000"]
 
 
@@ -218,7 +226,8 @@ services:
       container_name: besu
       restart: unless-stopped
       env_file: .env.besu
-      networks: ["i3m-net"]
+      networks:
+       - i3m-net
       volumes: ["/besu"]
       ports:
         - "30303:30303/udp"
@@ -228,10 +237,22 @@ services:
 
 #    nginx-reverse-proxy:
 
+   dns-service:
+     image: defreitas/dns-proxy-server
+     container_name: dns-proxy-server
+     restart: unless-stopped
+     networks:
+       - i3m-net
+     volumes: 
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /etc/resolv.conf:/etc/resolv.conf
+     ports:
+        - "5380:5380"
+
 networks:
   i3m-net:
   reverse-proxy:
-    external: true
+    external: false
 volumes:
   oidc-mongo:
   semantic-engine-db:
