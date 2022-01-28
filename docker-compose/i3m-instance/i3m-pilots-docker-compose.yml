@@ -7,15 +7,15 @@ services:
      restart: unless-stopped
      networks:
        - i3m-net
-     volumes: 
+     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - /etc/resolv.conf:/etc/resolv.conf
      ports:
         - "5380:5380"
      depends_on:
       sdk-ri:
-        condition: service_healthy   
-        
+        condition: service_healthy
+
    backplane:
      build:
       context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git
@@ -71,6 +71,16 @@ services:
      command: java -jar /usr/local/jetty/start.jar
      healthcheck:
         test: "exit 0"
+
+   web-ri:
+     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/web-ri/web-ri.git
+     container_name: web-ri
+     ports:
+       - 5300:3000
+     env_file: .env.web-ri
+     restart: unless-stopped
+     networks:
+       - i3m-net
 
    oidc-provider-app:
      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git
@@ -231,7 +241,7 @@ services:
    auditable-accounting:
       image: 95.211.3.251:8123/auditable-accounting:latest
       container_name: auditable-accounting
-      restart: unless-stopped      
+      restart: unless-stopped
       env_file: .env.auditable-accounting
       networks:
        - i3m-net
@@ -254,7 +264,7 @@ services:
 
 #    nginx-reverse-proxy:
 
-   
+
 
 networks:
   i3m-net:
