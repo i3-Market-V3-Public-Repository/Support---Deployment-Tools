@@ -13,8 +13,10 @@ services:
      ports:
         - "5380:5380"
      depends_on:
-      sdk-ri:
-        condition: service_healthy
+       sdk-ri:
+           condition: service_healthy
+       web-ri:
+           condition: service_healthy     
 
    backplane:
      build:
@@ -73,7 +75,7 @@ services:
         test: "exit 0"
 
    web-ri:
-     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/web-ri/web-ri.git
+     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/web-ri/web-ri.git#main
      container_name: web-ri
      ports:
        - 5300:3000
@@ -81,6 +83,8 @@ services:
      restart: unless-stopped
      networks:
        - i3m-net
+     healthcheck:
+        test: "exit 0"  
 
    oidc-provider-app:
      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git
