@@ -269,7 +269,19 @@ services:
 
 #    nginx-reverse-proxy:
 
-
+   cockroachdb:
+      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp4/storage-service.git#${COCKROACHDB_VERSION}
+      image: cockroachdb:${COCKROACHDB_VERSION}
+      container_name: cockroachdb-node1
+      hostname: cockroachdb-node1
+      restart: unless-stopped
+      networks:
+        - i3m-net
+      volumes:
+        - ./cockroachdb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        - ./volumes/cockroachdb/data:/cockroach/cockroach-data
+        - ./volumes/cockroachdb/certs:/cockroach/certs
+      command: start-single-node --advertise-addr=cockroachdb-node1
 
 networks:
   i3m-net:
