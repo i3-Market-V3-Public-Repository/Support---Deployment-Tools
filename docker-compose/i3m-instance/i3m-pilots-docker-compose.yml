@@ -20,7 +20,7 @@ services:
 
    backplane:
      build:
-      context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git
+      context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git#${BACKPLANE_VERSION}
       args:
         ADD_INTEGRATOR: 1
         GITLAB_USER: ${GITLAB_USER}
@@ -88,7 +88,7 @@ services:
         test: "exit 0"  
 
    oidc-provider-app:
-     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git
+     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git#${OIDC_VERSION}
      container_name: oidc-provider-app
      restart: unless-stopped
      networks:
@@ -161,7 +161,7 @@ services:
         - i3m-net
 
    vc:
-      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git
+      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git#${VC_VERSION}
       container_name: vc-service
       restart: unless-stopped
       networks:
