@@ -87,12 +87,12 @@ services:
      healthcheck:
         test: "exit 0"  
 
-   oidc-provider-app:
-     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git#${OIDC_VERSION}
-     container_name: oidc-provider-app
-     restart: unless-stopped
-     networks:
-       - i3m-net
+#    oidc-provider-app:
+#      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git#${OIDC_VERSION}
+#      container_name: oidc-provider-app
+#      restart: unless-stopped
+#      networks:
+#        - i3m-net
 #      - reverse-proxy
 #      environment:
 #       OIDC_PROVIDER_DB_HOST: ${OIDC_PROVIDER_DB_HOST}
@@ -107,11 +107,11 @@ services:
 #       USE_NGROK: ${USE_NGROK}
 #       JWKS_KEYS_PATH: ${JWKS_KEYS_PATH}
 #       IDENTITY_PATH: ${IDENTITY_PATH} p
-     env_file: .env.oidc
-     volumes:
-      - ./volumes/misc:/app/misc
-     depends_on:
-      - oidc-provider-db
+#      env_file: .env.oidc
+#      volumes:
+#       - ./volumes/misc:/app/misc
+#      depends_on:
+#       - oidc-provider-db
 
    oidc-provider-db:
      image: mongo:4-bionic
@@ -132,42 +132,33 @@ services:
        - ./volumes/scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
      command: --quiet --setParameter logLevel=0
 
-   semantic_engine:
-    container_name: "semantic-engine"
-    image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:${SEMANTIC_ENGINE_VERSION}
-    env_file: .env.semantics
-    restart: unless-stopped
-    ports:
-      - "8082:8002"
-    depends_on:
-      - "virtuoso"
-    networks:
+   semantic-engine-service:
+     container_name: "semantic-engine"
+     image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:${SEMANTIC_ENGINE_VERSION}
+     ports:
+      - "8082:8082"
+     env_file: .env.semantics  
+     restart: always
+     networks:
        - i3m-net
-
-   virtuoso:
-      container_name: "virtuoso"
-      image: tenforce/virtuoso
-      env_file: .env.semantics
-      restart: unless-stopped
-#       environment:
-#         SPARQL_UPDATE: ${SPARQL_UPDATE}
-#         DBA_PASSWORD: ${DBA_PASSWORD}
-#         DEFAULT_GRAPH: ${DEFAULT_GRAPH}
-      volumes:
-         - semantic-engine-db:/data
-      ports:
-        - "8890:8890"
-      networks:
-        - i3m-net
-
-   vc:
-      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git#${VC_VERSION}
-      container_name: vc-service
-      restart: unless-stopped
-      networks:
-        - i3m-net
+   
+   mongodb:
+     image: 'mongo:latest'
+     container_name: "semantic-engine-db"
+     command: mongod --port 27018
+     ports:
+      - '27018:27018'
+     restart: always
+     env_file: .env.semantics
+    
+#    vc:
+#       build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git#${VC_VERSION}
+#       container_name: vc-service
+#       restart: unless-stopped
+#       networks:
+#         - i3m-net
 #        - reverse-proxy
-      env_file: .env.vc
+#      env_file: .env.vc
 #       environment:
 #         RPC_URL: ${RPC_URL}
 #         WHITELIST: ${WHITELIST}
@@ -178,8 +169,8 @@ services:
 #         IDENTITY_PATH: ${IDENTITY_PATH}
 #         CONTEXT_PATH: ${CONTEXT_PATH}
 #         OIDC_PROVIDER_REVERSE_PROXY: ${CONTEXT_PATH}
-      volumes:
-         - ./volumes/misc:/app/misc
+#       volumes:
+#          - ./volumes/misc:/app/misc
 
    data_access:
       container_name: "data_access"
