@@ -11,7 +11,7 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
         - /etc/resolv.conf:/etc/resolv.conf
      ports:
-        - "5380:5380"
+        - 5380:5380
      depends_on:
        sdk-ri:
            condition: service_healthy
@@ -136,7 +136,7 @@ services:
      container_name: "semantic-engine"
      image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:${SEMANTIC_ENGINE_VERSION}
      ports:
-      - "8082:8082"
+       - 8082:8082
      env_file: .env.semantics  
      restart: always
      networks:
@@ -147,7 +147,7 @@ services:
      container_name: "semantic-engine-db"
      command: mongod --port 27018
      ports:
-      - '27018:27018'
+       - 27018:27018
      restart: always
      env_file: .env.semantics
     
@@ -189,8 +189,8 @@ services:
 #       volumes:
 #         - ./app:/app
       ports:
-        - "3100:3000"
-        - "9229:9229"
+        - 3100:3000
+        - 9229:9229
       networks:
         - i3m-net
 
@@ -206,12 +206,12 @@ services:
 #        - POSTGRES_USER=postgres
 #        - POSTGRES_PASSWORD=postgres
      ports:
-       - "5432:5432"
+       - 5432:5432
      networks:
        - i3m-net
 
    keycloak:
-     image: "quay.io/keycloak/keycloak:12.0.4"
+     image: "quay.io/keycloak/keycloak:13.0.0"
      env_file: .env.keycloak
      restart: unless-stopped
 #      environment:
@@ -226,7 +226,7 @@ services:
        bash -c "/common/wait-for-it.sh -t 60 postgres:5432 && /opt/jboss/tools/docker-entrypoint.sh"
      entrypoint: ""
      ports:
-       - "8080:8080"
+       - 8080:8080
      # /opt/jboss/tools/docker-entrypoint.sh
      volumes:
        - ./keycloak-initdata/common:/common
@@ -240,8 +240,9 @@ services:
       restart: unless-stopped
       env_file: .env.auditable-accounting
       networks:
-       - i3m-net
-      ports: ["8090:3000"]
+        - i3m-net
+      ports: 
+        - 8090:3000
 
 
    besu:
@@ -253,10 +254,10 @@ services:
        - i3m-net
       volumes: ["/besu"]
       ports:
-        - "30303:30303/udp"
-        - "30303:30303/tcp"
-        - "8545:8545/tcp"
-        - "8546:8546/tcp"
+        - 30303:30303/udp
+        - 30303:30303/tcp
+        - 8545:8545/tcp
+        - 8546:8546/tcp
 
 #    nginx-reverse-proxy:
 
