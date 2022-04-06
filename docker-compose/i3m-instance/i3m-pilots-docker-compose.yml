@@ -195,7 +195,7 @@ services:
         - 9229:9229
       depends_on:
          - mqtt-broker
-      command: bash -c "npm install -D typescript && npm install -D ts-node && npm run start"
+      command: bash -c "npm install -D typescript && npm install -D ts-node && npm install sqlite3 --save && npm run start"
       networks:
         - i3m-net
 
