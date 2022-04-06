@@ -176,26 +176,42 @@ services:
 
    data_access:
       container_name: "data_access"
-      build:
-         context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git
-         args:
-           USER_ID: ${USER_ID-1000}
-           GROUP_ID: ${GROUP_ID-1000}
-
+      image: registry.gitlab.com/i3-market/code/sp2/express-datatransfermanagement:${DATA_ACCESS_VERSION}
+#       build:
+#           context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git#NRP
+#           args:
+#             USER_ID: ${USER_ID-1000}
+#             GROUP_ID: ${GROUP_ID-1000}
       restart: unless-stopped
       env_file: .env.data-access
 #       environment:
 #          NODE_ENV: ${NODE_ENV}
 #          APP_NAME: ${APP_NAME}
 #          NPM_SCRIPT: ${NPM_SCRIPT}
-#       volumes:
-#         - ./app:/app
+      volumes:
+         - ./data_access/app:/app
       ports:
         - 3100:3000
         - 9229:9229
+      depends_on:
+         - mqtt-broker
+      command: bash -c "npm install -D typescript && npm install -D ts-node && npm run start"
       networks:
         - i3m-net
 
+   mqtt-broker:
+     image: iegomez/mosquitto-go-auth
+     container_name: mqtt-broker
+     networks:
+       - i3m-net
+     restart: unless-stopped
+     volumes:
+       - ./data_access/mqtt_conf/mosquitto/mosquitto:/etc/mosquitto/
+     ports:
+          - 1883:1883
+          - 1884:1884
+          - 9001:9001
+   
    postgres:
      image: postgres
      volumes:
