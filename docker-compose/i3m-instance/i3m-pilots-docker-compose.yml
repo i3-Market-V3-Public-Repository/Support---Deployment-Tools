@@ -150,6 +150,8 @@ services:
        - 27018:27018
      restart: always
      env_file: .env.semantics
+     networks:
+       - i3m-net
     
 #    vc:
 #       build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git#${VC_VERSION}
