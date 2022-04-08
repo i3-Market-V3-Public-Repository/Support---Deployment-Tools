@@ -87,13 +87,14 @@ services:
      healthcheck:
         test: "exit 0"  
 
-#    oidc-provider-app:
-#      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git#${OIDC_VERSION}
-#      container_name: oidc-provider-app
-#      restart: unless-stopped
-#      networks:
-#        - i3m-net
-#      - reverse-proxy
+   oidc-provider-app:
+#     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git#${OIDC_VERSION}
+     image: registry.gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider:${OIDC_VERSION}
+     container_name: oidc-provider-app
+     restart: unless-stopped
+     networks:
+       - i3m-net
+       - reverse-proxy
 #      environment:
 #       OIDC_PROVIDER_DB_HOST: ${OIDC_PROVIDER_DB_HOST}
 #       OIDC_PROVIDER_DB_PORT: ${OIDC_PROVIDER_DB_PORT}
@@ -106,12 +107,12 @@ services:
 #       REVERSE_PROXY: ${REVERSE_PROXY}
 #       USE_NGROK: ${USE_NGROK}
 #       JWKS_KEYS_PATH: ${JWKS_KEYS_PATH}
-#       IDENTITY_PATH: ${IDENTITY_PATH} p
-#      env_file: .env.oidc
-#      volumes:
-#       - ./volumes/misc:/app/misc
-#      depends_on:
-#       - oidc-provider-db
+#       IDENTITY_PATH: ${IDENTITY_PATH}
+     env_file: .env.oidc
+     volumes:
+      - ./volumes/misc:/app/misc
+     depends_on:
+      - oidc-provider-db
 
    oidc-provider-db:
      image: mongo:4-bionic
@@ -195,7 +196,7 @@ services:
         - 9229:9229
       depends_on:
          - mqtt-broker
-      command: bash -c "npm install -D typescript && npm install -D ts-node && npm install sqlite3 --save && npm run start"
+      command: npm run start
       networks:
         - i3m-net
 
