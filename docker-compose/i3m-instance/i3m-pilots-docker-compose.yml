@@ -88,7 +88,7 @@ services:
      networks:
        - i3m-net
      healthcheck:
-        test: "exit 0"
+       test: "exit 0"
    mongo_web-ri:
      image: mongo:4.4
      restart: unless-stopped
@@ -163,14 +163,17 @@ services:
      networks:
        - i3m-net
 
-#    vc:
+   vc:
 #       build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git#${VC_VERSION}
-#       container_name: vc-service
-#       restart: unless-stopped
-#       networks:
-#         - i3m-net
-#        - reverse-proxy
-#      env_file: .env.vc
+     image: registry.gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials:${VC_VERSION}
+     container_name: vc-service
+     restart: unless-stopped
+     ports:
+       - 4200:4200
+     networks:
+       - i3m-net
+       - reverse-proxy
+     env_file: .env.vc
 #       environment:
 #         RPC_URL: ${RPC_URL}
 #         WHITELIST: ${WHITELIST}
@@ -181,8 +184,8 @@ services:
 #         IDENTITY_PATH: ${IDENTITY_PATH}
 #         CONTEXT_PATH: ${CONTEXT_PATH}
 #         OIDC_PROVIDER_REVERSE_PROXY: ${CONTEXT_PATH}
-#       volumes:
-#          - ./volumes/misc:/app/misc
+     volumes:
+        - ./volumes/misc:/app/misc
 
    data_access:
       container_name: "data_access"
