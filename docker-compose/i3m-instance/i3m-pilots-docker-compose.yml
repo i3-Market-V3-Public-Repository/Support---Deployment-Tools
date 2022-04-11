@@ -16,7 +16,7 @@ services:
        sdk-ri:
            condition: service_healthy
        web-ri:
-           condition: service_healthy     
+           condition: service_healthy
 
    backplane:
      build:
@@ -54,7 +54,7 @@ services:
        - i3m-net
      depends_on:
        besu:
-           condition: service_healthy  
+           condition: service_healthy
      command: npm start
 
    sdk-ri:
@@ -88,7 +88,14 @@ services:
      networks:
        - i3m-net
      healthcheck:
-        test: "exit 0"  
+        test: "exit 0"
+   mongo:
+     image: mongo:4.4
+     container_name: mongo_web-ri
+     restart: unless-stopped
+     env_file: .env.web-ri
+     networks:
+       - i3m-net
 
    oidc-provider-app:
 #     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git#${OIDC_VERSION}
@@ -141,11 +148,11 @@ services:
      image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:${SEMANTIC_ENGINE_VERSION}
      ports:
        - 8082:8082
-     env_file: .env.semantics  
+     env_file: .env.semantics
      restart: always
      networks:
        - i3m-net
-   
+
    mongodb:
      image: 'mongo:latest'
      container_name: "semantic-engine-db"
@@ -156,7 +163,7 @@ services:
      env_file: .env.semantics
      networks:
        - i3m-net
-    
+
 #    vc:
 #       build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/verifiable-credentials.git#${VC_VERSION}
 #       container_name: vc-service
@@ -215,7 +222,7 @@ services:
           - 1883:1883
           - 1884:1884
           - 9001:9001
-   
+
    postgres:
      image: postgres
      volumes:
@@ -263,7 +270,7 @@ services:
       env_file: .env.auditable-accounting
       networks:
         - i3m-net
-      ports: 
+      ports:
         - 8090:3000
 
 
@@ -281,7 +288,7 @@ services:
         - 8545:8545/tcp
         - 8546:8546/tcp
       healthcheck:
-        test: "exit 0"  
+        test: "exit 0"
 
 #    nginx-reverse-proxy:
 
