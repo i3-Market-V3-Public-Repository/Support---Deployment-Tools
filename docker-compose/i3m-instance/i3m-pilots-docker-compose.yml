@@ -79,7 +79,7 @@ services:
         test: "exit 0"
 
    web-ri:
-     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/web-ri/web-ri.git#main
+     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/web-ri/web-ri.git#${WEBRI_VERSION}
      container_name: web-ri
      ports:
        - 5300:3000
