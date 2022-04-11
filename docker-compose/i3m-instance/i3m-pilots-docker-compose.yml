@@ -52,6 +52,9 @@ services:
 #        WEBHOOK: ${WEBHOOK}
      networks:
        - i3m-net
+     depends_on:
+       besu:
+           condition: service_healthy  
      command: npm start
 
    sdk-ri:
@@ -277,6 +280,8 @@ services:
         - 30303:30303/tcp
         - 8545:8545/tcp
         - 8546:8546/tcp
+      healthcheck:
+        test: "exit 0"  
 
 #    nginx-reverse-proxy:
 
