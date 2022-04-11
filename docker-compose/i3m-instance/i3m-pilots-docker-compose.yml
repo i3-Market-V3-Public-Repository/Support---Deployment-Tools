@@ -89,9 +89,8 @@ services:
        - i3m-net
      healthcheck:
         test: "exit 0"
-   mongo:
+   mongo_web-ri:
      image: mongo:4.4
-     container_name: mongo_web-ri
      restart: unless-stopped
      env_file: .env.web-ri
      networks:
