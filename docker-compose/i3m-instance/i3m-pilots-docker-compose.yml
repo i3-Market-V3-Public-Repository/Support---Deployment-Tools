@@ -40,7 +40,7 @@ services:
 
    tokenizer:
      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api.git
-     container_name: tokenizer-service
+     container_name: tokenizer
      ports:
         - 3001:3001
      env_file: .env.tokenizer
@@ -94,6 +94,7 @@ services:
        
    mongo_web-ri:
      image: mongo:4.4
+     container_name: mongo_web-ri
      restart: unless-stopped
      env_file: .env.web-ri
      networks:
@@ -230,6 +231,7 @@ services:
 
    postgres:
      image: postgres
+     container_name: postgres
      volumes:
        - ./keycloak-initdata/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
        - ./volumes/postgres/data:/var/lib/postgresql/data
@@ -247,6 +249,7 @@ services:
    keycloak:
      image: "quay.io/keycloak/keycloak:13.0.0"
      env_file: .env.keycloak
+     container_name: keycloak
      restart: unless-stopped
 #      environment:
 #        KEYCLOAK_USER: ${KEYCLOAK_USER}
@@ -300,7 +303,7 @@ services:
    cockroachdb:
       build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp4/storage-service.git#${COCKROACHDB_VERSION}
       image: cockroachdb:${COCKROACHDB_VERSION}
-      container_name: cockroachdb-node1
+      container_name: cockroachdb-node
       hostname: cockroachdb-node1
       restart: unless-stopped
       networks:
