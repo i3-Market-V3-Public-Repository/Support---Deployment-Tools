@@ -12,7 +12,7 @@
     - name: Launch Loopback instance
       docker_container:
         name: auditable-accounting        
-        image: "{{REGISTRY_URL}}/auditable-accounting:${AA_VERSION}"
+        image: "{{REGISTRY_URL}}/auditable-accounting:{{AA_VERSION}}"
         pull: yes
         env:
           ALLOWED_CORS: "{{ALLOWED_CORS}}"
