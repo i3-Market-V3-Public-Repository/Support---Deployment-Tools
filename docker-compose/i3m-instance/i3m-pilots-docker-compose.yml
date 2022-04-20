@@ -272,7 +272,7 @@ services:
 #      - reverse-proxy
 
    auditable-accounting:
-      image: 95.211.3.251:8123/auditable-accounting:latest
+      image: 95.211.3.251:8123/auditable-accounting:${AA_VERSION}
       container_name: auditable-accounting
       restart: unless-stopped
       env_file: .env.auditable-accounting
@@ -280,7 +280,8 @@ services:
         - i3m-net
       ports:
         - 8090:3000
-
+      volumes:
+        - ./volumes/cockroachdb/certs:/certs
 
    besu:
       image: 95.211.3.251:8123/besu-network:latest
