@@ -12,7 +12,7 @@
     - name: Launch Loopback instance
       docker_container:
         name: auditable-accounting        
-        image: "{{REGISTRY_URL}}/auditable-accounting:latest"
+        image: "{{REGISTRY_URL}}/auditable-accounting:${AA_VERSION}"
         pull: yes
         env:
           ALLOWED_CORS: "{{ALLOWED_CORS}}"
@@ -25,10 +25,9 @@
           DB_PORT: "{{DB_PORT}}"
           DB_NAME: "{{DB_NAME}}"
           DB_USER: "{{DB_USER}}"
-          DB_CA: "{{DB_CA}}"
-          DB_CRT: "{{DB_CRT}}"
-          DB_KEY: "{{DB_KEY}}"
         ports:
           - "{{AA_PORT}}:3000"
+        volume:
+          - "/home/upc_rafael.genes/certs:/certs"
         state: started
       
