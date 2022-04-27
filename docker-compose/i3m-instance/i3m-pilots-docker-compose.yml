@@ -278,24 +278,17 @@ services:
       env_file: .env.auditable-accounting
       networks:
         - i3m-net
-      ports:
-        - 8090:3000
       volumes:
         - ./volumes/cockroachdb/certs:/certs
 
    besu:
-      image: 95.211.3.251:8123/besu-network:latest
+      image: 95.211.3.251:8123/besu-network:${BESU_VERSION}
       container_name: besu
       restart: unless-stopped
       env_file: .env.besu
       networks:
        - i3m-net
       volumes: ["/besu"]
-      ports:
-        - 30303:30303/udp
-        - 30303:30303/tcp
-        - 8545:8545/tcp
-        - 8546:8546/tcp
       healthcheck:
         test: "exit 0"
 
