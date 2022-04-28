@@ -122,6 +122,8 @@ services:
 #       JWKS_KEYS_PATH: ${JWKS_KEYS_PATH}
 #       IDENTITY_PATH: ${IDENTITY_PATH}
      env_file: .env.oidc
+     ports:
+       - 3300:3300
      volumes:
       - ./volumes/misc:/app/misc
      depends_on:
