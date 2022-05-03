@@ -143,11 +143,11 @@ services:
      ports:
        - 27017:27017
      volumes:
-       - oidc-mongo:/data/db
-       - ./volumes/scripts:/data/scripts:ro
-       - ./volumes/scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - oidc-mongo:/data/db
+      - ./oidc-initdata/scripts:/data/scripts
+      - ./oidc-initdata/scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
      command: --quiet --setParameter logLevel=0
-
+   
    semantic-engine-service:
      container_name: "semantic-engine"
      image: registry.gitlab.com/i3-market/code/wp4/semantic-engine:${SEMANTIC_ENGINE_VERSION}
