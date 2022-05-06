@@ -95,6 +95,8 @@ services:
    mongo_web-ri:
      image: mongo:4.4
      container_name: mongo_web-ri
+     ports:
+       - 27017:27017
      restart: unless-stopped
      env_file: .env.web-ri
      networks:
@@ -141,7 +143,7 @@ services:
 #        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
 #        MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
      ports:
-       - 27017:27017
+       - 27019:27017
      volumes:
       - oidc-mongo:/data/db
       - ./oidc-initdata/scripts:/data/scripts
