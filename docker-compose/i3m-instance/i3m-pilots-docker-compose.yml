@@ -267,7 +267,7 @@ services:
        bash -c "/common/wait-for-it.sh -t 60 postgres:5432 && /opt/jboss/tools/docker-entrypoint.sh"
      entrypoint: ""
      ports:
-       - 8080:8080
+       - 9090:8080
      # /opt/jboss/tools/docker-entrypoint.sh
      volumes:
        - ./keycloak-initdata/common:/common
