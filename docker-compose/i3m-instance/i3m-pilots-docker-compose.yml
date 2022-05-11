@@ -197,7 +197,7 @@ services:
         - ./volumes/misc:/app/misc
 
    data_access:
-      container_name: "data_access"
+      container_name: data_access
       image: registry.gitlab.com/i3-market/code/sp2/express-datatransfermanagement:${DATA_ACCESS_VERSION}
 #       build:
 #           context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/sp2/express-datatransfermanagement.git#NRP
