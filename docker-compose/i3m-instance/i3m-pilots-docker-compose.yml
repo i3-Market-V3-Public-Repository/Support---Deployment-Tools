@@ -37,7 +37,9 @@ services:
      networks:
        - i3m-net
      command: ./scripts/start_docker.sh
-
+     healthcheck:
+        test: "exit 0"
+     
    tokenizer:
      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api.git
      container_name: tokenizer
@@ -74,6 +76,9 @@ services:
         - 8181:8080
      networks:
        - i3m-net
+     depends_on:
+       backplane:
+           condition: service_healthy  
      command: java -jar /usr/local/jetty/start.jar
      healthcheck:
         test: "exit 0"
