@@ -19,6 +19,7 @@ services:
            condition: service_healthy
 
    backplane:
+#      image: registry.gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane:${BACKPLANE_VERSION}
      build:
       context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git#${BACKPLANE_VERSION}
       args:
