@@ -19,25 +19,14 @@ services:
            condition: service_healthy
 
    backplane:
-     build:
-      context: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/backplane/backplane-api-gateway/backplane.git#${BACKPLANE_VERSION}
-      args:
-        ADD_INTEGRATOR: 1
-        GITLAB_USER: ${GITLAB_USER}
-        GITLAB_TOKEN: ${GITLAB_TOKEN}
      container_name: backplane
-     image: "i3m/backplane:${BACKPLANE_VERSION}"
+     image: "95.211.3.251:8123/backplane:${BACKPLANE_VERSION}"
      restart: unless-stopped
      ports:
         - 3000:3000
      env_file: .env.backplane
-#      environment:
-#        OIDC_CLIENT_ID: ${BACKPLANE_OIDC_CLIENT_ID}
-#        OIDC_CLIENT_SECRET: ${BACKPLANE_OIDC_CLIENT_SECRET}
-#        OIDC_PROVIDER_WELL_KNOWN_URL: ${BACKPLANE_OIDC_PROVIDER_WELL_KNOWN_URL}
      networks:
        - i3m-net
-     command: ./scripts/start_docker.sh
      healthcheck:
         test: "exit 0"
      
