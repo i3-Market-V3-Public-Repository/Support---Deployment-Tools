@@ -131,7 +131,6 @@ services:
      restart: unless-stopped
      networks:
        - i3m-net
-       - reverse-proxy
 #      environment:
 #       OIDC_PROVIDER_DB_HOST: ${OIDC_PROVIDER_DB_HOST}
 #       OIDC_PROVIDER_DB_PORT: ${OIDC_PROVIDER_DB_PORT}
@@ -202,7 +201,6 @@ services:
        - 4200:4200
      networks:
        - i3m-net
-       - reverse-proxy
      env_file: .env.vc
 #       environment:
 #         RPC_URL: ${RPC_URL}
@@ -340,8 +338,6 @@ services:
 
 networks:
   i3m-net:
-  reverse-proxy:
-    external: false
 volumes:
   oidc-mongo:
   semantic-engine-db:
