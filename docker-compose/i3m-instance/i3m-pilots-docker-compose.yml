@@ -344,10 +344,11 @@ services:
       networks:
         - i3m-net
       volumes:
-        - keys:/app/.keys
+        - crs-keys:/app/.keys
 
 networks:
   i3m-net:
 volumes:
   oidc-mongo:
   semantic-engine-db:
+  crs-keys:
