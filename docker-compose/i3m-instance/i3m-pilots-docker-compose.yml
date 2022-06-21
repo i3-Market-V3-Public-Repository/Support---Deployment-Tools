@@ -336,7 +336,7 @@ services:
         - ./volumes/cockroachdb/certs:/cockroach/certs
       command: start-single-node --advertise-addr=cockroachdb-node
     
-    crs:
+   crs:
       image: 95.211.3.251:8123/crs
       container_name: conflict-resolver-service
       restart: unless-stopped
