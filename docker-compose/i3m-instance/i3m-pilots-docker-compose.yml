@@ -343,6 +343,8 @@ services:
       env_file: .env.conflict-resolver-service
       networks:
         - i3m-net
+      volumes:
+        - keys:/app/.keys
 
 networks:
   i3m-net:
