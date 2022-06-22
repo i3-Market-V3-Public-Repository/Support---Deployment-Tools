@@ -335,9 +335,20 @@ services:
         - ./volumes/cockroachdb/data:/cockroach/cockroach-data
         - ./volumes/cockroachdb/certs:/cockroach/certs
       command: start-single-node --advertise-addr=cockroachdb-node
+    
+   crs:
+      image: 95.211.3.251:8123/crs
+      container_name: conflict-resolver-service
+      restart: unless-stopped
+      env_file: .env.conflict-resolver-service
+      networks:
+        - i3m-net
+      volumes:
+        - crs-keys:/app/.keys
 
 networks:
   i3m-net:
 volumes:
   oidc-mongo:
   semantic-engine-db:
+  crs-keys:
