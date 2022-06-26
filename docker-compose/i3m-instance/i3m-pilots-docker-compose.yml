@@ -320,10 +320,13 @@ services:
 #    nginx-reverse-proxy:
 
    cockroachdb:
-      build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp4/storage-service.git#${COCKROACHDB_VERSION}
+      build:
+        context: cockroachdb
+        args:
+          COCKROACHDB_VERSION: ${COCKROACHDB_VERSION}
       image: cockroachdb:${COCKROACHDB_VERSION}
       container_name: cockroachdb-node
-#      hostname: cockroachdb-node1
+      hostname: cockroachdb-node
       restart: unless-stopped
       networks:
         - i3m-net
