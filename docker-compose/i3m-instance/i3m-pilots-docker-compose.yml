@@ -1,22 +1,22 @@
 version: '3'
 services:
 
-   dns-service:
-     image: defreitas/dns-proxy-server
-     container_name: dns-proxy-server
-     restart: unless-stopped
-     networks:
-       - i3m-net
-     volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - /etc/resolv.conf:/etc/resolv.conf
-     ports:
-        - 5380:5380
-     depends_on:
-       sdk-ri:
-           condition: service_healthy
-       web-ri:
-           condition: service_healthy
+#    dns-service:
+#      image: defreitas/dns-proxy-server
+#      container_name: dns-proxy-server
+#      restart: unless-stopped
+#      networks:
+#        - i3m-net
+#      volumes:
+#         - /var/run/docker.sock:/var/run/docker.sock
+#         - /etc/resolv.conf:/etc/resolv.conf
+#      ports:
+#         - 5380:5380
+#      depends_on:
+#        sdk-ri:
+#            condition: service_healthy
+#        web-ri:
+#            condition: service_healthy
 
    backplane:
      container_name: backplane
@@ -31,7 +31,7 @@ services:
         test: "exit 0"
      
    tokenizer:
-     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api.git
+     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api.git#${TOKENIZER_VERSION}
      container_name: tokenizer
      ports:
         - 3001:3001
@@ -89,7 +89,7 @@ services:
        test: "exit 0"
        
    mongo_web-ri:
-     image: mongo:4.4
+     image: mongo:${MONGO_WEBRI_VERSION}
      container_name: mongo_web-ri
      ports:
        - 27017:27017
@@ -100,17 +100,19 @@ services:
      command: --quiet --setParameter logLevel=0  
 
    openssl:
-     image: alpine/openssl
-     container_name: openssl
-     networks:
-       - i3m-net
-     volumes:  
-       - ./volumes/data/openssl/conf:/etc/ssl/certs
-     command: req -x509 -nodes -days 365 -subj "/C=CA/ST=QC/O=i3Market/CN=identity-i3m.com" -addext "subjectAltName=DNS:identity-i3m.com" -newkey rsa:2048 -keyout /etc/ssl/certs/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt  
-     #command: req -x509 -out /etc/ssl/certs/localhost.crt -keyout /etc/ssl/certs/localhost.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'
+      image: ianayoung/openssl:${OPENSSL_VERSION}
+      container_name: openssl
+      networks:
+        - i3m-net
+      volumes:  
+        - ./volumes/data/openssl/conf:/etc/ssl/certs
+        - ./conf:/conf
+      command: /bin/sh -c "openssl req -x509 -nodes -days 365 -subj "/C=CA/ST=QC/O=i3Market/CN=localhost" -addext "subjectAltName=localhost" -newkey rsa:2048 -keyout /etc/ssl/certs/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt"  
+#      command: /bin/sh -c "openssl genrsa -out /etc/ssl/certs/rootCA.key 4096 && openssl req -x509 -new -nodes -key /etc/ssl/certs/rootCA.key -sha256 -days 1024 -subj "/CN=rootCA.crt" -reqexts v3_req -extensions v3_ca -out /etc/ssl/certs/rootCA.crt -config /conf/crt.conf && openssl genrsa -out /etc/ssl/certs/identity-i3m.local.key 2048 && openssl req -new -key /etc/ssl/certs/identity-i3m.local.key -subj "/C=CA/ST=QC/O=i3Market/CN=identity-i3m.com" -addext "subjectAltName=DNS:identity-i3m.com" -out /etc/ssl/certs/identity-i3m.local.csr && openssl x509 -req -in /etc/ssl/certs/identity-i3m.local.csr -CA /etc/ssl/certs/rootCA.crt -CAkey /etc/ssl/certs/rootCA.key -CAcreateserial -out /etc/ssl/certs/identity-i3m.local.crt -days 500 -sha256"
+#      command: /bin/sh -c "openssl genrsa -out /etc/ssl/certs/ca.key 2048 && openssl req -new -x509 -key /etc/ssl/certs/ca.key -out /etc/ssl/certs/ca.crt -days 365 -config /conf/config_ssl_ca.conf && openssl genrsa -out /etc/ssl/certs/server.key 2048 && openssl req -new -sha256 -key /etc/ssl/certs/server.key -config /conf/config_ssl.conf -out /etc/ssl/certs/server.csr &&  echo 00 > ca.srl && touch index.txt && openssl ca -batch -config /conf/config_ca.conf -out /etc/ssl/certs/server.crt -in /etc/ssl/certs/server.csr"
      
    nginx:
-     image: nginx
+     image: nginx:${NGINX_VERSION}
      restart: unless-stopped
      container_name: nginx
      networks:
@@ -153,7 +155,7 @@ services:
       - oidc-provider-db
 
    oidc-provider-db:
-     image: mongo:4-bionic
+     image: mongo:${OIDC_DB_VERSION}
      container_name: oidc-provider-db
      restart: unless-stopped
      networks:
@@ -182,7 +184,7 @@ services:
        - i3m-net
 
    mongodb:
-     image: 'mongo:latest'
+     image: mongo:${MONGO_VERSION}
      container_name: "semantic-engine-db"
      command: mongod --port 27018
      ports:
@@ -229,8 +231,8 @@ services:
 #          NODE_ENV: ${NODE_ENV}
 #          APP_NAME: ${APP_NAME}
 #          NPM_SCRIPT: ${NPM_SCRIPT}
-      volumes:
-         - ./data_access/app:/app
+#       volumes:
+#          - ./data_access/app:/app
       ports:
         - 3100:3000
         - 9229:9229
@@ -241,7 +243,7 @@ services:
         - i3m-net
 
    mqtt-broker:
-     image: iegomez/mosquitto-go-auth
+     image: iegomez/mosquitto-go-auth:${MQTT_VERSION}
      container_name: mqtt-broker
      networks:
        - i3m-net
@@ -254,7 +256,7 @@ services:
           - 9001:9001
 
    postgres:
-     image: postgres
+     image: postgres:${POSTGRES_VERSION}
      container_name: postgres
      volumes:
        - ./keycloak-initdata/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -271,7 +273,7 @@ services:
        - i3m-net
 
    keycloak:
-     image: "quay.io/keycloak/keycloak:13.0.0"
+     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
      env_file: .env.keycloak
      container_name: keycloak
      restart: unless-stopped
@@ -340,7 +342,7 @@ services:
       command: start-single-node --advertise-addr=cockroachdb-node
     
    crs:
-      image: 95.211.3.251:8123/crs
+      image: 95.211.3.251:8123/crs:${CRS_VERSION}
       container_name: conflict-resolver-service
       restart: unless-stopped
       env_file: .env.conflict-resolver-service
