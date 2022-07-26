@@ -107,7 +107,7 @@ services:
       volumes:  
         - ./volumes/data/openssl/conf:/etc/ssl/certs
         - ./conf:/conf
-      command: /bin/sh -c "openssl genrsa -out /etc/ssl/certs/ca.key 2048 && openssl req -new -x509 -key /etc/ssl/certs/ca.key -out /etc/ssl/certs/ca.crt -days 365 -config /conf/config_ssl_ca.conf && openssl genrsa -out /etc/ssl/certs/server.key 2048 && openssl req -new -sha256 -key /etc/ssl/certs/server.key -config /conf/config_ssl.conf -out /etc/ssl/certs/server.csr &&  echo 00 > ca.srl && touch index.txt && openssl ca -batch -config /conf/config_ca.conf -out /etc/ssl/certs/server.crt -in /etc/ssl/certs/server.csr"
+      command: /bin/sh -c "openssl req -x509 -nodes -days 365 -subj "/C=CA/ST=QC/O=i3Market/CN=localhost" -addext "subjectAltName=DNS:localhost" -newkey rsa:2048 -keyout /etc/ssl/certs/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt"  
      
    nginx:
      image: nginx:${NGINX_VERSION}
