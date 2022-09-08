@@ -31,23 +31,19 @@ services:
         test: "exit 0"
      
    tokenizer:
-     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api.git#${TOKENIZER_VERSION}
+     image: registry.gitlab.com/i3-market/code/wp3/t3.3/nodejs-tokenization-treasury-api:${TOKENIZER_VERSION}
      container_name: tokenizer
      ports:
         - 3001:3001
      env_file: .env.tokenizer
      restart: unless-stopped
-#      environment:
-#      PORT: ${PORT}
-#        ETH_HOST: ${ETH_HOST}
-#        CONTRACT_ADDRESS: ${CONTRACT_ADDRESS}
-#        WEBHOOK: ${WEBHOOK}
      networks:
        - i3m-net
      depends_on:
        besu:
            condition: service_healthy
-     command: npm start
+       postgres:
+           condition: service_healthy
 
    sdk-ri:
      build:
@@ -254,21 +250,27 @@ services:
           - 9001:9001
 
    postgres:
-     image: postgres:${POSTGRES_VERSION}
+     build:
+       context: ./postgres
      container_name: postgres
      volumes:
        - ./keycloak-initdata/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-       - ./volumes/postgres/data:/var/lib/postgresql/data
+#       - ./volumes/postgres/data:/var/lib/postgresql/data
      env_file: .env.keycloak
      restart: unless-stopped
-#      environment:
-#        - POSTGRES_MULTIPLE_DATABASES=
-#        - POSTGRES_USER=postgres
-#        - POSTGRES_PASSWORD=postgres
+     environment:
+       - POSTGRES_MULTIPLE_DATABASES=tokenizerdb
+       - POSTGRES_USER=i3m
+       - POSTGRES_PASSWORD=i3M@rket
      ports:
        - 5432:5432
      networks:
        - i3m-net
+     healthcheck:
+       test: ["CMD-SHELL", "pg_isready"]
+       interval: 10s
+       timeout: 5s
+       retries: 5
 
    keycloak:
      image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}

@@ -23,7 +23,7 @@ SET row_security = off;
 CREATE DATABASE keycloak WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.utf8';
 
 
-ALTER DATABASE keycloak OWNER TO postgres;
+ALTER DATABASE keycloak OWNER TO i3m;
 
 \connect keycloak
 
