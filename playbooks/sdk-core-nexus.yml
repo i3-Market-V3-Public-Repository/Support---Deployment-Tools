@@ -72,7 +72,7 @@
 #        var: sdkgen_javascript
        
    - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for BACKPLANE API
-     shell: " openapi-generator-cli version-manager set 4.2.1 && openapi-p/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --sgenerator-cli generate -g javascript -o /tmkip-validate-spec"
+     shell: " openapi-generator-cli version-manager set 3.3.4 && openapi-p/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --sgenerator-cli generate -g typescript-node -o /tmkip-validate-spec"
      become: yes
      register: sdkgen_java  
      
