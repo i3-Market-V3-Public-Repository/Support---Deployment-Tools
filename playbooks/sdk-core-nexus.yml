@@ -364,7 +364,7 @@
      uri:
        method: POST
        url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.244:10010/static/swagger.json\", \"options\": {} }"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/notificationManagerOAS.yaml\", \"options\": {} }"
        body_format: json
        return_content: yes
        headers:
