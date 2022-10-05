@@ -70,7 +70,7 @@
    - name: Make an API call to SDK-Generator to download SDK client stub
      uri:
        method: GET
-       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.code }}"
+       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
        return_content: yes
        dest: "/tmp/i3m-sdk-core-javascript.zip"
        mode: 0766
