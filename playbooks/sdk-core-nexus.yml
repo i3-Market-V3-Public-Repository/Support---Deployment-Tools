@@ -61,15 +61,24 @@
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
+     become: yes  
+     register: sdkgen_javascript  
+     
+   - debug:
+       var: sdkgen_javascript
+       
+   - name: Make an API call to SDK-Generator to download SDK client stub
+     uri:
+       method: GET
+       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.code }}"
+       return_content: yes
        dest: "/tmp/i3m-sdk-core-javascript.zip"
        mode: 0766
      become: yes  
      register: sdkgen_javascript  
      
    - debug:
-       var: sdkgen_javascript
+       var: sdkgen_javascript    
        
 #    - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for BACKPLANE API
 #      shell: " openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g javascript -o /tmp/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --skip-validate-spec"
