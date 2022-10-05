@@ -54,30 +54,30 @@
      debug: 
        var: shellout   
  
-#    - name: Make an API call to SDK-Generator to generate SDK client stub
-#      uri:
-#        method: POST
-#        url: "http://{{ SDKGEN_HOST }}:8180/SdkGenerator/api/sdkgen/generateSDK/javascript"
-#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
-#        body_format: json
-#        return_content: yes
-#        headers:
-#          Authorization: "Bearer {{ auth_request.json.access_token }}"
-#        dest: "/tmp/i3m-sdk-core-javascript.zip"
-#        mode: 0766
-#      become: yes  
-#      register: sdkgen_javascript  
-#      
-#    - debug:
-#        var: sdkgen_javascript
-       
-   - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for BACKPLANE API
-     shell: " openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g javascript -o /tmp/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --skip-validate-spec"
-     become: yes
-     register: sdkgen_java  
+   - name: Make an API call to SDK-Generator to generate SDK client stub
+     uri:
+       method: POST
+       url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
+       body_format: json
+       return_content: yes
+       headers:
+         Authorization: "Bearer {{ auth_request.json.access_token }}"
+       dest: "/tmp/i3m-sdk-core-javascript.zip"
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript  
      
    - debug:
-        var: sdkgen_java     
+       var: sdkgen_javascript
+       
+#    - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for BACKPLANE API
+#      shell: " openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g javascript -o /tmp/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --skip-validate-spec"
+#      become: yes
+#      register: sdkgen_java  
+#      
+#    - debug:
+#         var: sdkgen_java     
        
    - name: Zip backplane api client stubs
      become: yes
