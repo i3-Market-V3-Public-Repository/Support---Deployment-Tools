@@ -128,19 +128,19 @@
      debug: 
        var: shellout   
        
-   - name: Make an API call to SDK-Generator to generate SDK client stub
-     uri:
-       method: POST
-       url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {} }"
-       body_format: json
-       return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/i3m-sdk-oidc-javascript.zip"
-       mode: 0766
-     become: yes  
-     register: sdkgen_javascript
+#    - name: Make an API call to SDK-Generator to generate SDK client stub
+#      uri:
+#        method: POST
+#        url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {} }"
+#        body_format: json
+#        return_content: yes
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        dest: "/tmp/i3m-sdk-oidc-javascript.zip"
+#        mode: 0766
+#      become: yes  
+#      register: sdkgen_javascript
 
    - name: Delete oas temp dir
      shell: "rm -rf *"
@@ -148,13 +148,13 @@
         chdir: "/tmp/oas/javascript-client"
      become: yes
      
-#    - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for OIDC API
-#      shell: " openapi-generator-cli version-manager set 3.3.4 && openapi-generator-cli generate -g javascript -o /tmp/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --skip-validate-spec"
-#      become: yes
-#      register: sdkgen_javascript     
-#      
-#    - debug:
-#        var: sdkgen_javascript
+   - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for OIDC API
+     shell: " openapi-generator-cli version-manager set 3.3.4 && openapi-generator-cli generate -g javascript -o /tmp/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --skip-validate-spec"
+     become: yes
+     register: sdkgen_javascript     
+     
+   - debug:
+       var: sdkgen_javascript
    
    - name: Zip OIDC api client stubs
      become: yes
