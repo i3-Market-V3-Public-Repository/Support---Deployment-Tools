@@ -148,10 +148,25 @@
        return_content: yes
        headers:
          Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/i3m-sdk-oidc-javascript.zip"
+#        dest: "/tmp/i3m-sdk-oidc-javascript.zip"
        mode: 0766
      become: yes  
      register: sdkgen_javascript
+     
+   - name: Make an API call to SDK-Generator to download SDK client stub
+     uri:
+       method: GET
+       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       return_content: yes
+       headers:
+          Content-Type: "application/octet-stream"
+       dest: "/tmp/i3m-sdk-oidc-javascript.zip"
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript  
+     
+   - debug:
+       var: sdkgen_javascript   
 
    - name: Delete oas temp dir
      shell: "rm -rf *"
@@ -224,11 +239,23 @@
        return_content: yes
        headers:
          Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/i3m-sdk-vc-javascript.zip"
+#        dest: "/tmp/i3m-sdk-vc-javascript.zip"
        mode: 0766
      become: yes  
      register: sdkgen_javascript
      
+   - name: Make an API call to SDK-Generator to download SDK client stub
+     uri:
+       method: GET
+       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       return_content: yes
+       headers:
+          Content-Type: "application/octet-stream"
+       dest: "/tmp/i3m-sdk-vc-javascript.zip"
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript 
+       
    - debug:
        var: sdkgen_javascript
        
@@ -259,63 +286,75 @@
      
  ################### JAVAscript DATA ACCESS TASKS ##########################
  
-#    - name: Get access token for accesing to Sdk Generator REST API
-#      uri:
-#        method: POST
-#        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
-#        body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
-#        headers:
-#           Content-Type: "application/x-www-form-urlencoded"
-#      register: auth_request
-#    
-#    - debug:
-#        var: auth_request
-#        
-#    - debug:
-#        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
-#        
-#    - name: Make an API call to Data Access API to download OAS file
-#      shell: "curl -k -o \"/tmp/dataaccessapi.json\" -v http://{{ BACKPLANE_HOST }}:3100/openapi"
-#           
-#    - name: cat the OAS file contents
-#      shell: "cat /tmp/dataaccessapi.json"
-#      register: shellout   
-#       
-#    - name: Display the OAS File Contents
-#      debug: 
-#         var: shellout.stdout_lines     
-#         
-#    - name: Upload oas file to Nexus
-#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/dataaccessapi.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json"
-#      register: shellout 
-#      
-#    - name: Display nexus curl response
-#      debug: 
-#        var: shellout   
-#  
-#    - name: Make an API call to SDK-Generator to generate SDK client stub
-#      uri:
-#        method: POST
-#        url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
-#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json\", \"options\": {} }"
-#        body_format: json
-#        return_content: yes
-#        headers:
-#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+   - name: Get access token for accesing to Sdk Generator REST API
+     uri:
+       method: POST
+       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+       headers:
+          Content-Type: "application/x-www-form-urlencoded"
+     register: auth_request
+   
+   - debug:
+       var: auth_request
+       
+   - debug:
+       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+       
+   - name: Make an API call to Data Access API to download OAS file
+     shell: "curl -k -o \"/tmp/dataaccessapi.json\" -v http://{{ BACKPLANE_HOST }}:3100/openapi"
+          
+   - name: cat the OAS file contents
+     shell: "cat /tmp/dataaccessapi.json"
+     register: shellout   
+      
+   - name: Display the OAS File Contents
+     debug: 
+        var: shellout.stdout_lines     
+        
+   - name: Upload oas file to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/dataaccessapi.json http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json"
+     register: shellout 
+     
+   - name: Display nexus curl response
+     debug: 
+       var: shellout   
+ 
+   - name: Make an API call to SDK-Generator to generate SDK client stub
+     uri:
+       method: POST
+       url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json\", \"options\": {} }"
+       body_format: json
+       return_content: yes
+       headers:
+         Authorization: "Bearer {{ auth_request.json.access_token }}"
 #        dest: "/tmp/i3m-sdk-data-access-javascript.zip"
-#        mode: 0766
-#      become: yes  
-#      register: sdkgen_javascript  
-#      
-#    - debug:
-#        var: sdkgen_javascript
-#        
-#    - name: Delete oas temp dir
-#      shell: "rm -rf *"
-#      args:
-#         chdir: "/tmp/oas/javascript-client"
-#      become: yes
-#      
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript  
+     
+   - debug:
+       var: sdkgen_javascript
+    
+   - name: Make an API call to SDK-Generator to download SDK client stub
+     uri:
+       method: GET
+       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       return_content: yes
+       headers:
+          Content-Type: "application/octet-stream"
+       dest: "/tmp/i3m-sdk-data-access-javascript.zip"
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript 
+        
+   - name: Delete oas temp dir
+     shell: "rm -rf *"
+     args:
+        chdir: "/tmp/oas/javascript-client"
+     become: yes
+     
 #    - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for Data Access API
 #      shell: " openapi-generator-cli version-manager set 3.3.4 && openapi-generator-cli generate -g javascript -o /tmp/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json --skip-validate-spec"
 #      become: yes
@@ -330,10 +369,10 @@
 #        path: /tmp/oas/javascript-client
 #        dest: /tmp/i3m-sdk-data-access-javascript.zip  
 #        format: zip        
-#        
-#    - name: Upload oas-javascript artifact to Nexus
-#      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-data-access-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-data-access-javascript-1.0.0.zip"
-#      register: shellout  
+       
+   - name: Upload oas-javascript artifact to Nexus
+     shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-data-access-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-data-access-javascript-1.0.0.zip"
+     register: shellout  
                     
  ################### JAVAscript NOTIFICATION MANAGER TASKS ##########################
  
@@ -380,14 +419,26 @@
        return_content: yes
        headers:
          Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/i3m-sdk-notification-manager-javascript.zip"
+#        dest: "/tmp/i3m-sdk-notification-manager-javascript.zip"
        mode: 0766
      become: yes  
      register: sdkgen_javascript  
      
    - debug:
        var: sdkgen_javascript
-       
+    
+   - name: Make an API call to SDK-Generator to download SDK client stub
+     uri:
+       method: GET
+       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       return_content: yes
+       headers:
+          Content-Type: "application/octet-stream"
+       dest: "/tmp/i3m-sdk-notification-manager-javascript.zip"
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript 
+         
    - name: Delete oas temp dir
      shell: "rm -rf *"
      args:
@@ -458,7 +509,7 @@
        return_content: yes
        headers:
          Authorization: "Bearer {{ auth_request.json.access_token }}"
-       dest: "/tmp/i3m-sdk-smart-contract-manager-javascript.zip"
+#        dest: "/tmp/i3m-sdk-smart-contract-manager-javascript.zip"
        mode: 0766
      become: yes  
      register: sdkgen_javascript  
@@ -466,6 +517,18 @@
    - debug:
        var: sdkgen_javascript
        
+   - name: Make an API call to SDK-Generator to download SDK client stub
+     uri:
+       method: GET
+       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       return_content: yes
+       headers:
+          Content-Type: "application/octet-stream"
+       dest: "/tmp/i3m-sdk-notification-manager-javascript.zip"
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript
+        
    - name: Delete oas temp dir
      shell: "rm -rf *"
      args:
