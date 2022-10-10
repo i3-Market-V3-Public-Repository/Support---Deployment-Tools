@@ -50,7 +50,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "fs": "0.0.1-security",
-    "got": "^11.8.2",
+    "got": "^11.8.5",
     "isomorphic-fetch": "^3.0.0",
     "jose": "^3.11.6",
     "jsonwebtoken": "^8.5.1",
