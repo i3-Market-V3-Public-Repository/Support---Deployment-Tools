@@ -96,30 +96,30 @@ services:
        - i3m-net
      command: --quiet --setParameter logLevel=0
 
-   openssl:
-      image: ianayoung/openssl:${OPENSSL_VERSION}
-      container_name: openssl
-      networks:
-        - i3m-net
-      volumes:
-        - ./volumes/data/openssl/conf:/etc/ssl/certs
-        - ./conf:/conf
-      command: /bin/sh -c "openssl req -x509 -nodes -days 365 -subj "/C=CA/ST=QC/O=i3Market/CN=localhost" -addext "subjectAltName=DNS:localhost" -newkey rsa:2048 -keyout /etc/ssl/certs/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt"
+#    openssl:
+#       image: ianayoung/openssl:${OPENSSL_VERSION}
+#       container_name: openssl
+#       networks:
+#         - i3m-net
+#       volumes:
+#         - ./volumes/data/openssl/conf:/etc/ssl/certs
+#         - ./conf:/conf
+#       command: /bin/sh -c "openssl req -x509 -nodes -days 365 -subj "/C=CA/ST=QC/O=i3Market/CN=localhost" -addext "subjectAltName=DNS:localhost" -newkey rsa:2048 -keyout /etc/ssl/certs/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt"
 
-   nginx:
-     image: nginx:${NGINX_VERSION}
-     restart: unless-stopped
-     container_name: nginx
-     networks:
-       - i3m-net
-     depends_on:
-       - openssl
-     volumes:
-       - ./conf/nginx.conf:/etc/nginx/nginx.conf
-       - ./conf/servers:/servers
-       - ./volumes/data/openssl/conf:/etc/openssl/certs
-     ports:
-       - "443:443"
+#    nginx:
+#      image: nginx:${NGINX_VERSION}
+#      restart: unless-stopped
+#      container_name: nginx
+#      networks:
+#        - i3m-net
+#      depends_on:
+#        - openssl
+#      volumes:
+#        - ./conf/nginx.conf:/etc/nginx/nginx.conf
+#        - ./conf/servers:/servers
+#        - ./volumes/data/openssl/conf:/etc/openssl/certs
+#      ports:
+#        - "443:443"
 
    oidc-provider-app:
 #     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp3/t3.1-self-sovereign-identity-and-access-management/node-oidc-provider.git#${OIDC_VERSION}
@@ -183,7 +183,7 @@ services:
      container_name: "semantic-engine-db"
      command: mongod --port 27018
      ports:
-       - 27018:27018
+       - 27018:27017
      restart: always
      env_file: .env.semantics
      networks:
@@ -360,6 +360,30 @@ services:
         - 8384:8080
       networks:
         - i3m-net
+
+   mongo-rating:
+    container_name: mongo-rating
+    image: mongo:latest
+    env_file: .env.rating
+    restart: always
+    ports:
+      - 27020:27017
+#     environment:
+#       - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+#       - MONGO_INITDB_ROOT_USERNAME=$MONGO_USER
+
+   rating:
+     build: https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/i3-market/code/wp5/industry-4_0-manufacturing/react-rating-component.git#main
+     container_name: rating
+     env_file: .env.rating
+     ports:
+       - 3002:3001
+#      environment:
+#        - MONGO_PASSWORD=$MONGO_PASSWORD
+#        - MONGO_USER=$MONGO_USER
+#        - MONGO_URL=$MONGO_URL
+     links:
+       - mongo-rating
 
 networks:
   i3m-net:

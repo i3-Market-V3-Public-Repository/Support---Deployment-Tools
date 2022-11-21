@@ -568,19 +568,19 @@
         chdir: "/tmp/oas/java"
      become: yes
        
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
-#      uri:
-#         method: POST
-#         url: "https://generator3.swagger.io/api/generate"
-#         body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
-#         body_format: json
-#         return_content: yes
-#         dest: "/tmp/oas-java.zip"
-#         mode: 0766
-#      register: sdkgen_java     
-#        
-#    - debug:
-#        var: sdkgen_java
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
+     uri:
+        method: POST
+        url: "https://generator3.swagger.io/api/generate"
+        body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"options\":{\"groupId\": {{ ARTIFACT_GROUP_ID }},\"artifactId\": {{ ARTIFACT_NAME }},\"artifactVersion\": {{ ARTIFACT_VERSION }},\"modelPackage\": \"com.i3m.model.backplane\",\"apiPackage\": \"com.i3m.api.backplane\",\"prependFormOrBodyParameters\": true,\"hideGenerationTimestamp\": true,\"fullJavaUtil\": false,\"java8\": true,\"serializableModel\": true,\"dateLibrary\": \"legacy\"}}"
+        body_format: json
+        return_content: yes
+        dest: "/tmp/oas-java.zip"
+        mode: 0766
+     register: sdkgen_java     
+       
+   - debug:
+       var: sdkgen_java
        
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
 #      uri:
@@ -598,15 +598,15 @@
 #    - debug:
 #         var: sdkgen_java 
 
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
-     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.backplane,apiPackage=com.i3m.api.backplane,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy  -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
-     become: yes
-     args:
-        chdir: "/tmp/oas"
-     register: sdkgen_java  
-     
-   - debug:
-        var: sdkgen_java 
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
+#      shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.backplane,apiPackage=com.i3m.api.backplane,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy  -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+#      become: yes
+#      args:
+#         chdir: "/tmp/oas"
+#      register: sdkgen_java  
+#      
+#    - debug:
+#         var: sdkgen_java 
        
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
 #      uri:
