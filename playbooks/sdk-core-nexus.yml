@@ -775,7 +775,7 @@
    - name: Add global import of fasterxml to avoid compilation issues with JsonTypeInfo, JsonSubTypes
      shell: "find /tmp/oas/java-client/ -name \"*.java\" -print | xargs sed -i \"s/import com.fasterxml.jackson.annotation.JsonPropertyOrder/import com.fasterxml.jackson.annotation.*/g\""
      args:
-        chdir: "/tmp/oas/java"
+        chdir: "/tmp/oas/java-client"
      become: yes        
      
    - name: Mvn package sdk-core artifact
@@ -801,13 +801,13 @@
    - name: Extract jar file with java classes
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}.jar"    
      args:
-        chdir: "/tmp/oas/java/target/tmp"
+        chdir: "/tmp/oas/java-client/target/tmp"
      become: yes  
      
    - name: Extract jar file with java docs
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-javadoc.jar"    
      args:
-        chdir: "/tmp/oas/java/target/tmp"
+        chdir: "/tmp/oas/java-client/target/tmp"
      become: yes  
      
    - name: Extract jar file with java sources
