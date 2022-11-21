@@ -579,13 +579,31 @@
         return_content: yes
         headers:
           Authorization: "Bearer {{ auth_request.json.access_token }}"
-        dest: "/tmp/oas-java.zip"
+#        dest: "/tmp/oas-java.zip"
         mode: 0766
      register: sdkgen_java     
        
    - debug:
        var: sdkgen_java
        
+   - name: Make an API call to SDK-Generator to download SDK client stub
+     uri:
+       method: GET
+       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_java.json.code }}"
+       return_content: yes
+       headers:
+          Content-Type: "application/octet-stream"
+       dest: "/tmp/oas-java.zip"
+       mode: 0766
+     become: yes  
+     register: sdkgen_javascript 
+     
+   - name: Unzip SCM api client stubs
+     become: yes
+     archive:
+       src: /tmp/oas-java.zip
+       dest: /tmp/oas/java    
+         
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
 #      uri:
 #        method: POST
