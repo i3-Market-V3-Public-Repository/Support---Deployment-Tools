@@ -575,6 +575,10 @@
         body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"options\":{\"groupId\": {{ ARTIFACT_GROUP_ID }},\"artifactId\": {{ ARTIFACT_NAME }},\"artifactVersion\": {{ ARTIFACT_VERSION }},\"modelPackage\": \"com.i3m.model.backplane\",\"apiPackage\": \"com.i3m.api.backplane\",\"prependFormOrBodyParameters\": true,\"hideGenerationTimestamp\": true,\"fullJavaUtil\": false,\"java8\": true,\"serializableModel\": true,\"dateLibrary\": \"legacy\"}}"
         body_format: json
         return_content: yes
+        body_format: json
+        return_content: yes
+        headers:
+          Authorization: "Bearer {{ auth_request.json.access_token }}"
         dest: "/tmp/oas-java.zip"
         mode: 0766
      register: sdkgen_java     
