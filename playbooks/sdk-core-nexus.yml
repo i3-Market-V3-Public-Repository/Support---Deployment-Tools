@@ -558,14 +558,14 @@
       
    - name: Create oas temp dir
      file:
-       path: "/tmp/oas/java/"
+       path: "/tmp/oas/java-client/"
        state: "directory"
      become: yes  
      
    - name: Delete oas temp dir
      shell: "rm -rf *"
      args:
-        chdir: "/tmp/oas/java"
+        chdir: "/tmp/oas/java-client"
      become: yes
        
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
