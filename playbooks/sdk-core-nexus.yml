@@ -598,11 +598,11 @@
      become: yes  
      register: sdkgen_javascript 
      
-   - name: Unzip SCM api client stubs
-     become: yes
-     archive:
-       src: /tmp/oas-java.zip
-       dest: /tmp/oas/java    
+   - name: Unzip file with client stubs 
+     unarchive:
+       src: "/tmp/oas-java.zip"
+       dest: "/tmp/oas/java/"
+       remote_src: yes    
          
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
 #      uri:
