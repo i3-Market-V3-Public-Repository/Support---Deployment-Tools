@@ -558,52 +558,30 @@
       
    - name: Create oas temp dir
      file:
-       path: "/tmp/oas/java-client/"
+       path: "/tmp/oas/java/"
        state: "directory"
      become: yes  
      
    - name: Delete oas temp dir
      shell: "rm -rf *"
      args:
-        chdir: "/tmp/oas/java-client"
+        chdir: "/tmp/oas/java"
      become: yes
        
-   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
-     uri:
-        method: POST
-        url: "http://api.openapi-generator.tech/api/gen/clients/java"
-        body: "{\"openAPIUrl\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"options\":{\"groupId\": \"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\": \"{{ ARTIFACT_NAME }}\",\"artifactVersion\": \"{{ ARTIFACT_VERSION }}\",\"modelPackage\": \"com.i3m.model.backplane\",\"apiPackage\": \"com.i3m.api.backplane\", \"prependFormOrBodyParameters\": \"true\",\"hideGenerationTimestamp\": \"true\",\"fullJavaUtil\": \"false\",\"java8\": \"true\",\"serializableModel\": \"true\",\"dateLibrary\": \"legacy\" }}"
-        body_format: json
-        return_content: yes
-        body_format: json
-        return_content: yes
-        headers:
-          Authorization: "Bearer {{ auth_request.json.access_token }}"
-#        dest: "/tmp/oas-java.zip"
-        mode: 0766
-     register: sdkgen_java     
+#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API. https://generator3.swagger.io/
+#      uri:
+#         method: POST
+#         url: "https://generator3.swagger.io/api/generate"
+#         body: "{\"lang\":\"java\",\"specURL\":\"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\",\"type\":\"CLIENT\",\"codegenVersion\":\"V3\",\"options\":{\"groupId\":\"{{ ARTIFACT_GROUP_ID }}\",\"artifactId\":\"{{ ARTIFACT_NAME }}\",\"artifactVersion\":\"{{ ARTIFACT_VERSION }}\", \"library\": \"jersey2\", \"modelPackage\": \"com.i3m\", \"apiPackage\": \"com.i3m.api\", \"hideGenerationTimestamp\": \"true\", \"useBeanValidation\": \"true\", \"serializableModel\": \"true\" }}"
+#         body_format: json
+#         return_content: yes
+#         dest: "/tmp/oas-java.zip"
+#         mode: 0766
+#      register: sdkgen_java     
+#        
+#    - debug:
+#        var: sdkgen_java
        
-   - debug:
-       var: sdkgen_java
-       
-   - name: Make an API call to SDK-Generator to download SDK client stub
-     uri:
-       method: GET
-       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_java.json.code }}"
-       return_content: yes
-       headers:
-          Content-Type: "application/octet-stream"
-       dest: "/tmp/oas-java.zip"
-       mode: 0766
-     become: yes  
-     register: sdkgen_java
-     
-   - name: Unzip file with client stubs 
-     unarchive:
-       src: "/tmp/oas-java.zip"
-       dest: "/tmp/oas/"
-       remote_src: yes    
-         
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
 #      uri:
 #        method: POST
@@ -620,15 +598,15 @@
 #    - debug:
 #         var: sdkgen_java 
 
-#    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
-#      shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.backplane,apiPackage=com.i3m.api.backplane,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy  -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
-#      become: yes
-#      args:
-#         chdir: "/tmp/oas"
-#      register: sdkgen_java  
-#      
-#    - debug:
-#         var: sdkgen_java 
+   - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for BACKPLANE API
+     shell: "openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.backplane,apiPackage=com.i3m.api.backplane,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy  -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     become: yes
+     args:
+        chdir: "/tmp/oas"
+     register: sdkgen_java  
+     
+   - debug:
+        var: sdkgen_java 
        
 #    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API. https://generator3.swagger.io/
 #      uri:
@@ -661,7 +639,7 @@
 #         var: sdkgen_java    
 
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for OIDC API
-     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.oidc,apiPackage=com.i3m.api.oidc,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.oidc,apiPackage=com.i3m.api.oidc,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
      become: yes
      args:
         chdir: "/tmp/oas"
@@ -701,7 +679,7 @@
 #         var: sdkgen_java   
 
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for DATA ACCESS API
-     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.data-access,apiPackage=com.i3m.api.data-access,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.data-access,apiPackage=com.i3m.api.data-access,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
      become: yes
      args:
         chdir: "/tmp/oas"
@@ -719,7 +697,7 @@
 #         var: sdkgen_java 
         
    - name: Make an API call to Swagger Generator to generate JAVA SDK client stub for SMART CONTARCT MANAGER API
-     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.smart-contract,apiPackage=com.i3m.api.smart-contract,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
+     shell: "openapi-generator-cli version-manager set 4.3.0 && openapi-generator-cli generate -g java --additional-properties=groupId={{ ARTIFACT_GROUP_ID }},artifactId={{ ARTIFACT_NAME }},artifactVersion={{ ARTIFACT_VERSION }},modelPackage=com.i3m.model.smart-contract,apiPackage=com.i3m.api.smart-contract,prependFormOrBodyParameters=true,hideGenerationTimestamp=true,fullJavaUtil=false,java8=true,serializableModel=true,dateLibrary=legacy -o /tmp/oas/java -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.json --enable-post-process-file --generate-alias-as-model --library=jersey2 --skip-validate-spec"
      become: yes
      args:
         chdir: "/tmp/oas"
@@ -763,25 +741,25 @@
    - name: Delete authorizations unmodifiableMap in ApiClient
      shell: "sed -i '/Collections.unmodifiableMap(authentications)/d' ApiClient.java"
      args:
-        chdir: "/tmp/oas/java-client/src/main/java/com/i3m/api"
+        chdir: "/tmp/oas/java/src/main/java/com/i3m/api"
      become: yes  
      
    - name: Delete defaults authorizations in ApiClient
      shell: "sed -i '/authentications.put/d' ApiClient.java"
      args:
-        chdir: "/tmp/oas/java-client/src/main/java/com/i3m/api"
+        chdir: "/tmp/oas/java/src/main/java/com/i3m/api"
      become: yes
      
    - name: Add global import of fasterxml to avoid compilation issues with JsonTypeInfo, JsonSubTypes
-     shell: "find /tmp/oas/java-client/ -name \"*.java\" -print | xargs sed -i \"s/import com.fasterxml.jackson.annotation.JsonPropertyOrder/import com.fasterxml.jackson.annotation.*/g\""
+     shell: "find /tmp/oas/java/ -name \"*.java\" -print | xargs sed -i \"s/import com.fasterxml.jackson.annotation.JsonPropertyOrder/import com.fasterxml.jackson.annotation.*/g\""
      args:
-        chdir: "/tmp/oas/java-client"
+        chdir: "/tmp/oas/java"
      become: yes        
      
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
      args:
-        chdir: "/tmp/oas/java-client"
+        chdir: "/tmp/oas/java"
      become: yes   
      
 #    - name: Get artifacts names for target dir
@@ -794,32 +772,32 @@
 
    - name: Create temp dir
      file:
-       path: "/tmp/oas/java-client/target/tmp"
+       path: "/tmp/oas/java/target/tmp"
        state: "directory"
      become: yes  
      
    - name: Extract jar file with java classes
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}.jar"    
      args:
-        chdir: "/tmp/oas/java-client/target/tmp"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes  
      
    - name: Extract jar file with java docs
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-javadoc.jar"    
      args:
-        chdir: "/tmp/oas/java-client/target/tmp"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes  
      
    - name: Extract jar file with java sources
      shell: "jar -xf ../{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-sources.jar"    
      args:
-        chdir: "/tmp/oas/java-client/target/tmp"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes    
      
    - name: Add all classes and docs into a single JAR file,
      shell: " jar -cf ../{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar ."    
      args:
-        chdir: "/tmp/oas/java-client/target/tmp"
+        chdir: "/tmp/oas/java/target/tmp"
      become: yes   
           
         
@@ -827,7 +805,7 @@
      shell: "mvn deploy:deploy-file -DgroupId={{ ARTIFACT_GROUP_ID}} -DartifactId={{ ARTIFACT_NAME }}-all -Dversion={{ ARTIFACT_VERSION }} -Dpackaging=jar -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven-snapshots/ -Dfile=./{{ ARTIFACT_NAME }}-all-{{ ARTIFACT_VERSION }}.jar -Djavadoc=./{{ ARTIFACT_NAME }}-{{ ARTIFACT_VERSION }}-javadoc.jar"
 #     shell: "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus-i3m -Durl=http://95.211.3.251:8081/repository/i3m-maven/ -DpomFile=pom.xml -Dfile={{ item }}"
      args:
-        chdir: "/tmp/oas/java-client/target"
+        chdir: "/tmp/oas/java/target"
      become: yes
 #      loop: "{{ shellout.stdout_lines }}"
 #      register: nexusout
