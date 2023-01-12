@@ -273,11 +273,11 @@ services:
        timeout: 5s
        retries: 5
 
-   keycloak:
-     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
-     env_file: .env.keycloak
-     container_name: keycloak
-     restart: unless-stopped
+#    keycloak:
+#      image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
+#      env_file: .env.keycloak
+#      container_name: keycloak
+#      restart: unless-stopped
 #      environment:
 #        KEYCLOAK_USER: ${KEYCLOAK_USER}
 #        KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
@@ -286,17 +286,17 @@ services:
 #        DB_USER: ${DB_USER}
 #        DB_PASSWORD: ${DB_PASSWORD}
 #        PROXY_ADDRESS_FORWARDING: ${PROXY_ADDRESS_FORWARDING}
-     command: |
-       bash -c "/common/wait-for-it.sh -t 60 postgres:5432 && /opt/jboss/tools/docker-entrypoint.sh"
-     entrypoint: ""
-     ports:
-       - 8080:8080
-       - 8443:8443
-     # /opt/jboss/tools/docker-entrypoint.sh
-     volumes:
-       - ./keycloak-initdata/common:/common
-     networks:
-      - i3m-net
+#      command: |
+#        bash -c "/common/wait-for-it.sh -t 60 postgres:5432 && /opt/jboss/tools/docker-entrypoint.sh"
+#      entrypoint: ""
+#      ports:
+#        - 8080:8080
+#        - 8443:8443
+#      /opt/jboss/tools/docker-entrypoint.sh
+#      volumes:
+#        - ./keycloak-initdata/common:/common
+#      networks:
+#       - i3m-net
 #      - reverse-proxy
 
    auditable-accounting:
