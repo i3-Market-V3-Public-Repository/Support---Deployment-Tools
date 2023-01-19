@@ -20,20 +20,20 @@
      
  ################### JAVAscript BACKPLANE TASKS ##########################
  
-   - name: Get access token for accesing to Sdk Generator REST API
-     uri:
-       method: POST
-       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
-       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
-       headers:
-          Content-Type: "application/x-www-form-urlencoded"
-     register: auth_request
-   
-   - debug:
-       var: auth_request
-       
-   - debug:
-       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+#    - name: Get access token for accesing to Sdk Generator REST API
+#      uri:
+#        method: POST
+#        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+#        body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+#        headers:
+#           Content-Type: "application/x-www-form-urlencoded"
+#      register: auth_request
+#    
+#    - debug:
+#        var: auth_request
+#        
+#    - debug:
+#        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Backplane API to download OAS file
      shell: "curl -k -o \"/tmp/backplaneOAS.json\" -v http://{{ BACKPLANE_HOST }}:3000/explorer/openapi.json" 
@@ -105,20 +105,20 @@
 ################### JAVAscript OIDC TASKS ########################## 
       
        
-   - name: Get access token for accesing to Sdk Generator REST API
-     uri:
-       method: POST
-       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
-       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
-       headers:
-          Content-Type: "application/x-www-form-urlencoded"
-     register: auth_request
-   
-   - debug:
-       var: auth_request
-       
-   - debug:
-       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+#    - name: Get access token for accesing to Sdk Generator REST API
+#      uri:
+#        method: POST
+#        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+#        body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+#        headers:
+#           Content-Type: "application/x-www-form-urlencoded"
+#      register: auth_request
+#    
+#    - debug:
+#        var: auth_request
+#        
+#    - debug:
+#        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Backplane API to download OAS file
      shell: "curl -k -o \"/tmp/oidcOAS.json\" -v https://{{ OIDC_HOST }}/release2/api-spec/openapi.json"
@@ -196,20 +196,20 @@
 ################### JAVAscript VC TASKS ########################## 
       
        
-   - name: Get access token for accesing to Sdk Generator REST API
-     uri:
-       method: POST
-       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
-       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
-       headers:
-          Content-Type: "application/x-www-form-urlencoded"
-     register: auth_request
-   
-   - debug:
-       var: auth_request
-       
-   - debug:
-       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+#    - name: Get access token for accesing to Sdk Generator REST API
+#      uri:
+#        method: POST
+#        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+#        body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+#        headers:
+#           Content-Type: "application/x-www-form-urlencoded"
+#      register: auth_request
+#    
+#    - debug:
+#        var: auth_request
+#        
+#    - debug:
+#        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Backplane API to download OAS file
      shell: "curl -k -o \"/tmp/vcOAS.json\" -v https://{{ VC_HOST }}/release2/vc/api-spec/openapi.json"
@@ -376,20 +376,20 @@
                     
  ################### JAVAscript NOTIFICATION MANAGER TASKS ##########################
  
-   - name: Get access token for accesing to Sdk Generator REST API
-     uri:
-       method: POST
-       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
-       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
-       headers:
-          Content-Type: "application/x-www-form-urlencoded"
-     register: auth_request
-   
-   - debug:
-       var: auth_request
-       
-   - debug:
-       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+#    - name: Get access token for accesing to Sdk Generator REST API
+#      uri:
+#        method: POST
+#        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+#        body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+#        headers:
+#           Content-Type: "application/x-www-form-urlencoded"
+#      register: auth_request
+#    
+#    - debug:
+#        var: auth_request
+#        
+#    - debug:
+#        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to Notification Manager API to download OAS file
      shell: "curl -k -o \"/tmp/notificationManagerOAS.yaml\" -v http://{{ BACKPLANE_HOST }}:10010/openapi.json"
@@ -466,20 +466,20 @@
      
 ################### JAVAscript SMART CONTRACT MANAGER TASKS ##########################
  
-   - name: Get access token for accesing to Sdk Generator REST API
-     uri:
-       method: POST
-       url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
-       body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
-       headers:
-          Content-Type: "application/x-www-form-urlencoded"
-     register: auth_request
-   
-   - debug:
-       var: auth_request
-       
-   - debug:
-       msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
+#    - name: Get access token for accesing to Sdk Generator REST API
+#      uri:
+#        method: POST
+#        url: "http://{{ KEYCLOAK_HOST }}:8080/auth/realms/i3market/protocol/openid-connect/token"
+#        body: "grant_type=password&client_id=SDKGeneratorClient&client_secret=a4279d93-994d-4de4-a2d6-3b1660d07842&scope=openid&username=i3market&password=sgfjlsn44r50.,fsf03"
+#        headers:
+#           Content-Type: "application/x-www-form-urlencoded"
+#      register: auth_request
+#    
+#    - debug:
+#        var: auth_request
+#        
+#    - debug:
+#        msg: " ACCESS-TOKEN: {{ auth_request.json.access_token }} "  
        
    - name: Make an API call to SmartContractManager API to download OAS file
      shell: "curl -k -o \"/tmp/smartContractManagerOAS.json\" -v http://95.211.3.249:3333/openapi"
