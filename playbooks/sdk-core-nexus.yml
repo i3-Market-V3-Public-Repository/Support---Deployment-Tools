@@ -146,8 +146,8 @@
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
 #        dest: "/tmp/i3m-sdk-oidc-javascript.zip"
        mode: 0766
      become: yes  
@@ -237,9 +237,9 @@
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
-#        dest: "/tmp/i3m-sdk-vc-javascript.zip"
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
+#       dest: "/tmp/i3m-sdk-vc-javascript.zip"
        mode: 0766
      become: yes  
      register: sdkgen_javascript
@@ -417,8 +417,8 @@
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/notificationManagerOAS.yaml\", \"options\": {} }"
        body_format: json
        return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
 #        dest: "/tmp/i3m-sdk-notification-manager-javascript.zip"
        mode: 0766
      become: yes  
@@ -507,8 +507,8 @@
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
-       headers:
-         Authorization: "Bearer {{ auth_request.json.access_token }}"
+#        headers:
+#          Authorization: "Bearer {{ auth_request.json.access_token }}"
 #        dest: "/tmp/i3m-sdk-smart-contract-manager-javascript.zip"
        mode: 0766
      become: yes  
