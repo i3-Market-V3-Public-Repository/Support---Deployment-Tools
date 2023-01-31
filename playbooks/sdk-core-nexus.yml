@@ -773,7 +773,7 @@
      become: yes 
      
    - name: Fix issue with missing ArrayList argument type
-     shell: "find /tmp/oas/java/ -name \"*.java\" -print | xargs sed -i \"s/private RatingSubRatings subRatings = new ArrayList<>();/private RatingSubRatings subRatings = new ArrayList<Integer>();/g\""
+     shell: "find /tmp/oas/java/ -name \"*.java\" -print | xargs sed -i \"s/private RatingSubRatings subRatings = new ArrayList<>();/private RatingSubRatings subRatings = new RatingSubRatings();/g\""
      args:
         chdir: "/tmp/oas/java"
      become: yes           
