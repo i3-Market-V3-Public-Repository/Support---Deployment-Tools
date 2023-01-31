@@ -764,7 +764,13 @@
      shell: "find /tmp/oas/java/ -name \"*.java\" -print | xargs sed -i \"s/import com.fasterxml.jackson.annotation.JsonPropertyOrder/import com.fasterxml.jackson.annotation.*/g\""
      args:
         chdir: "/tmp/oas/java"
-     become: yes        
+     become: yes 
+     
+   - name: Fix issue with missing ArrayList
+     shell: "find /tmp/oas/java/ -name \"*.java\" -print | xargs sed -i \"s/import java.util.Arrays/import java.util.*/g\""
+     args:
+        chdir: "/tmp/oas/java"
+     become: yes         
      
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
