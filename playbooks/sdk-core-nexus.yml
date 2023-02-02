@@ -57,7 +57,7 @@
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
-       url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/clients/javascript"
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
@@ -70,7 +70,7 @@
    - name: Make an API call to SDK-Generator to download SDK client stub
      uri:
        method: GET
-       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
        return_content: yes
        headers:
           Content-Type: "application/octet-stream"
@@ -142,7 +142,7 @@
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
-       url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/clients/javascript"
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/oidcOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
@@ -156,7 +156,7 @@
    - name: Make an API call to SDK-Generator to download SDK client stub
      uri:
        method: GET
-       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
        return_content: yes
        headers:
           Content-Type: "application/octet-stream"
@@ -233,7 +233,7 @@
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
-       url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/clients/javascript"
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/vcOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
@@ -247,7 +247,7 @@
    - name: Make an API call to SDK-Generator to download SDK client stub
      uri:
        method: GET
-       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
        return_content: yes
        headers:
           Content-Type: "application/octet-stream"
@@ -323,7 +323,7 @@
 #    - name: Make an API call to SDK-Generator to generate SDK client stub
 #      uri:
 #        method: POST
-#        url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+#        url: "http://api-latest-master.openapi-generator.tech/api/gen/clients/javascript"
 #        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/dataaccessapi.json\", \"options\": {} }"
 #        body_format: json
 #        return_content: yes
@@ -340,7 +340,7 @@
 #    - name: Make an API call to SDK-Generator to download SDK client stub
 #      uri:
 #        method: GET
-#        url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+#        url: "http://api-latest-master.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
 #        return_content: yes
 #        headers:
 #           Content-Type: "application/octet-stream"
@@ -413,7 +413,7 @@
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
-       url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/clients/javascript"
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/notificationManagerOAS.yaml\", \"options\": {} }"
        body_format: json
        return_content: yes
@@ -430,7 +430,7 @@
    - name: Make an API call to SDK-Generator to download SDK client stub
      uri:
        method: GET
-       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
        return_content: yes
        headers:
           Content-Type: "application/octet-stream"
@@ -503,7 +503,7 @@
    - name: Make an API call to SDK-Generator to generate SDK client stub
      uri:
        method: POST
-       url: "http://api.openapi-generator.tech/api/gen/clients/javascript"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/clients/javascript"
        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/smartContractManagerOAS.json\", \"options\": {} }"
        body_format: json
        return_content: yes
@@ -520,7 +520,7 @@
    - name: Make an API call to SDK-Generator to download SDK client stub
      uri:
        method: GET
-       url: "http://api.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+       url: "http://api-latest-master.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
        return_content: yes
        headers:
           Content-Type: "application/octet-stream"
