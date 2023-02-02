@@ -776,7 +776,13 @@
      shell: "find /tmp/oas/java/ -name \"*.java\" -print | xargs sed -i \"s/private RatingSubRatings subRatings = new ArrayList<>();/private RatingSubRatings subRatings = new RatingSubRatings();/g\""
      args:
         chdir: "/tmp/oas/java"
-     become: yes           
+     become: yes 
+     
+   - name: Fix issue with ScManagerOasPublicKeysActive
+     shell: "find /tmp/oas/java/ -name \"*ScManagerOasPublicKeysActive.java\" -print | xargs sed -i \"s/List<String>/String/g\""
+     args:
+        chdir: "/tmp/oas/java"
+     become: yes             
      
    - name: Mvn package sdk-core artifact
      shell: "mvn clean install"
