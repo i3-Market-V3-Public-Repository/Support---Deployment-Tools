@@ -54,48 +54,48 @@
      debug: 
        var: shellout   
  
-   - name: Make an API call to SDK-Generator to generate SDK client stub
-     uri:
-       method: POST
-       url: "http://api-latest-master.openapi-generator.tech/api/gen/clients/javascript"
-       body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
-       body_format: json
-       return_content: yes
-     become: yes  
-     register: sdkgen_javascript  
-     
-   - debug:
-       var: sdkgen_javascript
-       
-   - name: Make an API call to SDK-Generator to download SDK client stub
-     uri:
-       method: GET
-       url: "http://api-latest-master.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
-       return_content: yes
-       headers:
-          Content-Type: "application/octet-stream"
-       dest: "/tmp/i3m-sdk-core-javascript.zip"
-       mode: 0766
-     become: yes  
-     register: sdkgen_javascript  
-     
-   - debug:
-       var: sdkgen_javascript    
-       
-#    - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for BACKPLANE API
-#      shell: " openapi-generator-cli version-manager set 4.3.1 && openapi-generator-cli generate -g javascript -o /tmp/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --skip-validate-spec"
-#      become: yes
-#      register: sdkgen_java  
+#    - name: Make an API call to SDK-Generator to generate SDK client stub
+#      uri:
+#        method: POST
+#        url: "http://api-latest-master.openapi-generator.tech/api/gen/clients/javascript"
+#        body: "{ \"openAPIUrl\": \"http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json\", \"options\": {} }"
+#        body_format: json
+#        return_content: yes
+#      become: yes  
+#      register: sdkgen_javascript  
 #      
 #    - debug:
-#         var: sdkgen_java     
+#        var: sdkgen_javascript
+#        
+#    - name: Make an API call to SDK-Generator to download SDK client stub
+#      uri:
+#        method: GET
+#        url: "http://api-latest-master.openapi-generator.tech/api/gen/download/{{ sdkgen_javascript.json.code }}"
+#        return_content: yes
+#        headers:
+#           Content-Type: "application/octet-stream"
+#        dest: "/tmp/i3m-sdk-core-javascript.zip"
+#        mode: 0766
+#      become: yes  
+#      register: sdkgen_javascript  
+#      
+#    - debug:
+#        var: sdkgen_javascript    
        
-#    - name: Zip backplane api client stubs
-#      become: yes
-#      archive:
-#        path: /tmp/oas/javascript-client
-#        dest: /tmp/i3m-sdk-core-javascript.zip  
-#        format: zip
+   - name: Make an API call to Swagger Generator to generate JAVASCRIPT SDK client stub for BACKPLANE API
+     shell: " openapi-generator-cli version-manager set 6.3.0 && openapi-generator-cli generate -g javascript -o /tmp/oas/javascript-client -i http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/backplaneOAS.json --skip-validate-spec"
+     become: yes
+     register: sdkgen_javascript  
+     
+   - debug:
+        var: sdkgen_javascript     
+        
+   - name: Zip backplane api client stubs
+     become: yes
+     archive:
+       path: /tmp/oas/javascript-client
+       dest: /tmp/i3m-sdk-core-javascript.zip  
+       format: zip
             
    - name: Upload oas-javascript artifact to Nexus
      shell: "curl -v -u i3m-nexus:i3m.nexus --upload-file /tmp/i3m-sdk-core-javascript.zip http://95.211.3.251:8081/repository/i3m-raw/i3m-raw/files/i3m-sdk-core-javascript-1.0.0.zip"
