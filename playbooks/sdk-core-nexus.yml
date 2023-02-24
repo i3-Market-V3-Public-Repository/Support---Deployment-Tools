@@ -779,19 +779,19 @@
      become: yes 
      
    - name: Fix issue with RatingSubRatings
-     shell: "find /tmp/oas/java/ -name \"RatingRatingBody.java\" -print | xargs sed -i \"s/List<RatingSubRatings>/RatingSubRatings/g\""
+     shell: "find /tmp/oas/java/ -name \"*RatingBody.java\" -print | xargs sed -i \"s/List<RatingSubRatings>/RatingSubRatings/g\""
      args:
         chdir: "/tmp/oas/java"
      become: yes  
      
    - name: Fix issue with RatingSubRatings add items
-     shell: "find /tmp/oas/java/ -name \"RatingRatingBody.java\" -print | xargs sed -i \"s/this.subRatings = new ArrayList<>();/this.subRatings = new RatingSubRatings();/g\""
+     shell: "find /tmp/oas/java/ -name \"*RatingBody.java\" -print | xargs sed -i \"s/this.subRatings = new ArrayList<>();/this.subRatings = new RatingSubRatings();/g\""
      args:
         chdir: "/tmp/oas/java"
      become: yes    
      
    - name: Fix issue with RatingSubRatings add items interface
-     shell: "find /tmp/oas/java/ -name \"RatingRatingBody.java\" -print | xargs sed -i \"s/addSubRatingsItem(RatingSubRatings subRatingsItem)/addSubRatingsItem(Integer subRatingsItem)/g\""
+     shell: "find /tmp/oas/java/ -name \"*RatingBody.java\" -print | xargs sed -i \"s/addSubRatingsItem(RatingSubRatings subRatingsItem)/addSubRatingsItem(Integer subRatingsItem)/g\""
      args:
         chdir: "/tmp/oas/java"
      become: yes   
