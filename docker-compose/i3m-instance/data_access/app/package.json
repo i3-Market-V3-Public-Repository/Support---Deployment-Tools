@@ -52,7 +52,7 @@
     "fs": "0.0.1-security",
     "got": "^11.8.2",
     "isomorphic-fetch": "^3.0.0",
-    "jose": "^3.11.6",
+    "jose": "^3.20.4",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.7",
     "openid-client": "^4.4.0",
