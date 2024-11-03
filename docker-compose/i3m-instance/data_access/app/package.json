@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-env": "^7.25.8",
     "@i3-market/non-repudiation-proofs": "^0.9.1",
     "@i3m/non-repudiation-library": "^1.0.2",
     "@szmarczak/http-timer": "^5.0.1",
